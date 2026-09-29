@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_background">
+
+  <!-- Pink glowing circle -->
+  <View
+      android:id="@+id/pinkGlow"
+      android:layout_width="280dp"
+      android:layout_height="280dp"
+      android:layout_gravity="top|end"
+      android:layout_marginTop="-80dp"
+      android:layout_marginEnd="-70dp"
+      android:background="@drawable/glow_pink"
+      android:alpha="0.65" />
+
+  <!-- Green glowing circle -->
+  <View
+      android:id="@+id/greenGlow"
+      android:layout_width="300dp"
+      android:layout_height="300dp"
+      android:layout_gravity="bottom|start"
+      android:layout_marginBottom="-100dp"
+      android:layout_marginStart="-100dp"
+      android:background="@drawable/glow_green"
+      android:alpha="0.55" />
+
+  <!-- Main content -->
+  <LinearLayout
+      android:id="@+id/splashContent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:orientation="vertical"
+      android:padding="32dp">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="Protea Health Logo"
+        android:src="@drawable/protea_logo"
+        android:scaleType="centerInside"
+        android:alpha="0" />
+
+    <!-- App name -->
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="PROTEA HEALTH"
+        android:textColor="@android:color/white"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.08"
+        android:alpha="0" />
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Your health. Your journey."
+        android:textColor="#FFE4ED"
+        android:textSize="16sp"
+        android:alpha="0" />
+
+  </LinearLayout>
+
+</FrameLayout>
