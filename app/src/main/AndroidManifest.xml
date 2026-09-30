@@ -42,6 +42,7 @@
         <activity android:name=".Signup_Role" android:exported="false" />
         <activity android:name=".Doctor_Signup" android:exported="false" />
         <activity android:name=".Pharmacy_Signup" android:exported="false" />
+        <activity android:name=".DoctorDashboardActivity" android:exported="false" />
     </application>
 
 </manifest>

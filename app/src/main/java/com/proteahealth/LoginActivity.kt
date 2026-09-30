@@ -136,15 +136,15 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(intent)
                             }
 
-                        /*    "doctor" -> {
+                            "doctor" -> {
                                 val intent = Intent(
                                     this@LoginActivity,
-                                    Doctor_Home::class.java
+                                    DoctorDashboardActivity::class.java
                                 )
                                 startActivity(intent)
                             }
 
-                            "pharmacy" -> {
+                          /*  "pharmacy" -> {
                                 val intent = Intent(
                                     this@LoginActivity,
                                     Pharmacy_Home::class.java
