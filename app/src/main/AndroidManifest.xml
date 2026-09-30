@@ -10,9 +10,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/project_logo_mark"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/project_logo_mark"
         android:supportsRtl="true"
         android:theme="@style/Theme.Proteahealth"
         android:usesCleartextTraffic="true">
@@ -43,6 +43,7 @@
         <activity android:name=".Doctor_Signup" android:exported="false" />
         <activity android:name=".Pharmacy_Signup" android:exported="false" />
         <activity android:name=".DoctorDashboardActivity" android:exported="false" />
+        <activity android:name=".Pharmacydashboard" android:exported="false" />
     </application>
 
 </manifest>

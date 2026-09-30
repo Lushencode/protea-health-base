@@ -4,39 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center"
     android:padding="32dp">
 
     <!-- ProteaHealth Title -->
 
-    <TextView
-        android:id="@+id/proteaHealthText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ProteaHealth"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/project_logo_mark"
+        android:layout_marginTop="-100px"
+        android:layout_marginBottom="75dp"
+        />
 
-    <!-- Page Heading -->
 
-    <TextView
-        android:id="@+id/selectRoleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create an account"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
 
-    <!-- Instruction -->
+
+
 
     <TextView
         android:id="@+id/roleInstructionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="Select your account type"
-        android:textSize="16sp"
+        android:textSize="25dp"
         android:layout_marginBottom="32dp" />
 
     <!-- Patient -->
@@ -75,6 +69,7 @@
         android:id="@+id/loginTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="Already have an account? Login"
         android:textSize="16sp" />
 

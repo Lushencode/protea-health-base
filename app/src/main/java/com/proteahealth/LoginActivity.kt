@@ -144,20 +144,15 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(intent)
                             }
 
-                          /*  "pharmacy" -> {
+                            "pharmacy" -> {
                                 val intent = Intent(
                                     this@LoginActivity,
-                                    Pharmacy_Home::class.java
+                                    Pharmacydashboard::class.java
                                 )
                                 startActivity(intent)
                             }
                         }
-
-                        finish()*/
-
-                    }
-
-
+                        finish()
 
                     } else {
 
