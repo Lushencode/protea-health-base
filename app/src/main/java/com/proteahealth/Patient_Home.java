@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import android.content.Intent;
-public class home extends AppCompatActivity {
+public class Patient_Home extends AppCompatActivity {
 
     private Button btnTakeMedicine;
     private TextView tvDoseStatus;
@@ -125,7 +125,7 @@ public class home extends AppCompatActivity {
         );
 
         findViewById(R.id.cardBlog).setOnClickListener(view -> {
-            Intent intent = new Intent(home.this, BlogActivity.class);
+            Intent intent = new Intent(Patient_Home.this, BlogActivity.class);
             startActivity(intent);
         });
 

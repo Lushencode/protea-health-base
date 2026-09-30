@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <!-- ProteaHealth Title -->
+
+    <TextView
+        android:id="@+id/proteaHealthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ProteaHealth"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Page Heading -->
+
+    <TextView
+        android:id="@+id/selectRoleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create an account"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Instruction -->
+
+    <TextView
+        android:id="@+id/roleInstructionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select your account type"
+        android:textSize="16sp"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Patient -->
+
+    <Button
+        android:id="@+id/patientButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PATIENT"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Doctor -->
+
+    <Button
+        android:id="@+id/doctorButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DOCTOR"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Pharmacy -->
+
+    <Button
+        android:id="@+id/pharmacyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PHARMACY"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Back to Login -->
+
+    <TextView
+        android:id="@+id/loginTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Login"
+        android:textSize="16sp" />
+
+</LinearLayout>
+

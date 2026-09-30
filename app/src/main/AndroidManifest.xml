@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Proteahealth">
+        android:theme="@style/Theme.Proteahealth"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -31,10 +33,15 @@
         <activity android:name=".Appointment" />
         <activity android:name=".profilesettings" />
         <activity android:name=".BlogActivity" />
-        <activity android:name=".home" />
+        <activity android:name=".Patient_Home" />
         <activity android:name=".ui.PharmacyActivity" />
         <activity android:name=".ui.OrderActivity" />
         <activity android:name=".ui.OrderDetailActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".Patient_Signup" android:exported="false" />
+        <activity android:name=".Signup_Role" android:exported="false" />
+        <activity android:name=".Doctor_Signup" android:exported="false" />
+        <activity android:name=".Pharmacy_Signup" android:exported="false" />
     </application>
 
 </manifest>
