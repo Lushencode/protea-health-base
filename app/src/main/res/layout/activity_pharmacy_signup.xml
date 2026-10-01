@@ -14,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Pharmacy Account"
+            android:textColor="@color/green"
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
@@ -26,6 +27,7 @@
             android:text="Pharmacy Information"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_marginBottom="12dp" />
 
         <EditText
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:hint="Pharmacy Name"
             android:inputType="text"
+            android:textColor="@color/black"
             android:layout_marginBottom="12dp" />
 
         <EditText
@@ -41,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Pharmacy Location"
+            android:textColor="@color/black"
             android:inputType="text"
             android:layout_marginBottom="12dp" />
 
@@ -48,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Opening Time"
-            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             android:layout_marginTop="4dp" />
 
         <TimePicker
@@ -62,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Closing Time"
-            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             android:layout_marginTop="4dp" />
 
         <TimePicker
@@ -90,6 +96,7 @@
             android:layout_height="wrap_content"
             android:text="Pharmacist Information"
             android:textSize="20sp"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
 
@@ -163,6 +170,8 @@
             android:layout_height="wrap_content"
             android:text="CREATE ACCOUNT"
             android:textSize="16sp"
+            android:background="@drawable/green_button"
+            android:textColor="@color/white"
             android:layout_marginBottom="16dp" />
 
         <TextView
@@ -171,6 +180,7 @@
             android:layout_height="wrap_content"
             android:text="Already have an account? Login"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:layout_gravity="center" />
 
     </LinearLayout>

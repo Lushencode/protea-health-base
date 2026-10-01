@@ -17,11 +17,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import android.content.Intent;
+
+import com.proteahealth.data.SessionManager;
+
 public class Patient_Home extends AppCompatActivity {
 
     private Button btnTakeMedicine;
     private TextView tvDoseStatus;
     private SharedPreferences demoPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,18 @@ public class Patient_Home extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        demoPreferences = getSharedPreferences(
+                "demo_preferences",
+                MODE_PRIVATE
+        );
+
+        SessionManager sessionManager = new SessionManager(this);
+        String id = sessionManager.getUserId();
+        String name = sessionManager.getName();
+        String surname = sessionManager.getSurname();
+        String email = sessionManager.getEmail();
+        String role = sessionManager.getRole();
 
         // Keep the page clear of the phone's status and navigation bars.
         ViewCompat.setOnApplyWindowInsetsListener(
@@ -53,13 +70,12 @@ public class Patient_Home extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        demoPreferences = getSharedPreferences(
-                "protea_demo",
-                MODE_PRIVATE
-        );
+
 
         TextView tvToday = findViewById(R.id.tvToday);
         TextView tvVisitDate = findViewById(R.id.tvVisitDate);
+
+
 
         btnTakeMedicine = findViewById(R.id.btnTakeMedicine);
         tvDoseStatus = findViewById(R.id.tvDoseStatus);
@@ -70,7 +86,8 @@ public class Patient_Home extends AppCompatActivity {
         ).format(new Date());
 
         tvToday.setText(
-                "TODAY · " + today.toUpperCase(Locale.ENGLISH)
+                "Welcome back " + name + " " + surname +
+                        "\n\nToday is " + today.toUpperCase(Locale.ENGLISH)
         );
 
         // Demo appointment: always four days from today.

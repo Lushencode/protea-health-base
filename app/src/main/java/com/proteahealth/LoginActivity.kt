@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.proteahealth.api.RetrofitClient
+import com.proteahealth.data.SessionManager
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -114,9 +115,22 @@ class LoginActivity : AppCompatActivity() {
                     role
                 )
 
-                if (response.isSuccessful) {
+                if (response.isSuccessful && response.body()?.user != null) {
 
-                    val loginResponse = response.body()
+                    val loginResponse = response.body()!!
+                    val user = loginResponse.user!!
+
+                    val sessionManager = SessionManager(this@LoginActivity)
+
+                    sessionManager.saveUser(
+                        id = user.id ?: "",
+                        name = user.name ?: "",
+                        surname = user.surname ?: "",
+                        email = user.email ?: "",
+                        role = loginResponse.role ?: ""
+                    )
+
+
 
                     if (loginResponse?.success == true) {
 
