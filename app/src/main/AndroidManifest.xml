@@ -44,6 +44,7 @@
         <activity android:name=".Pharmacy_Signup" android:exported="false" />
         <activity android:name=".DoctorDashboardActivity" android:exported="false" />
         <activity android:name=".Pharmacydashboard" android:exported="false" />
+        <activity android:name=".ui.MedicationsActivity" android:exported="false" />
     </application>
 
 </manifest>

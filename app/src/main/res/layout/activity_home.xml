@@ -1,142 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fillViewport="true">
+    android:background="#FFFFFF">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="24dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="85dp"
+        android:fillViewport="true">
 
-        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            
-            <ImageView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:contentDescription="Protea Health logo"
-                android:scaleType="fitCenter"
-                android:src="@drawable/project_logo_mark" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvGreeting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#555555"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Your care, made simpler"
-                    android:textColor="#111111"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btnNotifications"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_home_notification"
-                android:contentDescription="Notifications"
-                android:padding="12dp"
-                app:srcCompat="@drawable/ic_home_bell"
-                app:tint="#111111" />
-        </LinearLayout>
-
-        <!-- Welcome banner -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_home_banner"
-            android:minHeight="116dp"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/tvToday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TODAY"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Let’s keep your\nhealth on track."
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Medicine heading -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Today’s medicine"
-                android:textColor="#111111"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/btnSeeMedicines"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingStart="12dp"
-                android:paddingEnd="4dp"
-                android:text="See all"
-                android:textColor="#111111"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Medicine card: vertical outer layout -->
-        <LinearLayout
-            android:id="@+id/cardMedicine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_home_card"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Icon and details beside each other -->
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,10 +31,309 @@
                 <ImageView
                     android:layout_width="52dp"
                     android:layout_height="52dp"
-                    android:background="@drawable/bg_home_white_tile"
-                    android:importantForAccessibility="no"
+                    android:contentDescription="Protea Health logo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/project_logo_mark" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvGreeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#555555"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Your care, made simpler"
+                        android:textColor="#111111"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnNotifications"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_home_notification"
+                    android:contentDescription="Notifications"
+                    android:padding="12dp"
+                    app:srcCompat="@drawable/ic_home_bell"
+                    app:tint="#111111" />
+            </LinearLayout>
+
+            <!-- Welcome Banner -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/featureViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:clipChildren="false"
+                android:clipToPadding="false" />
+
+            <!-- Banner indicator dots -->
+            <LinearLayout
+                android:id="@+id/bannerDots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+            <!-- Medicine heading -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvToday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Today’s medicine"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/btnSeeMedicines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="4dp"
+                    android:text="See all"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Medicine card: vertical outer layout -->
+            <LinearLayout
+                android:id="@+id/cardMedicine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Icon and details beside each other -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_home_white_tile"
+                        android:importantForAccessibility="no"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_home_medicine" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDoseStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="                08:00"
+                            android:textColor="#222222"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvMedicineName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Metformin"
+                            android:textColor="#111111"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/tvMedicineDosage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="500 mg · 1 tablet"
+                            android:textColor="#333333"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnTakeMedicine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/green_button"
+                    android:minHeight="48dp"
+                    android:textAllCaps="false"
+                    android:padding="8dp"
+                    android:text="Take"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#0C514A" />
+
+            </LinearLayout>
+
+            <!-- ================= CALENDAR SECTION ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Schedule"
+                    android:textColor="#222222"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Appointments &amp; reminders"
+                    android:textColor="#777777"
+                    android:textSize="14sp" />
+
+                <CalendarView
+                    android:id="@+id/homeCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#FFFFFF" />
+
+                <!-- Legend -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:text=" Appointments"
+                        android:textColor="#FF1493"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="● Reminders"
+                        android:textColor="#4CAF50"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAppointment"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Create Appointment"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
                     android:padding="10dp"
-                    android:src="@drawable/ic_home_medicine" />
+                    android:background="@drawable/green_button"/>
+
+
+            </LinearLayout>
+
+            <!-- Appointment heading -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Coming up"
+                    android:textColor="#111111"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/btnViewVisits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="4dp"
+                    android:text="View visits"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Appointment card -->
+            <LinearLayout
+                android:id="@+id/cardVisit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvVisitDate"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_home_white_tile"
+                    android:gravity="center"
+                    android:minHeight="56dp"
+                    android:padding="6dp"
+                    android:text="25\nAUG"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -159,287 +343,241 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvDoseStatus"
+                        android:id="@+id/tvVisitType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Due at 08:00"
-                        android:textColor="#222222"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:text="Clinic visit"
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvMedicineName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Metformin"
-                        android:textColor="#111111"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:id="@+id/tvMedicineDosage"
+                        android:id="@+id/tvVisitReason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="500 mg · 1 tablet"
+                        android:text="Blood pressure check"
+                        android:textColor="#111111"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvVisitDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="09:30 · Bedford Clinic"
                         android:textColor="#333333"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:importantForAccessibility="no"
+                    android:text="›"
+                    android:textColor="#111111"
+                    android:textSize="36sp" />
+            </LinearLayout>
+
+            <!-- Quick links -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/cardPrices"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:minHeight="124dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_home_white_tile"
+                        android:importantForAccessibility="no"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_home_prices" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Compare prices"
+                        android:textColor="#111111"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Save on your refill  ›"
+                        android:textColor="#222222"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardBlog"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:minHeight="124dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_home_white_tile"
+                        android:importantForAccessibility="no"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_home_care" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Learn about care"
+                        android:textColor="#111111"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Simple health tips  ›"
+                        android:textColor="#222222"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnTakeMedicine"
+            <!-- Refill reminder -->
+            <LinearLayout
+                android:id="@+id/cardRefill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/bg_home_take_button"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="I took it"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="#0C514A" />
-        </LinearLayout>
-
-        <!-- Appointment heading -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Coming up"
-                android:textColor="#111111"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/btnViewVisits"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingStart="12dp"
-                android:paddingEnd="4dp"
-                android:text="View visits"
-                android:textColor="#111111"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Appointment card -->
-        <LinearLayout
-            android:id="@+id/cardVisit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_home_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tvVisitDate"
-                android:layout_width="56dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_home_white_tile"
-                android:gravity="center"
-                android:minHeight="56dp"
-                android:padding="6dp"
-                android:text="25\nAUG"
-                android:textColor="#111111"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvVisitType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Clinic visit"
-                    android:textColor="#333333"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tvVisitReason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="Blood pressure check"
-                    android:textColor="#111111"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvVisitDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="09:30 · Bedford Clinic"
-                    android:textColor="#333333"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:importantForAccessibility="no"
-                android:text="›"
-                android:textColor="#111111"
-                android:textSize="36sp" />
-        </LinearLayout>
-
-        <!-- Quick links -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/cardPrices"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_home_card"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/input_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:minHeight="124dp"
-                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     android:background="@drawable/bg_home_white_tile"
                     android:importantForAccessibility="no"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_home_prices" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_home_refill" />
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Compare prices"
-                    android:textColor="#111111"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Save on your refill  ›"
-                    android:textColor="#222222"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvRefillTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Metformin refill soon"
+                        android:textColor="#111111"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/cardBlog"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_home_card"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:minHeight="124dp"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:background="@drawable/bg_home_white_tile"
-                    android:importantForAccessibility="no"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_home_care" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Learn about care"
-                    android:textColor="#111111"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Simple health tips  ›"
-                    android:textColor="#222222"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tvRefillDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="About 7 days left\nCompare before you go"
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Refill reminder -->
-        <LinearLayout
-            android:id="@+id/cardRefill"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/bg_home_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="12dp">
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="12dp"
+        android:background="@drawable/bottom_nav_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-            <ImageView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:background="@drawable/bg_home_white_tile"
-                android:importantForAccessibility="no"
-                android:padding="10dp"
-                android:src="@drawable/ic_home_refill" />
+        <ImageButton
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Profile"
+            android:src="@drawable/baseline_account_circle_24"
+            app:tint="@android:color/white" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/navSetting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Settings"
+            android:src="@drawable/outline_brightness_5_24"
+            app:tint="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/tvRefillTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Metformin refill soon"
-                    android:textColor="#111111"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/navhome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Profile"
+            android:src="@drawable/outline_home_24"
+            app:tint="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/tvRefillDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="About 7 days left\nCompare before you go"
-                    android:textColor="#333333"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/navEmergency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Emergency"
+            android:src="@drawable/outline_emergency_24"
+            app:tint="@android:color/white" />
 
+        <ImageButton
+            android:id="@+id/navMed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Medication"
+            android:src="@drawable/outline_eraser_size_2_24"
+            app:tint="@android:color/white" />
     </LinearLayout>
-</ScrollView>
+</FrameLayout>

@@ -1,228 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
-    android:fillViewport="true">
+    android:background="#F8F8F8">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <!-- HEADER -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="24dp">
-
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/rounded_light_button"
-                android:src="@android:drawable/ic_menu_revert"
-                android:contentDescription="Back"
-                android:padding="12dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Appointments"
-                    android:textColor="#111111"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Manage your healthcare journey"
-                    android:textColor="#777777"
-                    android:textSize="14sp"
-                    android:layout_marginTop="3dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-        <!-- APPOINTMENT CARD -->
+        android:layout_height="match_parent"
+        android:layout_marginBottom="85dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/white_card"
-            android:padding="20dp"
-            android:elevation="3dp">
+            android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Book an appointment"
-                android:textColor="#111111"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            <!-- HEADER -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose a service and tell us when you would like to visit."
-                android:textColor="#777777"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="20dp" />
-
-
-            <!-- APPOINTMENT TYPE -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Appointment type"
-                android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="14sp" />
-
-            <Spinner
-                android:id="@+id/appointmentTypeSpinner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/input_background" />
-
-
-            <!-- HEALTHCARE FACILITY -->
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Healthcare facility"
-                android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="18dp" />
+                android:layout_marginBottom="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/facilityInput"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Appointments"
+                        android:textColor="@color/green"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Manage your healthcare journey"
+                        android:textColor="#777777"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!-- APPOINTMENT CARD -->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="7dp"
-                android:hint="Clinic, hospital or practice"
-                android:background="@drawable/input_background"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="#111111"
-                android:textColorHint="#999999"
-                android:inputType="textCapSentences" />
-
-
-            <!-- DATE -->
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preferred date"
-                android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="18dp" />
+                android:background="@drawable/white_card"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Book an appointment"
+                    android:textColor="#111111"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Choose a service and tell us when you would like to visit."
+                    android:textColor="#777777"
+                    android:textSize="14sp" />
 
 
-            <!-- TIME -->
+                <!-- APPOINTMENT TYPE -->
 
-            <EditText
-                android:id="@+id/dateInput"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Appointment type"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/appointmentTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/input_background" />
+
+
+                <!-- HEALTHCARE FACILITY -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Healthcare facility"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/facilityInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/input_background"
+                    android:hint="Clinic, hospital or practice"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#111111"
+                    android:textColorHint="#999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Preferred Doctor"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/DoctorInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/input_background"
+                    android:hint="Type your Name"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#999999" />
+
+
+                <!-- DATE -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Preferred date"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+
+                <!-- TIME -->
+
+                <EditText
+                    android:id="@+id/dateInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/input_background"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Select date"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#111111"
+                    android:textColorHint="#999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Preferred time"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TimePicker
+                    android:id="@+id/timeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:timePickerMode="spinner" />
+
+
+                <!-- REASON -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Reason for appointment"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/reasonInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/input_background"
+                    android:gravity="top"
+                    android:hint="Briefly describe what you need help with"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:padding="14dp"
+                    android:textColor="#111111"
+                    android:textColorHint="#999999" />
+
+
+                <!-- CONFIRM / SUBMIT BUTTON -->
+
+                <Button
+                    android:id="@+id/confirmButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/green_button"
+                    android:text="Book Appointment"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/input_background"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="Select date"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="#111111"
-                android:textColorHint="#999999" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preferred time"
-                android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="18dp" />
+                android:layout_marginTop="20dp"
+                android:background="@drawable/white_card"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <EditText
-                android:id="@+id/timeInput"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="7dp"
-                android:hint="Select time"
-                android:focusable="false"
-                android:clickable="true"
-                android:background="@drawable/input_background"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="#111111"
-                android:textColorHint="#999999" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Upcoming Appointments"
+                    android:textColor="#FF1493"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-
-            <!-- REASON -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reason for appointment"
-                android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="18dp" />
-
-            <EditText
-                android:id="@+id/reasonInput"
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_marginTop="7dp"
-                android:hint="Briefly describe what you need help with"
-                android:gravity="top"
-                android:padding="14dp"
-                android:background="@drawable/input_background"
-                android:textColor="#111111"
-                android:textColorHint="#999999"
-                android:inputType="textMultiLine|textCapSentences" />
-
-
-            <!-- CONFIRM / SUBMIT BUTTON -->
-
-            <Button
-                android:id="@+id/confirmButton"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
-                android:background="#0B5D4B"
-                android:text="Book Appointment"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="12dp"
+        android:background="@drawable/bottom_nav_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
+        <ImageButton
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Profile"
+            android:src="@drawable/baseline_account_circle_24"
+            app:tint="@android:color/white" />
 
+        <ImageButton
+            android:id="@+id/navSetting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Settings"
+            android:src="@drawable/outline_brightness_5_24"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/navEmergency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Emergency"
+            android:src="@drawable/outline_emergency_24"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/navMed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Medication"
+            android:src="@drawable/outline_eraser_size_2_24"
+            app:tint="@android:color/white" />
     </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

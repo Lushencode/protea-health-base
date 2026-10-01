@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,6 +20,10 @@ import java.util.Locale;
 import android.content.Intent;
 
 import com.proteahealth.data.SessionManager;
+import com.proteahealth.model.Featurebanner;
+import com.proteahealth.ui.MedicationsActivity;
+
+import android.widget.ImageButton;
 
 public class Patient_Home extends AppCompatActivity {
 
@@ -75,6 +80,12 @@ public class Patient_Home extends AppCompatActivity {
         TextView tvToday = findViewById(R.id.tvToday);
         TextView tvVisitDate = findViewById(R.id.tvVisitDate);
 
+        ImageButton navProfile = findViewById(R.id.navProfile);
+        ImageButton navSetting = findViewById(R.id.navSetting);
+        ImageButton navHome = findViewById(R.id.navhome);
+        ImageButton navEmergency = findViewById(R.id.navEmergency);
+        ImageButton navMed = findViewById(R.id.navMed);
+
 
 
         btnTakeMedicine = findViewById(R.id.btnTakeMedicine);
@@ -89,6 +100,23 @@ public class Patient_Home extends AppCompatActivity {
                 "Welcome back " + name + " " + surname +
                         "\n\nToday is " + today.toUpperCase(Locale.ENGLISH)
         );
+
+
+        // Banner
+        String[] titles = {
+                "Medication Reminders",
+                "Book Your Appointments",
+                "Easy Prescription Refills"
+        };
+        String[] descriptions = {
+                "Never forget your medication with personalised reminders.",
+                "Keep track of your doctor appointments and healthcare schedule.",
+                "Upload your prescription and manage your pharmacy refills with ease."
+        };
+        ViewPager2 featureViewPager = findViewById(R.id.featureViewPager);
+        featureViewPager.setAdapter(new Featurebanner(titles, descriptions));
+
+
 
         // Demo appointment: always four days from today.
         Calendar visit = Calendar.getInstance();
@@ -150,6 +178,23 @@ public class Patient_Home extends AppCompatActivity {
         findViewById(R.id.cardVisit).setOnClickListener(view ->
                 findViewById(R.id.btnViewVisits).performClick()
         );
+
+
+ /*
+        navProfile.setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class)));
+
+        navSetting.setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
+
+        navEmergency.setOnClickListener(v ->
+                startActivity(new Intent(this, EmergencyActivity.class)));
+*/
+        navMed.setOnClickListener(v ->
+                startActivity(new Intent(this, MedicationsActivity.class)));
+
+// navHome: already on Home, so nothing to do
+// navhome: you're already on Home, so do nothing
     }
 
     @Override

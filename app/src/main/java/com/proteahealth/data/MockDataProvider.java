@@ -11,9 +11,15 @@ public class MockDataProvider {
 
     public static List<Prescription> getPrescriptions() {
         List<Prescription> prescriptions = new ArrayList<>();
-        prescriptions.add(new Prescription("presc-001", "Metformin 500mg", 60, "Dr. Naidoo"));
-        prescriptions.add(new Prescription("presc-002", "Amlodipine 5mg", 30, "Dr. Naidoo"));
-        prescriptions.add(new Prescription("presc-003", "Insulin Glargine", 1, "Dr. Pillay"));
+        prescriptions.add(new Prescription("presc-001", "Metformin 500mg", 60, "Dr. Naidoo",
+                "031 555 0192", "500mg", "Small round white pill", "For blood sugar control",
+                "Morning", 60, 22, false));
+        prescriptions.add(new Prescription("presc-002", "Amlodipine 5mg", 30, "Dr. Naidoo",
+                "031 555 0192", "5mg", "Small oval blue pill", "For blood pressure",
+                "Morning", 30, 6, false));
+        prescriptions.add(new Prescription("presc-003", "Insulin Glargine", 1, "Dr. Pillay",
+                "031 555 0455", "10 units", "Clear liquid, pre-filled pen", "For blood sugar control",
+                "Bedtime", 30, 30, false));
         return prescriptions;
     }
     public static List<Order> getOrderHistory() {

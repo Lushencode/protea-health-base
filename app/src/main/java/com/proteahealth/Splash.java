@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.proteahealth.ui.MedicationsActivity;
+
 public class Splash extends AppCompatActivity {
 
     private ImageView logoImage;
@@ -42,7 +44,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(() -> {
 
             Intent intent = new Intent(
-                    Splash.this, LoginActivity.class
+                    Splash.this, Patient_Home.class
             );
 
             startActivity(intent);
