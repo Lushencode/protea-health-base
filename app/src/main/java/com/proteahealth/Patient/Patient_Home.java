@@ -160,10 +160,7 @@ public class Patient_Home extends AppCompatActivity {
         );
 
         findViewById(R.id.btnSeeMedicines).setOnClickListener(
-                view -> showMessage(
-                        "This will connect to the group's medication page."
-                )
-        );
+                view -> startActivity(new Intent(this, MedicationsActivity.class)));
 
         findViewById(R.id.btnViewVisits).setOnClickListener(
                 view -> showMessage(
@@ -175,10 +172,7 @@ public class Patient_Home extends AppCompatActivity {
                 view -> startActivity(new Intent(this, PharmacyActivity.class)));
 
         findViewById(R.id.cardRefill).setOnClickListener(
-                view -> showMessage(
-                        "Demo refill reminder: about 7 days remaining."
-                )
-        );
+                view -> startActivity(new Intent(this, MedicationsActivity.class)));
 
         findViewById(R.id.cardBlog).setOnClickListener(view -> {
             Intent intent = new Intent(Patient_Home.this, BlogActivity.class);
