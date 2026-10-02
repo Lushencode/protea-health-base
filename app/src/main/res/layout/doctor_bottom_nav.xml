@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/doctorBottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_gravity="bottom"
+    android:layout_margin="12dp"
+    android:background="@drawable/bottom_nav_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+
+
+    <!-- PROFILE -->
+    <ImageButton
+        android:id="@+id/navDoctorProfile"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        app:tint="@android:color/white"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_account_circle_24"
+        android:contentDescription="Profile"
+        android:padding="14dp" />
+
+    <!-- PATIENTS -->
+    <ImageButton
+        android:id="@+id/navDoctorPatients"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        app:tint="@android:color/white"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outline_emoji_people_24"
+        android:contentDescription="Patients"
+        android:padding="14dp" />
+
+    <!-- HOME -->
+    <ImageButton
+        android:id="@+id/navDoctorHome"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        app:tint="@android:color/white"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outline_home_24"
+        android:contentDescription="Home"
+        android:padding="14dp" />
+
+    <!-- APPOINTMENTS -->
+    <ImageButton
+        android:id="@+id/navDoctorAppointments"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        app:tint="@android:color/white"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outline_calendar_month_24"
+        android:contentDescription="Appointments"
+        android:padding="14dp" />
+
+    <!-- QUESTIONS -->
+    <ImageButton
+        android:id="@+id/navDoctorQuestions"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        app:tint="@android:color/white"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outline_indeterminate_question_box_24"
+        android:contentDescription="Questions"
+        android:padding="14dp" />
+
+</LinearLayout>

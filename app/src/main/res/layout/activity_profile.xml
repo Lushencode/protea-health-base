@@ -281,6 +281,14 @@
                     android:layout_marginBottom="8dp" />
 
                 <TextView
+                    android:id="@+id/tvDoctorCertification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Certification: -"
+                    android:textColor="?android:textColorPrimary" />
+
+                <TextView
                     android:id="@+id/tvDoctorVerification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -400,6 +408,19 @@
         layout="@layout/bottom_nav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!--doctor nav-->
+
+    <include
+        android:id="@+id/doctorBottomNav"
+        layout="@layout/doctor_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

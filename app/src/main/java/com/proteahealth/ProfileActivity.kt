@@ -66,6 +66,10 @@ class ProfileActivity : AppCompatActivity() {
         val patientBottomNav =
             findViewById<View>(R.id.patientBottomNav)
 
+        val doctorBottomNav =
+            findViewById<View>(R.id.doctorBottomNav)
+
+
 
         // ------------------------------------------------
         // PATIENT VIEWS
@@ -120,6 +124,9 @@ class ProfileActivity : AppCompatActivity() {
 
         val tvConsultationPrice =
             findViewById<TextView>(R.id.tvConsultationPrice)
+
+        val tvDoctorCertification =
+            findViewById<TextView>(R.id.tvDoctorCertification)
 
         val tvDoctorVerification =
             findViewById<TextView>(R.id.tvDoctorVerification)
@@ -180,7 +187,9 @@ class ProfileActivity : AppCompatActivity() {
         patientSection.visibility = View.GONE
         doctorSection.visibility = View.GONE
         pharmacySection.visibility = View.GONE
+
         patientBottomNav.visibility = View.GONE
+        doctorBottomNav.visibility = View.GONE
 
         when (role) {
 
@@ -191,6 +200,7 @@ class ProfileActivity : AppCompatActivity() {
 
             "doctor" -> {
                 doctorSection.visibility = View.VISIBLE
+                doctorBottomNav.visibility = View.VISIBLE
             }
 
             "pharmacist", "pharmacy" -> {
@@ -341,6 +351,9 @@ class ProfileActivity : AppCompatActivity() {
 
                                 tvConsultationPrice.text =
                                     "Consultation Price: R${user.consultation_price ?: "-"}"
+
+                                tvDoctorCertification.text =
+                                    "Certification: ${user.certification ?: "-"}"
 
                                 tvDoctorVerification.text =
                                     "Verification: ${user.verification ?: "-"}"
@@ -508,6 +521,85 @@ class ProfileActivity : AppCompatActivity() {
             }
             navProfile.setBackgroundResource(R.drawable.nav_icon_glow)
 
+        }
+
+        // ------------------------------------------------
+// DOCTOR BOTTOM NAV BUTTONS
+// ------------------------------------------------
+
+        if (role == "doctor") {
+
+            val navDoctorProfile =
+                findViewById<ImageButton>(R.id.navDoctorProfile)
+
+            val navDoctorPatients =
+                findViewById<ImageButton>(R.id.navDoctorPatients)
+
+            val navDoctorHome =
+                findViewById<ImageButton>(R.id.navDoctorHome)
+
+            val navDoctorAppointments =
+                findViewById<ImageButton>(R.id.navDoctorAppointments)
+
+            val navDoctorQuestions =
+                findViewById<ImageButton>(R.id.navDoctorQuestions)
+
+
+            // PROFILE - already on this page
+            navDoctorProfile.setOnClickListener {
+                // Do nothing
+            }
+
+
+            // PATIENTS
+            navDoctorPatients.setOnClickListener {
+
+                Toast.makeText(
+                    this,
+                    "Coming soon",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
+            // HOME
+            navDoctorHome.setOnClickListener {
+
+                val intent = Intent(
+                    this,
+                    DoctorDashboardActivity::class.java
+                )
+
+                startActivity(intent)
+            }
+
+
+            // APPOINTMENTS
+            navDoctorAppointments.setOnClickListener {
+
+                Toast.makeText(
+                    this,
+                    "Coming soon",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
+            // QUESTIONS
+            navDoctorQuestions.setOnClickListener {
+
+                Toast.makeText(
+                    this,
+                    "Coming soon",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
+            // PROFILE GLOW
+            navDoctorProfile.setBackgroundResource(
+                R.drawable.nav_icon_glow
+            )
         }
 
 

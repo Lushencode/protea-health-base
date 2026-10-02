@@ -21,9 +21,13 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.proteahealth.model.Featurebanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,36 +87,64 @@ public class BlogActivity extends AppCompatActivity {
                 MODE_PRIVATE
         );
 
-        btnAll = findViewById(R.id.btnCategoryAll);
-        btnDiabetes = findViewById(R.id.btnCategoryDiabetes);
-        btnBloodPressure = findViewById(R.id.btnCategoryBloodPressure);
+        // Banner
+        String[] titles = {
+                "Simple",
+                "Understand",
+                "Easy Prescription Refills"
+        };
+
+        String[] descriptions = {
+                "Trusted Information",
+                "Your on health, one step at a time.",
+                "Upload your prescription and manage your pharmacy refills with ease."
+        };
+
+        ViewPager2 featureViewPager = findViewById(R.id.banner2);
+        if (featureViewPager != null) {
+            featureViewPager.setAdapter(new Featurebanner(titles, descriptions));
+        }
 
         loadSampleArticles();
 
         ListView listArticles = findViewById(R.id.listArticles);
-        articleAdapter = new ArticleAdapter();
-        listArticles.setAdapter(articleAdapter);
+        if (listArticles != null) {
+            articleAdapter = new ArticleAdapter();
+            listArticles.setAdapter(articleAdapter);
 
-        listArticles.setOnItemClickListener(
-                (parent, view, position, id) ->
-                        openArticle(visibleArticles.get(position))
-        );
+            listArticles.setOnItemClickListener(
+                    (parent, view, position, id) -> {
+                        if (position < visibleArticles.size()) {
+                            openArticle(visibleArticles.get(position));
+                        }
+                    }
+            );
+        }
 
-        btnAll.setOnClickListener(view -> filterArticles("All"));
+        SearchView searchBar = findViewById(R.id.search_bar);
+        if (searchBar != null) {
+            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    filterArticlesByQuery(query);
+                    return true;
+                }
 
-        btnDiabetes.setOnClickListener(
-                view -> filterArticles("Diabetes")
-        );
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    filterArticlesByQuery(newText);
+                    return true;
+                }
+            });
+        }
 
-        btnBloodPressure.setOnClickListener(
-                view -> filterArticles("Blood pressure")
-        );
+        if (btnAll != null) btnAll.setOnClickListener(view -> filterArticles("All"));
+        if (btnDiabetes != null) btnDiabetes.setOnClickListener(view -> filterArticles("Diabetes"));
+        if (btnBloodPressure != null) btnBloodPressure.setOnClickListener(view -> filterArticles("Blood pressure"));
 
-        findViewById(R.id.btnBlogBack).setOnClickListener(
-                view -> finish()
-        );
 
-        findViewById(R.id.btnAskQuestion).setOnClickListener(
+
+        findViewById(R.id.recyclerQuestions).setOnClickListener(
                 view -> showQuestionForm()
         );
 
@@ -178,6 +210,25 @@ public class BlogActivity extends AppCompatActivity {
         ));
     }
 
+    private void filterArticlesByQuery(String query) {
+        visibleArticles.clear();
+        if (query == null || query.trim().isEmpty()) {
+            filterArticles(selectedCategory);
+            return;
+        }
+        String lowerQuery = query.toLowerCase(Locale.ENGLISH).trim();
+        for (Article article : allArticles) {
+            if (article.title.toLowerCase(Locale.ENGLISH).contains(lowerQuery)
+                    || article.category.toLowerCase(Locale.ENGLISH).contains(lowerQuery)
+                    || article.subtitle.toLowerCase(Locale.ENGLISH).contains(lowerQuery)) {
+                visibleArticles.add(article);
+            }
+        }
+        if (articleAdapter != null) {
+            articleAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void filterArticles(String category) {
         selectedCategory = category;
         visibleArticles.clear();
@@ -196,10 +247,13 @@ public class BlogActivity extends AppCompatActivity {
                 category.equals("Blood pressure")
         );
 
-        articleAdapter.notifyDataSetChanged();
+        if (articleAdapter != null) {
+            articleAdapter.notifyDataSetChanged();
+        }
     }
 
     private void updateFilterButton(Button button, boolean selected) {
+        if (button == null) return;
         int background = Color.parseColor(
                 selected ? "#0C514A" : "#E0E0E0"
         );
@@ -440,6 +494,7 @@ public class BlogActivity extends AppCompatActivity {
         final String metadata;
         final String body;
         final String colour;
+        public String subtitle;
 
         Article(
                 String id,
