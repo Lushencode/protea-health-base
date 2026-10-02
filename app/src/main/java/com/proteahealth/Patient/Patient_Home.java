@@ -1,4 +1,4 @@
-package com.proteahealth;
+package com.proteahealth.Patient;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,9 +19,11 @@ import java.util.Date;
 import java.util.Locale;
 import android.content.Intent;
 
+import com.proteahealth.BlogActivity;
+import com.proteahealth.ProfileActivity;
+import com.proteahealth.R;
 import com.proteahealth.data.SessionManager;
 import com.proteahealth.model.Featurebanner;
-import com.proteahealth.ui.MedicationsActivity;
 
 import android.widget.ImageButton;
 
@@ -45,6 +47,17 @@ public class Patient_Home extends AppCompatActivity {
                 MODE_PRIVATE
         );
 
+        Button btnAppointment = findViewById(R.id.btnAppointment);
+
+        btnAppointment.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Patient_Home.this,
+                    Appointment.class
+            );
+
+            startActivity(intent);
+        });
+
         SessionManager sessionManager = new SessionManager(this);
         String id = sessionManager.getUserId();
         String name = sessionManager.getName();
@@ -56,6 +69,7 @@ public class Patient_Home extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(
                 findViewById(R.id.main),
                 (view, windowInsets) -> {
+
                     Insets bars = windowInsets.getInsets(
                             WindowInsetsCompat.Type.systemBars()
                     );
@@ -64,7 +78,7 @@ public class Patient_Home extends AppCompatActivity {
                             bars.left,
                             bars.top,
                             bars.right,
-                            bars.bottom
+                            0
                     );
 
                     return windowInsets;
@@ -158,10 +172,7 @@ public class Patient_Home extends AppCompatActivity {
         );
 
         findViewById(R.id.cardPrices).setOnClickListener(
-                view -> showMessage(
-                        "This will connect to the group's pharmacy page."
-                )
-        );
+                view -> startActivity(new Intent(this, PharmacyActivity.class)));
 
         findViewById(R.id.cardRefill).setOnClickListener(
                 view -> showMessage(
@@ -180,21 +191,20 @@ public class Patient_Home extends AppCompatActivity {
         );
 
 
- /*
+
         navProfile.setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
 
         navSetting.setOnClickListener(v ->
-                startActivity(new Intent(this, SettingsActivity.class)));
+                startActivity(new Intent(this, PharmacyActivity.class)));
 
         navEmergency.setOnClickListener(v ->
                 startActivity(new Intent(this, EmergencyActivity.class)));
-*/
+
         navMed.setOnClickListener(v ->
                 startActivity(new Intent(this, MedicationsActivity.class)));
 
-// navHome: already on Home, so nothing to do
-// navhome: you're already on Home, so do nothing
+        navHome.setBackgroundResource(R.drawable.nav_icon_glow);
     }
 
     @Override

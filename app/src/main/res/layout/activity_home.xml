@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?android:colorBackground">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                         android:id="@+id/tvGreeting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#555555"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Your care, made simpler"
-                        android:textColor="#111111"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Today’s medicine"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="16sp" />
 
                 <TextView
@@ -124,7 +124,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="4dp"
                     android:text="See all"
-                    android:textColor="#111111"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -219,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Schedule"
-                    android:textColor="#222222"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Appointments &amp; reminders"
-                    android:textColor="#777777"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
 
                 <CalendarView
@@ -252,14 +252,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:text=" Appointments"
-                        android:textColor="#FF1493"
+                        android:textColor="?android:textColorPrimary"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="● Reminders"
-                        android:textColor="#4CAF50"
+                        android:textColor="?android:textColorPrimary"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Coming up"
-                    android:textColor="#111111"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="16sp" />
 
                 <TextView
@@ -303,8 +303,8 @@
                     android:gravity="center"
                     android:paddingStart="12dp"
                     android:paddingEnd="4dp"
-                    android:text="View visits"
-                    android:textColor="#111111"
+                    android:text="View all visits"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -518,66 +518,10 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/bottomNavigation"
+    <include
+        android:id="@+id/patientBottomNav"
+        layout="@layout/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="12dp"
-        android:background="@drawable/bottom_nav_bg"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <ImageButton
-            android:id="@+id/navProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:contentDescription="Profile"
-            android:src="@drawable/baseline_account_circle_24"
-            app:tint="@android:color/white" />
-
-        <ImageButton
-            android:id="@+id/navSetting"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:contentDescription="Settings"
-            android:src="@drawable/outline_brightness_5_24"
-            app:tint="@android:color/white" />
-
-        <ImageButton
-            android:id="@+id/navhome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:contentDescription="Profile"
-            android:src="@drawable/outline_home_24"
-            app:tint="@android:color/white" />
-
-        <ImageButton
-            android:id="@+id/navEmergency"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:contentDescription="Emergency"
-            android:src="@drawable/outline_emergency_24"
-            app:tint="@android:color/white" />
-
-        <ImageButton
-            android:id="@+id/navMed"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:contentDescription="Medication"
-            android:src="@drawable/outline_eraser_size_2_24"
-            app:tint="@android:color/white" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 </FrameLayout>

@@ -99,25 +99,50 @@
             android:gravity="top"
             android:layout_marginBottom="12dp" />
 
-        <!-- Emergency Contacts -->
-
+        <!-- Emergency Contact Name -->
         <EditText
-            android:id="@+id/emergencyContactsEditText"
+            android:id="@+id/emergencyContactNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Emergency Contacts (Optional)"
+            android:hint="Emergency Contact Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Emergency Contact Number -->
+        <EditText
+            android:id="@+id/emergencyContactNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Emergency Contact Number"
+            android:inputType="phone"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Emergency Contact Relationship -->
+        <EditText
+            android:id="@+id/emergencyContactRelationshipEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Relationship to Emergency Contact"
+            android:inputType="textCapWords"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Allergies -->
+        <EditText
+            android:id="@+id/allergiesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Allergies (Optional)"
             android:inputType="textMultiLine"
             android:minLines="2"
             android:gravity="top"
             android:layout_marginBottom="12dp" />
 
-        <!-- Allergy Conditions -->
-
+        <!-- Medical Conditions -->
         <EditText
-            android:id="@+id/allergyConditionsEditText"
+            android:id="@+id/medicalConditionsEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Allergies / Medical Conditions (Optional)"
+            android:hint="Medical Conditions (Optional)"
             android:inputType="textMultiLine"
             android:minLines="2"
             android:gravity="top"

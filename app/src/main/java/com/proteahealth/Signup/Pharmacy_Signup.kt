@@ -1,7 +1,8 @@
-package com.proteahealth
+package com.proteahealth.Signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -9,6 +10,8 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.proteahealth.LoginActivity
+import com.proteahealth.R
 import com.proteahealth.api.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -141,7 +144,7 @@ class Pharmacy_Signup : AppCompatActivity() {
             }
 
 
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(
                     this,
                     "Please enter a valid email address",

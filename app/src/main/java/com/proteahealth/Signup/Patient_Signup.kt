@@ -1,4 +1,4 @@
-package com.proteahealth
+package com.proteahealth.Signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.proteahealth.LoginActivity
+import com.proteahealth.R
 import com.proteahealth.api.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -22,8 +24,16 @@ class Patient_Signup : AppCompatActivity() {
     private lateinit var phoneEditText: EditText
     private lateinit var genderSpinner: Spinner
     private lateinit var homeAddressEditText: EditText
-    private lateinit var emergencyContactsEditText: EditText
-    private lateinit var allergyConditionsEditText: EditText
+
+    private lateinit var emergencyContactNameEditText: EditText
+
+    private lateinit var emergencyContactNumberEditText: EditText
+
+    private lateinit var emergencyContactRelationshipEditText: EditText
+
+    private lateinit var allergiesEditText: EditText
+
+    private lateinit var medicalConditionsEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var confirmPasswordEditText: EditText
 
@@ -47,11 +57,21 @@ class Patient_Signup : AppCompatActivity() {
         genderSpinner = findViewById(R.id.genderSpinner)
 
         homeAddressEditText = findViewById(R.id.homeAddressEditText)
-        emergencyContactsEditText =
-            findViewById(R.id.emergencyContactsEditText)
 
-        allergyConditionsEditText =
-            findViewById(R.id.allergyConditionsEditText)
+        emergencyContactNameEditText =
+            findViewById(R.id.emergencyContactNameEditText)
+
+        emergencyContactNumberEditText =
+            findViewById(R.id.emergencyContactNumberEditText)
+
+        emergencyContactRelationshipEditText =
+            findViewById(R.id.emergencyContactRelationshipEditText)
+
+        allergiesEditText =
+            findViewById(R.id.allergiesEditText)
+
+        medicalConditionsEditText =
+            findViewById(R.id.medicalConditionsEditText)
 
         passwordEditText = findViewById(R.id.passwordEditText)
         confirmPasswordEditText =
@@ -111,11 +131,20 @@ class Patient_Signup : AppCompatActivity() {
         val homeAddress =
             homeAddressEditText.text.toString().trim()
 
-        val emergencyContacts =
-            emergencyContactsEditText.text.toString().trim()
+        val emergencyContactName =
+            emergencyContactNameEditText.text.toString().trim()
 
-        val allergyConditions =
-            allergyConditionsEditText.text.toString().trim()
+        val emergencyContactNumber =
+            emergencyContactNumberEditText.text.toString().trim()
+
+        val emergencyContactRelationship =
+            emergencyContactRelationshipEditText.text.toString().trim()
+
+        val allergies =
+            allergiesEditText.text.toString().trim()
+
+        val medicalConditions =
+            medicalConditionsEditText.text.toString().trim()
 
         val password =
             passwordEditText.text.toString()
@@ -153,6 +182,23 @@ class Patient_Signup : AppCompatActivity() {
 
         if (homeAddress.isEmpty()) {
             homeAddressEditText.error = "Enter your home address"
+            return
+        }
+        if (emergencyContactName.isEmpty()) {
+            emergencyContactNameEditText.error =
+                "Enter emergency contact name"
+            return
+        }
+
+        if (emergencyContactNumber.isEmpty()) {
+            emergencyContactNumberEditText.error =
+                "Enter emergency contact number"
+            return
+        }
+
+        if (emergencyContactRelationship.isEmpty()) {
+            emergencyContactRelationshipEditText.error =
+                "Enter relationship"
             return
         }
 
@@ -218,9 +264,15 @@ class Patient_Signup : AppCompatActivity() {
 
                         homeAddress = homeAddress,
 
-                        emergencyContacts = emergencyContacts,
+                        emergencyContactName = emergencyContactName,
 
-                        allergyConditions = allergyConditions,
+                        emergencyContactNumber = emergencyContactNumber,
+
+                        emergencyContactRelationship = emergencyContactRelationship,
+
+                        allergies = allergies,
+
+                        medicalConditions = medicalConditions,
 
                         password = password
                     )

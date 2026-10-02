@@ -1,128 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
-    android:fillViewport="true">
+    android:background="?android:colorBackground">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- ============================= -->
+    <!-- SCROLLABLE MEDICATION CONTENT -->
+    <!-- ============================= -->
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/medicationScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/patientBottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <!-- TITLE -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="My Medications"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary" />
+
+
+            <!-- ===================== -->
+            <!-- MORNING -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/sectionMorning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:text="Morning"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#00695C" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMorning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- AFTERNOON -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/sectionAfternoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:text="Afternoon"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#00695C" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAfternoon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- EVENING -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/sectionEvening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:text="Evening"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#00695C" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvEvening"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- BEDTIME -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/sectionBedtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:text="Bedtime"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#00695C" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBedtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!-- ============================= -->
+    <!-- PATIENT BOTTOM NAVIGATION -->
+    <!-- ============================= -->
+
+    <include
+        android:id="@+id/patientBottomNav"
+        layout="@layout/bottom_nav"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="My Medications"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/sectionMorning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:text="Morning"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#00695C" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMorning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sectionAfternoon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:text="Afternoon"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#00695C" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAfternoon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sectionEvening"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:text="Evening"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#00695C" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvEvening"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sectionBedtime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:text="Bedtime"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#00695C" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvBedtime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,10 @@
-package com.proteahealth
+package com.proteahealth.Signup
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.proteahealth.R
 
 class Signup_Role : AppCompatActivity() {
 

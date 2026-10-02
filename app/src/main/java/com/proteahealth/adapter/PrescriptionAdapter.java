@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.proteahealth.R;
 import com.proteahealth.model.Prescription;
-import com.proteahealth.ui.PharmacyActivity;
+import com.proteahealth.Patient.PharmacyActivity;
 
 import java.util.List;
 import java.util.Locale;

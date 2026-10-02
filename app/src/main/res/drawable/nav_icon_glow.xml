@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer glow -->
+    <item
+        android:left="2dp"
+        android:top="2dp"
+        android:right="2dp"
+        android:bottom="2dp">
+
+        <shape android:shape="oval">
+            <solid android:color="#4034C759" />
+            <size
+                android:width="52dp"
+                android:height="52dp" />
+        </shape>
+
+    </item>
+
+    <!-- Inner glow -->
+    <item
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp">
+
+        <shape android:shape="oval">
+            <solid android:color="#8034C759" />
+        </shape>
+
+    </item>
+
+</layer-list>

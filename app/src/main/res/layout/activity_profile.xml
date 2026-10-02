@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
+
+    <!-- Scrollable profile content -->
+    <ScrollView
+        android:id="@+id/profileScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- PROFILE TITLE -->
+
+            <TextView
+                android:id="@+id/tvProfileTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Profile"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="8dp" />
+
+            <!-- USER ROLE -->
+
+            <TextView
+                android:id="@+id/tvProfileRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Patient"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="24dp" />
+
+            <!-- COMMON INFORMATION -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Information"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="17sp"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Surname"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/tvSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="17sp"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="17sp"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="24dp" />
+
+
+            <!-- ===================== -->
+            <!-- PATIENT SECTION -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/patientSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Patient Information"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tvPatientAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Age: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPatientPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPatientGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gender: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPatientAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Home Address: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Emergency Contact Name -->
+                <TextView
+                    android:id="@+id/tvEmergencyContactName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emergency Contact Name: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Emergency Contact Number -->
+                <TextView
+                    android:id="@+id/tvEmergencyContactNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emergency Contact Number: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Emergency Contact Relationship -->
+                <TextView
+                    android:id="@+id/tvEmergencyContactRelationship"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Relationship: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Allergies -->
+                <TextView
+                    android:id="@+id/tvAllergies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Allergies: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Medical Conditions -->
+                <TextView
+                    android:id="@+id/tvMedicalConditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Medical Conditions: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvRiskLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Risk Level: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- DOCTOR SECTION -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/doctorSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctor Information"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tvSpecialization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Specialization: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDoctorLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvClinicName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clinic: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDoctorExperience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Professional Experience: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvConsultationPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Consultation Price: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDoctorVerification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Verification: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- PHARMACIST / PHARMACY -->
+            <!-- ===================== -->
+
+            <LinearLayout
+                android:id="@+id/pharmacySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pharmacy Information"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tvPharmacyLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPharmacistPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvRegistrationCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Registration Code: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPharmacistExperience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Work Experience: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvPharmacyVerification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Verification: -"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+
+
+            <!-- ===================== -->
+            <!-- SETTINGS -->
+            <!-- ===================== -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchDarkMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dark Mode"
+                android:textSize="16sp"
+                android:textColor="?android:textColorPrimary"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+
+            <!-- LOGOUT -->
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="100dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <!-- PATIENT ONLY BOTTOM NAVIGATION -->
+
+    <include
+        android:id="@+id/patientBottomNav"
+        layout="@layout/bottom_nav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

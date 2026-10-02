@@ -4,11 +4,15 @@ import java.io.Serializable;
 
 public class Medication implements Serializable {
 
-    private final String name;
-    private final double price;
-    private final String availability;
+    private String name;
+    private double price;
+    private String availability;
 
-    public Medication(String name, double price, String availability) {
+    public Medication(
+            String name,
+            double price,
+            String availability) {
+
         this.name = name;
         this.price = price;
         this.availability = availability;
@@ -24,5 +28,17 @@ public class Medication implements Serializable {
 
     public String getAvailability() {
         return availability;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 }

@@ -10,6 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.proteahealth.Patient.Patient_Home
+import com.proteahealth.Signup.Signup_Role
 import com.proteahealth.api.RetrofitClient
 import com.proteahealth.data.SessionManager
 import kotlinx.coroutines.launch
@@ -102,37 +104,40 @@ class LoginActivity : AppCompatActivity() {
         role: String
     ) {
 
-        // Prevent multiple login requests
         loginButton.isEnabled = false
 
         lifecycleScope.launch {
 
             try {
 
-                val response = RetrofitClient.apiService.login(
-                    email,
-                    password,
-                    role
-                )
-
-                if (response.isSuccessful && response.body()?.user != null) {
-
-                    val loginResponse = response.body()!!
-                    val user = loginResponse.user!!
-
-                    val sessionManager = SessionManager(this@LoginActivity)
-
-                    sessionManager.saveUser(
-                        id = user.id ?: "",
-                        name = user.name ?: "",
-                        surname = user.surname ?: "",
-                        email = user.email ?: "",
-                        role = loginResponse.role ?: ""
+                val response =
+                    RetrofitClient.apiService.login(
+                        email,
+                        password,
+                        role
                     )
 
+                if (response.isSuccessful) {
 
+                    val loginResponse = response.body()
 
-                    if (loginResponse?.success == true) {
+                    if (
+                        loginResponse?.success == true &&
+                        loginResponse.user != null
+                    ) {
+
+                        val user = loginResponse.user
+
+                        val sessionManager =
+                            SessionManager(this@LoginActivity)
+
+                        sessionManager.saveUser(
+                            id = user.id ?: "",
+                            name = user.name ?: "",
+                            surname = user.surname ?: "",
+                            email = user.email ?: "",
+                            role = loginResponse.role ?: role
+                        )
 
                         Toast.makeText(
                             this@LoginActivity,
@@ -143,42 +148,50 @@ class LoginActivity : AppCompatActivity() {
                         when (role) {
 
                             "patient" -> {
-                                val intent = Intent(
-                                    this@LoginActivity,
-                                    Patient_Home::class.java
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        Patient_Home::class.java
+                                    )
                                 )
-                                startActivity(intent)
                             }
 
                             "doctor" -> {
-                                val intent = Intent(
-                                    this@LoginActivity,
-                                    DoctorDashboardActivity::class.java
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        DoctorDashboardActivity::class.java
+                                    )
                                 )
-                                startActivity(intent)
                             }
 
                             "pharmacy" -> {
-                                val intent = Intent(
-                                    this@LoginActivity,
-                                    Pharmacydashboard::class.java
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        Pharmacydashboard::class.java
+                                    )
                                 )
-                                startActivity(intent)
                             }
                         }
+
                         finish()
 
                     } else {
 
+                        // PHP responded successfully,
+                        // but login was rejected.
                         Toast.makeText(
                             this@LoginActivity,
-                            loginResponse?.message ?: "Login failed",
+                            loginResponse?.message
+                                ?: "Login failed",
                             Toast.LENGTH_LONG
                         ).show()
                     }
 
                 } else {
 
+                    // Actual HTTP/server error
                     Toast.makeText(
                         this@LoginActivity,
                         "Server error: ${response.code()}",
@@ -188,9 +201,15 @@ class LoginActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
 
+                android.util.Log.e(
+                    "LOGIN_ERROR",
+                    "Login request failed",
+                    e
+                )
+
                 Toast.makeText(
                     this@LoginActivity,
-                    "Connection error: ${e.message}",
+                    "Connection error: ${e.javaClass.simpleName}: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
 

@@ -25,8 +25,21 @@ interface ApiService {
         @Field("phone") phone: String,
         @Field("gender") gender: String,
         @Field("home_address") homeAddress: String,
-        @Field("emergency_contacts") emergencyContacts: String,
-        @Field("allergy_conditions") allergyConditions: String,
+
+        @Field("emergency_contact_name")
+        emergencyContactName: String,
+
+        @Field("emergency_contact_number")
+        emergencyContactNumber: String,
+
+        @Field("emergency_contact_relationship")
+        emergencyContactRelationship: String,
+
+        @Field("allergies")
+        allergies: String,
+
+        @Field("medical_conditions")
+        medicalConditions: String,
         @Field("password") password: String
     ): Response<SignupResponse>
 
@@ -61,4 +74,11 @@ interface ApiService {
         @Field("work_experience_years") workExperienceYears: String,
         @Field("password") password: String
     ): Response<PharmacySignupResponse>
+
+    @FormUrlEncoded
+    @POST("get_profile.php")
+    suspend fun getProfile(
+        @Field("id") id: String,
+        @Field("role") role: String
+    ): Response<ProfileResponse>
 }

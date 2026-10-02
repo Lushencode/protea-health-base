@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_gravity="bottom"
+    android:layout_margin="12dp"
+    android:background="@drawable/bottom_nav_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- your 5 ImageButtons here, unchanged -->
+    <ImageButton
+        android:id="@+id/navProfile"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Profile"
+        android:src="@drawable/baseline_account_circle_24"
+        app:tint="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/navSetting"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Settings"
+        android:src="@drawable/outline_add_shopping_cart_24"
+        app:tint="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/navhome"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Profile"
+        android:src="@drawable/outline_home_24"
+        app:tint="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/navEmergency"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Emergency"
+        android:src="@drawable/outline_emergency_24"
+        app:tint="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/navMed"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Medication"
+        android:src="@drawable/outline_eraser_size_2_24"
+        app:tint="@android:color/white" />
+</LinearLayout>

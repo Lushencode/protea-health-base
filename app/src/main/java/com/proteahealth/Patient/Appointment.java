@@ -1,8 +1,9 @@
-package com.proteahealth;
+package com.proteahealth.Patient;
 // Change this to YOUR actual package name.
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.proteahealth.ProfileActivity;
+import com.proteahealth.R;
 
 import java.util.Calendar;
 
@@ -66,6 +71,34 @@ public class Appointment extends AppCompatActivity {
 
         // Check the user's role
         checkUserRole();
+
+        //nav
+
+        ImageButton navProfile = findViewById(R.id.navProfile);
+        ImageButton navSetting = findViewById(R.id.navSetting);
+        ImageButton navHome = findViewById(R.id.navhome);
+        ImageButton navEmergency = findViewById(R.id.navEmergency);
+        ImageButton navMed = findViewById(R.id.navMed);
+
+        navProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+        });
+
+        navHome.setOnClickListener(v -> {
+            startActivity(new Intent(this, Patient_Home.class));
+        });
+
+        navMed.setOnClickListener(v -> {
+            startActivity(new Intent(this, MedicationsActivity.class));
+        });
+
+        navSetting.setOnClickListener(v -> {
+            startActivity(new Intent(this, PharmacyActivity.class));
+        });
+
+        navEmergency.setOnClickListener(v -> {
+            startActivity(new Intent(this, EmergencyActivity.class));
+        });
     }
 
     // ---------------------------------------------------------
@@ -437,4 +470,6 @@ public class Appointment extends AppCompatActivity {
 
         if (deliverySection != null) deliverySection.setVisibility(View.GONE);
     }
+
+
 }

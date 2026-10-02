@@ -15,7 +15,10 @@
         android:roundIcon="@drawable/project_logo_mark"
         android:supportsRtl="true"
         android:theme="@style/Theme.Proteahealth"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:name=".ProteaHealthApp">
+
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -30,21 +33,22 @@
         </activity>
 
         <activity android:name=".Collection" />
-        <activity android:name=".Appointment" />
-        <activity android:name=".profilesettings" />
         <activity android:name=".BlogActivity" />
-        <activity android:name=".Patient_Home" />
-        <activity android:name=".ui.PharmacyActivity" />
+        <activity android:name=".Patient.Patient_Home" />
+        <activity android:name=".Patient.PharmacyActivity" />
         <activity android:name=".ui.OrderActivity" />
         <activity android:name=".ui.OrderDetailActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".Patient_Signup" android:exported="false" />
-        <activity android:name=".Signup_Role" android:exported="false" />
-        <activity android:name=".Doctor_Signup" android:exported="false" />
-        <activity android:name=".Pharmacy_Signup" android:exported="false" />
+        <activity android:name=".Signup.Patient_Signup" android:exported="false" />
+        <activity android:name=".Signup.Signup_Role" android:exported="false" />
+        <activity android:name=".Signup.Doctor_Signup" android:exported="false" />
+        <activity android:name=".Signup.Pharmacy_Signup" android:exported="false" />
         <activity android:name=".DoctorDashboardActivity" android:exported="false" />
         <activity android:name=".Pharmacydashboard" android:exported="false" />
-        <activity android:name=".ui.MedicationsActivity" android:exported="false" />
+        <activity android:name=".Patient.MedicationsActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".Patient.Appointment" android:exported="false" />
+        <activity android:name=".Patient.EmergencyActivity" android:exported="false" />
     </application>
 
 </manifest>
