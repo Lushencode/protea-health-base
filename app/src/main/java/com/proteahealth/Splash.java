@@ -42,7 +42,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(() -> {
 
             Intent intent = new Intent(
-                    Splash.this, LoginActivity.class
+                    Splash.this, MedicationOrderActivity.class
             );
 
             startActivity(intent);

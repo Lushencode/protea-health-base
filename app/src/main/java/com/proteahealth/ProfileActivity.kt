@@ -17,7 +17,7 @@ import com.proteahealth.Patient.MedicationsActivity
 import com.proteahealth.Patient.Patient_Home
 import com.proteahealth.api.RetrofitClient
 import com.proteahealth.data.SessionManager
-import com.proteahealth.Patient.PharmacyActivity
+import com.proteahealth.Patient.MedicationPriceComparisonActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CancellationException
 import android.app.Activity
@@ -504,7 +504,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 val intent = Intent(
                     this,
-                    PharmacyActivity::class.java
+                    MedicationPriceComparisonActivity::class.java
                 )
                 startActivity(intent)
             }

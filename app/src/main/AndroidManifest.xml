@@ -32,10 +32,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Collection" />
+        <activity android:name=".MedicationOrderActivity" />
         <activity android:name=".BlogActivity" />
         <activity android:name=".Patient.Patient_Home" />
-        <activity android:name=".Patient.PharmacyActivity" />
+        <activity android:name=".Patient.MedicationPriceComparisonActivity" />
         <activity android:name=".ui.OrderActivity" />
         <activity android:name=".ui.OrderDetailActivity" />
         <activity android:name=".LoginActivity" />

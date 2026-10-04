@@ -25,6 +25,15 @@ import java.util.Locale;
 public class PharmacyAdapter
         extends RecyclerView.Adapter<PharmacyAdapter.PharmacyViewHolder> {
 
+    public interface OnPharmacySelectedListener {
+        void onPharmacySelected(
+                Pharmacy pharmacy,
+                Medication medication
+        );
+    }
+
+    private OnPharmacySelectedListener selectionListener;
+
     // Original complete list
     private final List<Pharmacy> allPharmacies;
 
@@ -38,6 +47,8 @@ public class PharmacyAdapter
 
     public PharmacyAdapter(List<Pharmacy> pharmacies) {
 
+
+
         allPharmacies =
                 new ArrayList<>(pharmacies);
 
@@ -45,6 +56,19 @@ public class PharmacyAdapter
                 new ArrayList<>(pharmacies);
     }
 
+    public PharmacyAdapter(
+            List<Pharmacy> pharmacies,
+            OnPharmacySelectedListener selectionListener
+    ) {
+
+        allPharmacies =
+                new ArrayList<>(pharmacies);
+
+        displayedPharmacies =
+                new ArrayList<>(pharmacies);
+
+        this.selectionListener = selectionListener;
+    }
 
     // ============================================================
     // CREATE PHARMACY CARD
@@ -151,6 +175,33 @@ public class PharmacyAdapter
                     "Price unavailable"
             );
         }
+
+        holder.itemView.setOnClickListener(v -> {
+
+            if (selectionListener == null) {
+                return;
+            }
+
+            if (pharmacy.getMedications() == null
+                    || pharmacy.getMedications().isEmpty()) {
+
+                Toast.makeText(
+                        v.getContext(),
+                        "Medication unavailable at this pharmacy",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            Medication medication =
+                    pharmacy.getMedications().get(0);
+
+            selectionListener.onPharmacySelected(
+                    pharmacy,
+                    medication
+            );
+        });
 
 
         // ========================================================

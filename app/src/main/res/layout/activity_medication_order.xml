@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="#F8F9F9"
-    tools:context=".Collection">
+    tools:context=".MedicationOrderActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -254,7 +254,7 @@
         </LinearLayout>
 
 
-        <!-- PHARMACY -->
+        <!-- PHARMACY PRICE COMPARISON -->
 
         <LinearLayout
             android:id="@+id/pharmacyCard"
@@ -277,26 +277,79 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Choose where you would like to collect your medication."
-                android:textColor="#777777"
-                android:textSize="14sp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp" />
+                android:text="Compare medication prices and distance before choosing a pharmacy."
+                android:textColor="#777777"
+                android:textSize="14sp" />
 
-            <Spinner
-                android:id="@+id/pharmacySpinner"
+            <Button
+                android:id="@+id/comparePricesButton"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="@drawable/input_background" />
+                android:layout_marginTop="15dp"
+                android:background="#E4F1ED"
+                android:text="Compare Pharmacy Prices"
+                android:textColor="#0B5D4B"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/pharmacyAvailability"
+            <!-- Selected pharmacy -->
+
+            <LinearLayout
+                android:id="@+id/selectedPharmacySection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select a pharmacy to check availability."
-                android:textColor="#777777"
-                android:textSize="13sp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="15dp"
+                android:background="#F3F8F6"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selected Pharmacy"
+                    android:textColor="#777777"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/selectedPharmacyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="HealthPlus Pharmacy"
+                    android:textColor="#111111"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/selectedMedicationPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Medication price: R0.00"
+                    android:textColor="#0B5D4B"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/selectedPharmacyDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Distance: --"
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/selectedPharmacyDelivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Delivery: --"
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

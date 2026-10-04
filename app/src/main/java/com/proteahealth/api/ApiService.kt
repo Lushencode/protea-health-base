@@ -4,6 +4,9 @@ import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
+import retrofit2.http.GET
+import retrofit2.http.Query
+import retrofit2.Call
 
 interface ApiService {
 
@@ -81,4 +84,20 @@ interface ApiService {
         @Field("id") id: String,
         @Field("role") role: String
     ): Response<ProfileResponse>
+
+    @GET("get_medications.php")
+    fun getMedications(
+        @Query("patient_id") patientId: String
+    ): Call<MedicationResponse>
+
+    @FormUrlEncoded
+    @POST("update_medication_taken.php")
+    fun updateMedicationTaken(
+        @Field("prescription_id") prescriptionId: Int,
+        @Field("patient_id") patientId: Int,
+        @Field("action") action: String
+    ): Call<MedicationUpdateResponse>
+
+    @GET("get_pharmacies.php")
+    fun getPharmacies(): Call<PharmacyResponse>
 }

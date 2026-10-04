@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PharmacyActivity extends AppCompatActivity {
+public class MedicationPriceComparisonActivity extends AppCompatActivity {
 
     private static final String DEFAULT_LABEL =
             "Showing prices for: Metformin 500mg";
@@ -35,7 +35,7 @@ public class PharmacyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_pharmacy);
+        setContentView(R.layout.activity_medication_price_comparison);
 
         // -----------------------------------------
         // CONNECT XML COMPONENTS
@@ -73,7 +73,55 @@ public class PharmacyActivity extends AppCompatActivity {
         // -----------------------------------------
 
         pharmacyAdapter =
-                new PharmacyAdapter(allPharmacies);
+                new PharmacyAdapter(
+                        allPharmacies,
+                        (pharmacy, medication) -> {
+
+                            Intent resultIntent = new Intent();
+
+                            resultIntent.putExtra(
+                                    "pharmacy_id",
+                                    pharmacy.getId()
+                            );
+
+                            resultIntent.putExtra(
+                                    "pharmacy_name",
+                                    pharmacy.getName()
+                            );
+
+                            resultIntent.putExtra(
+                                    "pharmacy_location",
+                                    pharmacy.getLocation()
+                            );
+
+                            resultIntent.putExtra(
+                                    "pharmacy_distance",
+                                    pharmacy.getDistance()
+                            );
+
+                            resultIntent.putExtra(
+                                    "medication_name",
+                                    medication.getName()
+                            );
+
+                            resultIntent.putExtra(
+                                    "medication_price",
+                                    medication.getPrice()
+                            );
+
+                            resultIntent.putExtra(
+                                    "medication_availability",
+                                    medication.getAvailability()
+                            );
+
+                            setResult(
+                                    RESULT_OK,
+                                    resultIntent
+                            );
+
+                            finish();
+                        }
+                );
 
 
         // -----------------------------------------

@@ -93,7 +93,7 @@ public class Appointment extends AppCompatActivity {
         });
 
         navSetting.setOnClickListener(v -> {
-            startActivity(new Intent(this, PharmacyActivity.class));
+            startActivity(new Intent(this, MedicationPriceComparisonActivity.class));
         });
 
         navEmergency.setOnClickListener(v -> {
@@ -113,7 +113,7 @@ public class Appointment extends AppCompatActivity {
         timeInput = findViewById(R.id.timeInput);
         reasonInput = findViewById(R.id.reasonInput);
 
-        pharmacySpinner = findViewById(R.id.pharmacySpinner);
+
         medicationMethodGroup = findViewById(R.id.medicationMethodGroup);
         deliverySection = findViewById(R.id.deliverySection);
         addressInput = findViewById(R.id.addressInput);

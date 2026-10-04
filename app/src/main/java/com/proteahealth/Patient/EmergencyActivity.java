@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.proteahealth.ProfileActivity;
-import com.proteahealth.api.ProfileUser;
 import com.proteahealth.data.EmergencyProfileLoader;
 import com.proteahealth.data.SessionManager;
 import com.proteahealth.R;
@@ -63,7 +62,7 @@ public class EmergencyActivity extends AppCompatActivity {
         });
 
         navSetting.setOnClickListener(v -> {
-            startActivity(new Intent(this, PharmacyActivity.class));
+            startActivity(new Intent(this, MedicationPriceComparisonActivity.class));
         });
 
         navEmergency.setBackgroundResource(R.drawable.nav_icon_glow);

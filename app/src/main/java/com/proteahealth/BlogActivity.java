@@ -1,536 +1,888 @@
 package com.proteahealth;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.proteahealth.model.Featurebanner;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class BlogActivity extends AppCompatActivity {
 
-    private final List<Article> allArticles = new ArrayList<>();
-    private final List<Article> visibleArticles = new ArrayList<>();
+    private List<Article> allArticles = new ArrayList<>();
+    private List<Article> visibleArticles = new ArrayList<>();
 
     private Button btnAll;
     private Button btnDiabetes;
     private Button btnBloodPressure;
+    private Button btnNutrition;
 
     private ArticleAdapter articleAdapter;
+
+    private RecyclerView recyclerQuestions;
+    private QuestionAdapter questionAdapter;
+
+    private final List<Question> questions = new ArrayList<>();
+
     private SharedPreferences questionStorage;
 
     private String selectedCategory = "All";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EdgeToEdge.enable(this);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
         setContentView(R.layout.activity_blog);
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-                findViewById(R.id.blogRoot),
-                (view, windowInsets) -> {
-                    Insets bars = windowInsets.getInsets(
-                            WindowInsetsCompat.Type.systemBars()
-                                    | WindowInsetsCompat.Type.ime()
-                    );
+        View root = findViewById(R.id.blogRoot);
 
-                    view.setPadding(
-                            bars.left,
-                            bars.top,
-                            bars.right,
-                            bars.bottom
-                    );
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
 
-                    return windowInsets;
-                }
-        );
+            Insets insets = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+            );
+
+            view.setPadding(
+                    view.getPaddingLeft(),
+                    insets.top,
+                    view.getPaddingRight(),
+                    view.getPaddingBottom()
+            );
+
+            return windowInsets;
+        });
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+
+        // ----------------------------------------------------
+        // LOCAL QUESTION STORAGE
+        // ----------------------------------------------------
 
         questionStorage = getSharedPreferences(
                 "protea_blog_local_drafts",
                 MODE_PRIVATE
         );
 
-        // Banner
+
+        // ----------------------------------------------------
+        // FEATURE BANNER
+        // ----------------------------------------------------
+
+        ViewPager2 banner = findViewById(R.id.banner2);
+
         String[] titles = {
-                "Simple",
-                "Understand",
-                "Easy Prescription Refills"
+                "Take Control of Your Health",
+                "Know Your Medication",
+                "Ask. Learn. Improve."
         };
 
         String[] descriptions = {
-                "Trusted Information",
-                "Your on health, one step at a time.",
-                "Upload your prescription and manage your pharmacy refills with ease."
+                "Small healthy habits today can make a big difference tomorrow.",
+                "Understand your medicines, dosage and possible side effects.",
+                "Connect with healthcare professionals and learn from others."
         };
 
-        ViewPager2 featureViewPager = findViewById(R.id.banner2);
-        if (featureViewPager != null) {
-            featureViewPager.setAdapter(new Featurebanner(titles, descriptions));
+        if (banner != null) {
+            banner.setAdapter(new Featurebanner(titles, descriptions));
         }
+
+
+        // ----------------------------------------------------
+        // ARTICLES / HEALTH TIPS
+        // ----------------------------------------------------
 
         loadSampleArticles();
 
         ListView listArticles = findViewById(R.id.listArticles);
-        if (listArticles != null) {
-            articleAdapter = new ArticleAdapter();
-            listArticles.setAdapter(articleAdapter);
 
-            listArticles.setOnItemClickListener(
-                    (parent, view, position, id) -> {
-                        if (position < visibleArticles.size()) {
-                            openArticle(visibleArticles.get(position));
-                        }
+        visibleArticles.clear();
+        visibleArticles.addAll(allArticles);
+
+        articleAdapter = new ArticleAdapter(
+                this,
+                visibleArticles
+        );
+
+        listArticles.setAdapter(articleAdapter);
+
+        listArticles.setOnItemClickListener(
+                (parent, view, position, id) -> {
+
+                    if (position >= 0 && position < visibleArticles.size()) {
+
+                        Article article = visibleArticles.get(position);
+
+                        showHealthTip(article);
                     }
-            );
-        }
-
-        SearchView searchBar = findViewById(R.id.search_bar);
-        if (searchBar != null) {
-            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    filterArticlesByQuery(query);
-                    return true;
                 }
+        );
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    filterArticlesByQuery(newText);
-                    return true;
+
+        // ----------------------------------------------------
+        // SEARCH
+        // ----------------------------------------------------
+
+        SearchView searchView = findViewById(R.id.search_bar);
+
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+                        filterArticles(query);
+
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+                        filterArticles(newText);
+
+                        return true;
+                    }
                 }
-            });
-        }
-
-        if (btnAll != null) btnAll.setOnClickListener(view -> filterArticles("All"));
-        if (btnDiabetes != null) btnDiabetes.setOnClickListener(view -> filterArticles("Diabetes"));
-        if (btnBloodPressure != null) btnBloodPressure.setOnClickListener(view -> filterArticles("Blood pressure"));
+        );
 
 
+        // ----------------------------------------------------
+        // CATEGORY BUTTONS
+        // ----------------------------------------------------
 
-        findViewById(R.id.recyclerQuestions).setOnClickListener(
+        btnAll = findViewById(R.id.btnAll);
+        btnDiabetes = findViewById(R.id.btnDiabetes);
+        btnBloodPressure = findViewById(R.id.btnBloodPressure);
+        btnNutrition = findViewById(R.id.btnNutrition);
+
+
+        btnAll.setOnClickListener(v -> {
+
+            selectedCategory = "All";
+
+            updateCategoryButtons();
+
+            filterArticles("");
+        });
+
+
+        btnDiabetes.setOnClickListener(v -> {
+
+            selectedCategory = "Diabetes";
+
+            updateCategoryButtons();
+
+            filterArticles("");
+        });
+
+
+        btnBloodPressure.setOnClickListener(v -> {
+
+            selectedCategory = "Blood Pressure";
+
+            updateCategoryButtons();
+
+            filterArticles("");
+        });
+
+
+        btnNutrition.setOnClickListener(v -> {
+
+            selectedCategory = "Nutrition";
+
+            updateCategoryButtons();
+
+            filterArticles("");
+        });
+
+
+        updateCategoryButtons();
+
+
+        // ----------------------------------------------------
+        // COMMUNITY QUESTIONS
+        // ----------------------------------------------------
+
+        recyclerQuestions = findViewById(R.id.recyclerQuestions);
+
+        recyclerQuestions.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+
+        loadQuestions();
+
+        questionAdapter = new QuestionAdapter(
+                this,
+                questions
+        );
+
+        recyclerQuestions.setAdapter(questionAdapter);
+
+
+        // ----------------------------------------------------
+        // ASK QUESTION
+        // ----------------------------------------------------
+
+        AppCompatButton btnAskQuestion =
+                findViewById(R.id.btnAskQuestion);
+
+        btnAskQuestion.setOnClickListener(
                 view -> showQuestionForm()
         );
 
-        findViewById(R.id.btnMyQuestions).setOnClickListener(
+
+        // ----------------------------------------------------
+        // MY QUESTIONS
+        // ----------------------------------------------------
+
+        AppCompatButton btnMyQuestions =
+                findViewById(R.id.btnMyQuestions);
+
+        btnMyQuestions.setOnClickListener(
                 view -> showMyQuestions()
         );
-
-        if (savedInstanceState != null) {
-            selectedCategory = savedInstanceState.getString(
-                    "selected_category",
-                    "All"
-            );
-        }
-
-        filterArticles(selectedCategory);
     }
+
+
+    // ========================================================
+    // CATEGORY BUTTONS
+    // ========================================================
+
+    private void updateCategoryButtons() {
+
+        resetButton(btnAll);
+        resetButton(btnDiabetes);
+        resetButton(btnBloodPressure);
+        resetButton(btnNutrition);
+
+        if (selectedCategory.equals("All")) {
+            selectButton(btnAll);
+
+        } else if (selectedCategory.equals("Diabetes")) {
+            selectButton(btnDiabetes);
+
+        } else if (selectedCategory.equals("Blood Pressure")) {
+            selectButton(btnBloodPressure);
+
+        } else if (selectedCategory.equals("Nutrition")) {
+            selectButton(btnNutrition);
+        }
+    }
+
+
+    private void resetButton(Button button) {
+
+        button.setTextColor(Color.rgb(50, 50, 50));
+        button.setBackgroundResource(
+                R.drawable.input_background
+        );
+    }
+
+
+    private void selectButton(Button button) {
+
+        button.setTextColor(Color.WHITE);
+        button.setBackgroundResource(
+                R.drawable.input_background
+        );
+    }
+
+
+    // ========================================================
+    // ARTICLES
+    // ========================================================
 
     private void loadSampleArticles() {
-        // Replace this source with the group's article repository/API.
-        // These sample bodies deliberately make no clinical claims.
 
-        allArticles.add(new Article(
-                "sample-diabetes-1",
-                "Diabetes",
-                "Small changes that help control your sugar",
-                "Easy food and routine tips",
-                "Sample article",
-                "This is sample content for the article-reading screen.\n\n"
-                        + "The published version of this article will be "
-                        + "loaded from the shared health-content service.\n\n"
-                        + "Its approved text, author, reading time and review "
-                        + "details should come from that service.",
-                "#EF5B62"
-        ));
+        allArticles.clear();
 
-        allArticles.add(new Article(
-                "sample-bp-1",
-                "Blood pressure",
-                "How to check your blood pressure at home",
-                "A simple step-by-step guide",
-                "Sample article",
-                "This is sample content for the blood-pressure article.\n\n"
-                        + "The final article will contain the healthcare "
-                        + "professional's approved guidance.\n\n"
-                        + "This screen already supports opening and scrolling "
-                        + "through the complete article text.",
-                "#159EA5"
-        ));
+        allArticles.add(
+                new Article(
+                        "Diabetes",
+                        "Understanding Blood Sugar",
+                        "Learn why monitoring your blood sugar is important and how small lifestyle changes can help.",
+                        "5 min read"
+                )
+        );
 
-        allArticles.add(new Article(
-                "sample-bp-2",
-                "Blood pressure",
-                "Preparing for your next clinic visit",
-                "Questions and notes for your appointment",
-                "Sample article",
-                "This is a second sample article in the Blood pressure "
-                        + "category.\n\n"
-                        + "It allows you to check that the category filter "
-                        + "shows multiple matching articles.\n\n"
-                        + "Replace this content with approved published "
-                        + "content when connecting the backend.",
-                "#0C514A"
-        ));
+        allArticles.add(
+                new Article(
+                        "Blood Pressure",
+                        "Understanding Your Blood Pressure",
+                        "Learn what blood pressure numbers mean and why regular monitoring matters.",
+                        "4 min read"
+                )
+        );
+
+        allArticles.add(
+                new Article(
+                        "Nutrition",
+                        "Building a Balanced Plate",
+                        "A simple guide to combining vegetables, protein and healthy carbohydrates.",
+                        "3 min read"
+                )
+        );
+
+        allArticles.add(
+                new Article(
+                        "Medication",
+                        "Why Medication Adherence Matters",
+                        "Taking medication according to your healthcare professional's instructions can help manage chronic conditions.",
+                        "4 min read"
+                )
+        );
+
+        allArticles.add(
+                new Article(
+                        "Wellness",
+                        "The Importance of Sleep",
+                        "Good quality sleep supports physical health, concentration and emotional wellbeing.",
+                        "3 min read"
+                )
+        );
     }
 
-    private void filterArticlesByQuery(String query) {
-        visibleArticles.clear();
-        if (query == null || query.trim().isEmpty()) {
-            filterArticles(selectedCategory);
-            return;
-        }
-        String lowerQuery = query.toLowerCase(Locale.ENGLISH).trim();
-        for (Article article : allArticles) {
-            if (article.title.toLowerCase(Locale.ENGLISH).contains(lowerQuery)
-                    || article.category.toLowerCase(Locale.ENGLISH).contains(lowerQuery)
-                    || article.subtitle.toLowerCase(Locale.ENGLISH).contains(lowerQuery)) {
-                visibleArticles.add(article);
-            }
-        }
-        if (articleAdapter != null) {
-            articleAdapter.notifyDataSetChanged();
-        }
-    }
 
-    private void filterArticles(String category) {
-        selectedCategory = category;
+    private void filterArticles(String query) {
+
+        String search = query == null
+                ? ""
+                : query.trim().toLowerCase();
+
         visibleArticles.clear();
 
         for (Article article : allArticles) {
-            if (category.equals("All")
-                    || article.category.equals(category)) {
+
+            boolean matchesCategory =
+                    selectedCategory.equals("All")
+                            || article.category.equalsIgnoreCase(selectedCategory);
+
+            boolean matchesSearch =
+                    search.isEmpty()
+                            || article.title.toLowerCase().contains(search)
+                            || article.summary.toLowerCase().contains(search)
+                            || article.category.toLowerCase().contains(search);
+
+            if (matchesCategory && matchesSearch) {
+
                 visibleArticles.add(article);
             }
         }
 
-        updateFilterButton(btnAll, category.equals("All"));
-        updateFilterButton(btnDiabetes, category.equals("Diabetes"));
-        updateFilterButton(
-                btnBloodPressure,
-                category.equals("Blood pressure")
-        );
-
-        if (articleAdapter != null) {
-            articleAdapter.notifyDataSetChanged();
-        }
+        articleAdapter.notifyDataSetChanged();
     }
 
-    private void updateFilterButton(Button button, boolean selected) {
-        if (button == null) return;
-        int background = Color.parseColor(
-                selected ? "#0C514A" : "#E0E0E0"
-        );
 
-        button.setBackgroundTintList(
-                ColorStateList.valueOf(background)
-        );
+    // ========================================================
+    // HEALTH TIP POPUP
+    // ========================================================
 
-        button.setTextColor(
-                Color.parseColor(selected ? "#FFFFFF" : "#333333")
-        );
-
-        button.setSelected(selected);
-    }
-
-    private void openArticle(Article article) {
-        // AlertDialog automatically scrolls long article text.
+    private void showHealthTip(Article article) {
         new AlertDialog.Builder(this)
                 .setTitle(article.title)
                 .setMessage(
-                        article.category + "\n"
-                                + article.metadata + "\n\n"
-                                + article.body
+                        article.category + " • " + article.metadata + "\n\n"
+                                + article.summary + "\n\n"
+                                + "💡 Health tip: Always speak to your healthcare professional before making major changes to your medication or treatment."
                 )
                 .setPositiveButton("Close", null)
                 .show();
     }
 
+
+    // ========================================================
+    // QUESTION FORM
+    // ========================================================
+
     private void showQuestionForm() {
-        View form = getLayoutInflater().inflate(
-                R.layout.dialog_ask_question,
-                null
-        );
 
-        Spinner categorySpinner =
-                form.findViewById(R.id.spinnerQuestionCategory);
+        View view = LayoutInflater.from(this)
+                .inflate(
+                        R.layout.dialog_ask_question,
+                        null
+                );
 
-        EditText questionInput =
-                form.findViewById(R.id.etQuestion);
+        Spinner spinner =
+                view.findViewById(R.id.spinnerQuestionCategory);
 
-        CheckBox anonymousCheck =
-                form.findViewById(R.id.checkAnonymous);
+        EditText etQuestion =
+                view.findViewById(R.id.etQuestion);
+
+        CheckBox checkAnonymous =
+                view.findViewById(R.id.checkAnonymous);
+
 
         String[] categories = {
-                "Choose a category",
                 "Diabetes",
                 "Blood pressure",
+                "Nutrition",
+                "Medication",
                 "General health"
         };
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                categories
-        );
 
-        categoryAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
+        ArrayAdapter<String> spinnerAdapter =
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        categories
+                );
 
-        categorySpinner.setAdapter(categoryAdapter);
+        spinner.setAdapter(spinnerAdapter);
 
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Ask a question")
-                .setView(form)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Save on device", null)
-                .create();
 
-        dialog.setOnShowListener(ignored ->
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setOnClickListener(view -> {
+        AlertDialog dialog =
+                new AlertDialog.Builder(this)
+                        .setTitle("Ask a Health Question")
+                        .setView(view)
+                        .setNegativeButton(
+                                "Cancel",
+                                null
+                        )
+                        .setPositiveButton(
+                                "Post Question",
+                                null
+                        )
+                        .create();
 
-                            String question = questionInput.getText()
-                                    .toString().trim();
 
-                            if (categorySpinner.getSelectedItemPosition() == 0) {
-                                Toast.makeText(
-                                        this,
-                                        "Please choose a category.",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                                return;
-                            }
+        dialog.setOnShowListener(d -> {
 
-                            if (question.isEmpty()) {
-                                questionInput.setError(
-                                        "Please enter your question."
-                                );
-                                questionInput.requestFocus();
-                                return;
-                            }
+            Button positive =
+                    dialog.getButton(
+                            AlertDialog.BUTTON_POSITIVE
+                    );
 
-                            boolean saved = saveQuestion(
-                                    question,
-                                    categorySpinner.getSelectedItem().toString(),
-                                    anonymousCheck.isChecked()
-                            );
+            positive.setTextColor(
+                    Color.rgb(216, 27, 96)
+            );
 
-                            if (saved) {
-                                dialog.dismiss();
 
-                                Toast.makeText(
-                                        this,
-                                        "Saved on this device. Not sent yet.",
-                                        Toast.LENGTH_LONG
-                                ).show();
-                            }
-                        })
-        );
+            positive.setOnClickListener(v -> {
+
+                String question =
+                        etQuestion.getText()
+                                .toString()
+                                .trim();
+
+
+                if (TextUtils.isEmpty(question)) {
+
+                    etQuestion.setError(
+                            "Please enter your question"
+                    );
+
+                    return;
+                }
+
+
+                String category =
+                        spinner.getSelectedItem()
+                                .toString();
+
+
+                boolean anonymous =
+                        checkAnonymous.isChecked();
+
+
+                saveQuestion(
+                        question,
+                        category,
+                        anonymous
+                );
+
+
+                dialog.dismiss();
+            });
+        });
+
 
         dialog.show();
     }
 
-    private boolean saveQuestion(
-            String text,
+
+    // ========================================================
+    // SAVE QUESTION
+    // ========================================================
+
+    private void saveQuestion(
+            String question,
             String category,
             boolean anonymous
     ) {
+
         try {
-            JSONArray questions = readQuestions();
 
-            JSONObject question = new JSONObject();
-            question.put("id", UUID.randomUUID().toString());
-            question.put("text", text);
-            question.put("category", category);
-            question.put("anonymous", anonymous);
-            question.put("createdAt", System.currentTimeMillis());
-            question.put("status", "Saved on device — not sent");
+            JSONArray array =
+                    readQuestions();
 
-            questions.put(question);
 
-            // Local prototype storage only.
-            // Production storage must follow the group's security design.
-            questionStorage.edit()
-                    .putString("questions", questions.toString())
+            JSONObject object =
+                    new JSONObject();
+
+
+            object.put(
+                    "id",
+                    System.currentTimeMillis()
+            );
+
+            object.put(
+                    "text",
+                    question
+            );
+
+            object.put(
+                    "category",
+                    category
+            );
+
+            object.put(
+                    "anonymous",
+                    anonymous
+            );
+
+            object.put(
+                    "createdAt",
+                    System.currentTimeMillis()
+            );
+
+            object.put(
+                    "status",
+                    "Waiting for a healthcare professional"
+            );
+
+
+            array.put(object);
+
+
+            questionStorage
+                    .edit()
+                    .putString(
+                            "questions",
+                            array.toString()
+                    )
                     .apply();
 
-            return true;
 
-        } catch (JSONException exception) {
+            // Refresh community feed
+            loadQuestions();
+
+            questionAdapter.notifyDataSetChanged();
+
+
             Toast.makeText(
                     this,
-                    "Could not save the question. Existing drafts were kept.",
-                    Toast.LENGTH_LONG
+                    "Question posted successfully",
+                    Toast.LENGTH_SHORT
             ).show();
 
-            return false;
+
+        } catch (Exception e) {
+
+            Toast.makeText(
+                    this,
+                    "Could not save question",
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 
-    private JSONArray readQuestions() throws JSONException {
-        return new JSONArray(
-                questionStorage.getString("questions", "[]")
+
+    // ========================================================
+    // LOAD QUESTIONS
+    // ========================================================
+
+    private void loadQuestions() {
+
+        questions.clear();
+
+
+        // Sample community questions
+        questions.add(
+                new Question(
+                        "Sarah M.",
+                        "Diabetes",
+                        "I've recently been diagnosed with diabetes. What are some simple lifestyle changes I can start with?",
+                        "Dr. Naledi M.",
+                        "Start by focusing on consistent meals, regular physical activity and taking your prescribed medication as directed. Your healthcare team can help you create a plan that works for you.",
+                        true,
+                        12
+                )
         );
+
+
+        questions.add(
+                new Question(
+                        "Anonymous",
+                        "Blood Pressure",
+                        "How often should someone with high blood pressure check their blood pressure?",
+                        "Dr. Khumalo",
+                        "The frequency depends on your individual treatment plan. Ask your healthcare professional how often you should monitor it at home.",
+                        true,
+                        8
+                )
+        );
+
+
+        questions.add(
+                new Question(
+                        "Thando",
+                        "Nutrition",
+                        "What does a balanced plate actually look like?",
+                        "",
+                        "",
+                        false,
+                        5
+                )
+        );
+
+
+        // Add locally saved questions
+        try {
+
+            JSONArray array =
+                    readQuestions();
+
+
+            for (int i = 0; i < array.length(); i++) {
+
+                JSONObject object =
+                        array.getJSONObject(i);
+
+
+                String text =
+                        object.optString(
+                                "text",
+                                ""
+                        );
+
+
+                String category =
+                        object.optString(
+                                "category",
+                                "General health"
+                        );
+
+
+                boolean anonymous =
+                        object.optBoolean(
+                                "anonymous",
+                                false
+                        );
+
+
+                String name =
+                        anonymous
+                                ? "Anonymous"
+                                : "You";
+
+
+                questions.add(
+                        new Question(
+                                name,
+                                category,
+                                text,
+                                "",
+                                "",
+                                false,
+                                0
+                        )
+                );
+            }
+
+        } catch (Exception ignored) {
+        }
     }
+
+
+    // ========================================================
+    // READ QUESTIONS
+    // ========================================================
+
+    private JSONArray readQuestions() {
+
+        String raw =
+                questionStorage.getString(
+                        "questions",
+                        "[]"
+                );
+
+        try {
+
+            return new JSONArray(raw);
+
+        } catch (Exception e) {
+
+            return new JSONArray();
+        }
+    }
+
+
+    // ========================================================
+    // MY QUESTIONS
+    // ========================================================
 
     private void showMyQuestions() {
-        try {
-            JSONArray questions = readQuestions();
-
-            if (questions.length() == 0) {
-                new AlertDialog.Builder(this)
-                        .setTitle("My questions")
-                        .setMessage("You have no questions saved on this device.")
-                        .setPositiveButton("Close", null)
-                        .show();
-                return;
-            }
-
-            String[] titles = new String[questions.length()];
-
-            for (int i = 0; i < questions.length(); i++) {
-                JSONObject question = questions.getJSONObject(i);
-
-                titles[i] = question.getString("category")
-                        + ": " + question.getString("text");
-            }
-
-            new AlertDialog.Builder(this)
-                    .setTitle("My questions · Local drafts")
-                    .setItems(titles, (dialog, position) -> {
-                        try {
-                            showSavedQuestion(
-                                    questions.getJSONObject(position)
-                            );
-                        } catch (JSONException exception) {
-                            showReadError();
-                        }
-                    })
-                    .setNegativeButton("Close", null)
-                    .show();
-
-        } catch (JSONException exception) {
-            showReadError();
-        }
+        Intent intent = new Intent(this, QuestionsActivity.class);
+        startActivity(intent);
     }
 
-    private void showSavedQuestion(JSONObject question)
-            throws JSONException {
 
-        boolean anonymous = question.getBoolean("anonymous");
+    private void showSavedQuestion(JSONObject object) {
 
-        String identity = anonymous
-                ? "Posting preference: Anonymous"
-                : "Posting preference: Use my profile name";
+        String category =
+                object.optString(
+                        "category",
+                        ""
+                );
+
+
+        String text =
+                object.optString(
+                        "text",
+                        ""
+                );
+
+
+        boolean anonymous =
+                object.optBoolean(
+                        "anonymous",
+                        false
+                );
+
+
+        String status =
+                object.optString(
+                        "status",
+                        "Saved"
+                );
+
+
+        String message =
+                "Category: "
+                        + category
+                        + "\n\n"
+                        + text
+                        + "\n\n"
+                        + "Posted as: "
+                        + (anonymous
+                        ? "Anonymous"
+                        : "Your name")
+                        + "\n\n"
+                        + "Status: "
+                        + status;
+
 
         new AlertDialog.Builder(this)
-                .setTitle(question.getString("category"))
-                .setMessage(
-                        identity + "\n\n"
-                                + question.getString("text") + "\n\n"
-                                + "Status: " + question.getString("status")
+                .setTitle("My Question")
+                .setMessage(message)
+                .setPositiveButton(
+                        "Close",
+                        null
                 )
-                .setPositiveButton("Close", null)
                 .show();
     }
 
-    private void showReadError() {
-        Toast.makeText(
-                this,
-                "Could not read the saved questions.",
-                Toast.LENGTH_LONG
-        ).show();
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("selected_category", selectedCategory);
-        super.onSaveInstanceState(outState);
-    }
+    // ========================================================
+    // ARTICLE MODEL
+    // ========================================================
 
-    private static class Article {
-        final String id;
-        final String category;
-        final String title;
-        final String summary;
-        final String metadata;
-        final String body;
-        final String colour;
-        public String subtitle;
+    static class Article {
+
+        String category;
+        String title;
+        String summary;
+        String metadata;
+
 
         Article(
-                String id,
                 String category,
                 String title,
                 String summary,
-                String metadata,
-                String body,
-                String colour
+                String metadata
         ) {
-            this.id = id;
+
             this.category = category;
             this.title = title;
             this.summary = summary;
             this.metadata = metadata;
-            this.body = body;
-            this.colour = colour;
         }
     }
 
-    private class ArticleAdapter extends BaseAdapter {
+
+    // ========================================================
+    // ARTICLE ADAPTER
+    // ========================================================
+
+    static class ArticleAdapter extends BaseAdapter {
+
+        private final Context context;
+        private final List<Article> articles;
+
+
+        ArticleAdapter(
+                Context context,
+                List<Article> articles
+        ) {
+
+            this.context = context;
+            this.articles = articles;
+        }
+
 
         @Override
         public int getCount() {
-            return visibleArticles.size();
+
+            return articles.size();
         }
 
+
         @Override
-        public Article getItem(int position) {
-            return visibleArticles.get(position);
+        public Object getItem(int position) {
+
+            return articles.get(position);
         }
+
 
         @Override
         public long getItemId(int position) {
+
             return position;
         }
+
 
         @Override
         public View getView(
@@ -538,48 +890,261 @@ public class BlogActivity extends AppCompatActivity {
                 View convertView,
                 ViewGroup parent
         ) {
+
             if (convertView == null) {
-                convertView = LayoutInflater.from(BlogActivity.this)
-                        .inflate(R.layout.item_blog_article, parent, false);
+
+                convertView =
+                        LayoutInflater.from(context)
+                                .inflate(
+                                        R.layout.item_blog_article,
+                                        parent,
+                                        false
+                                );
             }
 
-            Article article = getItem(position);
+
+            Article article =
+                    articles.get(position);
+
 
             TextView category =
-                    convertView.findViewById(R.id.tvArticleCategory);
+                    convertView.findViewById(
+                            R.id.tvArticleCategory
+                    );
+
+
             TextView title =
-                    convertView.findViewById(R.id.tvArticleTitle);
+                    convertView.findViewById(
+                            R.id.tvArticleTitle
+                    );
+
+
             TextView summary =
-                    convertView.findViewById(R.id.tvArticleSummary);
+                    convertView.findViewById(
+                            R.id.tvArticleSummary
+                    );
+
+
             TextView metadata =
-                    convertView.findViewById(R.id.tvArticleMetadata);
+                    convertView.findViewById(
+                            R.id.tvArticleMetadata
+                    );
+
+
             TextView tileLabel =
-                    convertView.findViewById(R.id.tvArticleTileLabel);
+                    convertView.findViewById(
+                            R.id.tvArticleTileLabel
+                    );
+
 
             category.setText(
-                    article.category.toUpperCase(Locale.ENGLISH)
+                    article.category
             );
-            title.setText(article.title);
-            summary.setText(article.summary);
-            metadata.setText(article.metadata);
+
+            title.setText(
+                    article.title
+            );
+
+            summary.setText(
+                    article.summary
+            );
+
+            metadata.setText(
+                    article.metadata
+            );
 
             tileLabel.setText(
-                    article.category.equals("Blood pressure")
-                            ? "Blood\npressure"
-                            : article.category
+                    article.category.substring(
+                            0,
+                            Math.min(
+                                    1,
+                                    article.category.length()
+                            )
+                    ).toUpperCase()
             );
 
-            View tile = convertView.findViewById(
-                    R.id.articleCategoryTile
-            );
-
-            GradientDrawable background =
-                    (GradientDrawable) tile.getBackground().mutate();
-
-            background.setColor(Color.parseColor(article.colour));
-            tile.setBackground(background);
 
             return convertView;
+        }
+    }
+
+
+    // ========================================================
+    // QUESTION MODEL
+    // ========================================================
+
+    static class Question {
+
+        String userName;
+        String category;
+        String question;
+        String doctorName;
+        String doctorAnswer;
+        boolean verified;
+        int likes;
+
+
+        Question(
+                String userName,
+                String category,
+                String question,
+                String doctorName,
+                String doctorAnswer,
+                boolean verified,
+                int likes
+        ) {
+
+            this.userName = userName;
+            this.category = category;
+            this.question = question;
+            this.doctorName = doctorName;
+            this.doctorAnswer = doctorAnswer;
+            this.verified = verified;
+            this.likes = likes;
+        }
+    }
+
+
+    // ========================================================
+    // QUESTION ADAPTER
+    // ========================================================
+
+    static class QuestionAdapter
+            extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
+
+        private final Context context;
+        private final List<Question> questions;
+
+
+        QuestionAdapter(
+                Context context,
+                List<Question> questions
+        ) {
+
+            this.context = context;
+            this.questions = questions;
+        }
+
+
+        @NonNull
+        @Override
+        public QuestionViewHolder onCreateViewHolder(
+                @NonNull ViewGroup parent,
+                int viewType
+        ) {
+
+            View view =
+                    LayoutInflater.from(context)
+                            .inflate(
+                                    R.layout.items_question,
+                                    parent,
+                                    false
+                            );
+
+            return new QuestionViewHolder(view);
+        }
+
+
+        @Override
+        public void onBindViewHolder(
+                @NonNull QuestionViewHolder holder,
+                int position
+        ) {
+
+            Question question =
+                    questions.get(position);
+
+
+            holder.tvName.setText(
+                    question.userName
+            );
+
+            holder.tvCategory.setText(
+                    question.category
+            );
+
+            holder.tvQuestion.setText(
+                    question.question
+            );
+
+
+            if (!TextUtils.isEmpty(
+                    question.doctorAnswer
+            )) {
+
+                holder.doctorAnswerContainer
+                        .setVisibility(View.VISIBLE);
+
+                holder.tvDoctorName.setText(
+                        question.doctorName
+                );
+
+                holder.tvDoctorAnswer.setText(
+                        question.doctorAnswer
+                );
+
+                holder.tvVerified.setVisibility(
+                        question.verified
+                                ? View.VISIBLE
+                                : View.GONE
+                );
+
+            } else {
+
+                holder.doctorAnswerContainer
+                        .setVisibility(View.GONE);
+            }
+
+
+            holder.tvLikes.setText(
+                    "♡ " + question.likes
+            );
+
+
+            holder.tvLikes.setOnClickListener(v -> {
+
+                question.likes++;
+
+                holder.tvLikes.setText(
+                        "♥ " + question.likes
+                );
+            });
+        }
+
+
+        @Override
+        public int getItemCount() {
+
+            return questions.size();
+        }
+
+
+        static class QuestionViewHolder
+                extends RecyclerView.ViewHolder {
+
+            TextView tvName;
+            TextView tvCategory;
+            TextView tvQuestion;
+            TextView tvDoctorName;
+            TextView tvDoctorAnswer;
+            TextView tvVerified;
+            TextView tvLikes;
+
+            LinearLayout doctorAnswerContainer;
+
+
+            QuestionViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                tvName = itemView.findViewById(R.id.tvQuestionUser);
+                tvCategory = itemView.findViewById(R.id.tvQuestionTag);
+                tvQuestion = itemView.findViewById(R.id.tvQuestionTitle);
+                tvDoctorName = itemView.findViewById(R.id.tvQuestionUser);
+                tvDoctorAnswer = itemView.findViewById(R.id.tvDoctorAnswer);
+                tvVerified = itemView.findViewById(R.id.tvQuestionTag);
+                tvLikes = itemView.findViewById(R.id.tvCommentCount);
+                doctorAnswerContainer = itemView.findViewById(R.id.layoutDoctorAnswer);
+            }
         }
     }
 }

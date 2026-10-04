@@ -169,7 +169,7 @@ public class Patient_Home extends AppCompatActivity {
         );
 
         findViewById(R.id.cardPrices).setOnClickListener(
-                view -> startActivity(new Intent(this, PharmacyActivity.class)));
+                view -> startActivity(new Intent(this, MedicationPriceComparisonActivity.class)));
 
         findViewById(R.id.cardRefill).setOnClickListener(
                 view -> startActivity(new Intent(this, MedicationsActivity.class)));
@@ -190,7 +190,7 @@ public class Patient_Home extends AppCompatActivity {
                 startActivity(new Intent(this, ProfileActivity.class)));
 
         navSetting.setOnClickListener(v ->
-                startActivity(new Intent(this, PharmacyActivity.class)));
+                startActivity(new Intent(this, MedicationPriceComparisonActivity.class)));
 
         navEmergency.setOnClickListener(v ->
                 startActivity(new Intent(this, EmergencyActivity.class)));

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.proteahealth.R;
 import com.proteahealth.model.Prescription;
-import com.proteahealth.Patient.PharmacyActivity;
+import com.proteahealth.Patient.MedicationPriceComparisonActivity;
 
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +44,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         holder.tvPrescribingDoctor.setText(prescription.getPrescribingDoctor());
 
         holder.btnComparePrices.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PharmacyActivity.class);
+            Intent intent = new Intent(context, MedicationPriceComparisonActivity.class);
             intent.putExtra("medicationName", prescription.getMedicationName());
             context.startActivity(intent);
         });
