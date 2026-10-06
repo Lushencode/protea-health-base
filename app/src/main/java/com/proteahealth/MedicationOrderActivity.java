@@ -16,8 +16,19 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.proteahealth.Patient.MedicationPriceComparisonActivity;
+
 import java.util.ArrayList;
 import java.util.Locale;
+
+import com.proteahealth.api.CreateOrderResponse;
+import com.proteahealth.api.RetrofitClient;
+import com.proteahealth.data.SessionManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MedicationOrderActivity extends AppCompatActivity {
 
@@ -91,9 +102,12 @@ public class MedicationOrderActivity extends AppCompatActivity {
     private String selectedPharmacyLocation = null;
     private String selectedPharmacyDistanceValue = null;
 
+    private String selectedMedicationName = null;
     private double selectedMedicationPriceValue = 0.00;
-
     private String selectedMedicationAvailability = null;
+
+    private boolean selectedPharmacyOffersDelivery = false;
+    private double selectedPharmacyDeliveryFee = 0.00;
 
 
     // =========================================================
@@ -114,7 +128,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_medication_order);
+        setContentView(
+                R.layout.activity_medication_order
+        );
 
         initialiseViews();
 
@@ -123,6 +139,18 @@ public class MedicationOrderActivity extends AppCompatActivity {
         setupButtons();
 
         setupDeliveryOptions();
+
+        deliveryRadio.setEnabled(false);
+
+        loadRefillMedication();
+
+        updateOrderSummary();
+
+        /*
+         * Delivery should not be selectable until
+         * a pharmacy has been selected.
+         */
+        deliveryRadio.setEnabled(false);
 
         updateOrderSummary();
     }
@@ -135,95 +163,151 @@ public class MedicationOrderActivity extends AppCompatActivity {
     private void initialiseViews() {
 
         backButton =
-                findViewById(R.id.backButton);
+                findViewById(
+                        R.id.backButton
+                );
 
         uploadPrescriptionButton =
-                findViewById(R.id.uploadPrescriptionButton);
+                findViewById(
+                        R.id.uploadPrescriptionButton
+                );
 
         addMedicationButton =
-                findViewById(R.id.addMedicationButton);
+                findViewById(
+                        R.id.addMedicationButton
+                );
 
         comparePricesButton =
-                findViewById(R.id.comparePricesButton);
+                findViewById(
+                        R.id.comparePricesButton
+                );
 
         confirmButton =
-                findViewById(R.id.confirmButton);
+                findViewById(
+                        R.id.confirmButton
+                );
 
         cancelButton =
-                findViewById(R.id.cancelButton);
+                findViewById(
+                        R.id.cancelButton
+                );
 
 
         medicationNameInput =
-                findViewById(R.id.medicationNameInput);
+                findViewById(
+                        R.id.medicationNameInput
+                );
 
         dosageInput =
-                findViewById(R.id.dosageInput);
+                findViewById(
+                        R.id.dosageInput
+                );
 
         quantityInput =
-                findViewById(R.id.quantityInput);
+                findViewById(
+                        R.id.quantityInput
+                );
 
         addressInput =
-                findViewById(R.id.addressInput);
+                findViewById(
+                        R.id.addressInput
+                );
 
 
         medicationMethodGroup =
-                findViewById(R.id.medicationMethodGroup);
+                findViewById(
+                        R.id.medicationMethodGroup
+                );
 
         collectionRadio =
-                findViewById(R.id.collectionRadio);
+                findViewById(
+                        R.id.collectionRadio
+                );
 
         deliveryRadio =
-                findViewById(R.id.deliveryRadio);
+                findViewById(
+                        R.id.deliveryRadio
+                );
 
 
         deliverySection =
-                findViewById(R.id.deliverySection);
+                findViewById(
+                        R.id.deliverySection
+                );
 
         medicationList =
-                findViewById(R.id.medicationList);
+                findViewById(
+                        R.id.medicationList
+                );
 
         aiAnalysisSection =
-                findViewById(R.id.aiAnalysisSection);
+                findViewById(
+                        R.id.aiAnalysisSection
+                );
 
         selectedPharmacySection =
-                findViewById(R.id.selectedPharmacySection);
+                findViewById(
+                        R.id.selectedPharmacySection
+                );
 
 
         prescriptionImage =
-                findViewById(R.id.prescriptionImage);
+                findViewById(
+                        R.id.prescriptionImage
+                );
 
 
         prescriptionStatus =
-                findViewById(R.id.prescriptionStatus);
+                findViewById(
+                        R.id.prescriptionStatus
+                );
 
         aiAnalysisText =
-                findViewById(R.id.aiAnalysisText);
+                findViewById(
+                        R.id.aiAnalysisText
+                );
 
         noMedicationText =
-                findViewById(R.id.noMedicationText);
+                findViewById(
+                        R.id.noMedicationText
+                );
 
 
         selectedPharmacyName =
-                findViewById(R.id.selectedPharmacyName);
+                findViewById(
+                        R.id.selectedPharmacyName
+                );
 
         selectedMedicationPrice =
-                findViewById(R.id.selectedMedicationPrice);
+                findViewById(
+                        R.id.selectedMedicationPrice
+                );
 
         selectedPharmacyDistance =
-                findViewById(R.id.selectedPharmacyDistance);
+                findViewById(
+                        R.id.selectedPharmacyDistance
+                );
 
         selectedPharmacyDelivery =
-                findViewById(R.id.selectedPharmacyDelivery);
+                findViewById(
+                        R.id.selectedPharmacyDelivery
+                );
 
 
         medicationTotalText =
-                findViewById(R.id.medicationTotalText);
+                findViewById(
+                        R.id.medicationTotalText
+                );
 
         deliveryFeeText =
-                findViewById(R.id.deliveryFeeText);
+                findViewById(
+                        R.id.deliveryFeeText
+                );
 
         orderTotalText =
-                findViewById(R.id.orderTotalText);
+                findViewById(
+                        R.id.orderTotalText
+                );
     }
 
 
@@ -244,7 +328,13 @@ public class MedicationOrderActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            Intent data = result.getData();
+                            Intent data =
+                                    result.getData();
+
+
+                            // -----------------------------------------
+                            // PHARMACY
+                            // -----------------------------------------
 
                             selectedPharmacyId =
                                     data.getStringExtra(
@@ -266,6 +356,16 @@ public class MedicationOrderActivity extends AppCompatActivity {
                                             "pharmacy_distance"
                                     );
 
+
+                            // -----------------------------------------
+                            // MEDICATION
+                            // -----------------------------------------
+
+                            selectedMedicationName =
+                                    data.getStringExtra(
+                                            "medication_name"
+                                    );
+
                             selectedMedicationPriceValue =
                                     data.getDoubleExtra(
                                             "medication_price",
@@ -278,18 +378,32 @@ public class MedicationOrderActivity extends AppCompatActivity {
                                     );
 
 
-                            // Apply the selected pharmacy price
-                            // to the medication being ordered.
+                            // -----------------------------------------
+                            // DELIVERY
+                            // -----------------------------------------
+
+                            selectedPharmacyOffersDelivery =
+                                    data.getBooleanExtra(
+                                            "offers_delivery",
+                                            false
+                                    );
+
+                            selectedPharmacyDeliveryFee =
+                                    data.getDoubleExtra(
+                                            "delivery_fee",
+                                            0.00
+                                    );
+
+
+                            // -----------------------------------------
+                            // UPDATE ORDER
+                            // -----------------------------------------
 
                             applySelectedMedicationPrice();
 
-
-                            // Display selected pharmacy information.
+                            updateDeliveryAvailability();
 
                             displaySelectedPharmacy();
-
-
-                            // Refresh medication display and totals.
 
                             displayMedications();
 
@@ -300,7 +414,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // APPLY REAL PHARMACY PRICE
+    // APPLY SELECTED PHARMACY PRICE
     // =========================================================
 
     private void applySelectedMedicationPrice() {
@@ -308,6 +422,11 @@ public class MedicationOrderActivity extends AppCompatActivity {
         if (medications.isEmpty()) {
             return;
         }
+
+        /*
+         * At the moment the price comparison is performed
+         * for the first medication in the order.
+         */
 
         Medication medication =
                 medications.get(0);
@@ -328,10 +447,29 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 View.VISIBLE
         );
 
+
+        // -----------------------------------------
+        // PHARMACY NAME
+        // -----------------------------------------
+
+        String pharmacyName =
+                selectedPharmacyNameValue;
+
+        if (pharmacyName == null
+                || pharmacyName.trim().isEmpty()) {
+
+            pharmacyName =
+                    "Selected Pharmacy";
+        }
+
         selectedPharmacyName.setText(
-                selectedPharmacyNameValue
+                pharmacyName
         );
 
+
+        // -----------------------------------------
+        // MEDICATION PRICE
+        // -----------------------------------------
 
         selectedMedicationPrice.setText(
                 String.format(
@@ -342,19 +480,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
-        String distance =
-                selectedPharmacyDistanceValue;
-
-        if (distance == null
-                || distance.trim().isEmpty()) {
-
-            distance = "Not available";
-        }
-
-        selectedPharmacyDistance.setText(
-                "Distance: " + distance
-        );
-
+        // -----------------------------------------
+        // LOCATION / DISTANCE
+        // -----------------------------------------
 
         String location =
                 selectedPharmacyLocation;
@@ -362,12 +490,73 @@ public class MedicationOrderActivity extends AppCompatActivity {
         if (location == null
                 || location.trim().isEmpty()) {
 
-            location = "Not available";
+            location =
+                    "Location unavailable";
         }
 
-        selectedPharmacyDelivery.setText(
-                "Location: " + location
+
+        String distance =
+                selectedPharmacyDistanceValue;
+
+        if (distance == null
+                || distance.trim().isEmpty()) {
+
+            distance =
+                    "Distance unavailable";
+        }
+
+
+        selectedPharmacyDistance.setText(
+                location + " • " + distance
         );
+
+
+        // -----------------------------------------
+        // DELIVERY
+        // -----------------------------------------
+
+        if (selectedPharmacyOffersDelivery) {
+
+            selectedPharmacyDelivery.setText(
+                    String.format(
+                            Locale.getDefault(),
+                            "Delivery available • Fee: R%.2f",
+                            selectedPharmacyDeliveryFee
+                    )
+            );
+
+        } else {
+
+            selectedPharmacyDelivery.setText(
+                    "Collection only"
+            );
+        }
+    }
+
+
+    // =========================================================
+    // DELIVERY AVAILABILITY
+    // =========================================================
+
+    private void updateDeliveryAvailability() {
+
+        if (selectedPharmacyOffersDelivery) {
+
+            deliveryRadio.setEnabled(true);
+
+        } else {
+
+            deliveryRadio.setEnabled(false);
+            deliveryRadio.setChecked(false);
+
+            collectionRadio.setChecked(true);
+
+            deliverySection.setVisibility(View.GONE);
+
+            deliveryFee = 0.00;
+        }
+
+        updateOrderSummary();
     }
 
 
@@ -398,39 +587,11 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
-        // COMPARE PHARMACY PRICES
+        // COMPARE PRICES
 
-        comparePricesButton.setOnClickListener(v -> {
-
-            if (medications.isEmpty()) {
-
-                showMessage(
-                        "Add Medication",
-                        "Please add a medication before comparing pharmacy prices."
-                );
-
-                return;
-            }
-
-            Medication medication =
-                    medications.get(0);
-
-            Intent intent =
-                    new Intent(
-                            MedicationOrderActivity.this,
-                            com.proteahealth.Patient
-                                    .MedicationPriceComparisonActivity.class
-                    );
-
-            intent.putExtra(
-                    "medicationName",
-                    medication.name
-            );
-
-            pharmacyComparisonLauncher.launch(
-                    intent
-            );
-        });
+        comparePricesButton.setOnClickListener(
+                v -> compareMedicationPrices()
+        );
 
 
         // CONFIRM
@@ -445,6 +606,112 @@ public class MedicationOrderActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(
                 v -> cancelOrder()
         );
+    }
+
+
+    // =========================================================
+    // COMPARE MEDICATION PRICES
+    // =========================================================
+
+    private void compareMedicationPrices() {
+
+        if (medications.isEmpty()) {
+
+            showMessage(
+                    "Add Medication",
+                    "Please add a medication before comparing pharmacy prices."
+            );
+
+            return;
+        }
+
+
+        Medication medication =
+                medications.get(0);
+
+
+        Intent intent =
+                new Intent(
+                        MedicationOrderActivity.this,
+                        MedicationPriceComparisonActivity.class
+                );
+
+
+        intent.putExtra(
+                "medicationName",
+                medication.name
+        );
+
+
+        pharmacyComparisonLauncher.launch(
+                intent
+        );
+    }
+
+
+    // =========================================================
+// LOAD REFILL MEDICATION
+// =========================================================
+
+    private void loadRefillMedication() {
+
+        Intent intent =
+                getIntent();
+
+        if (intent == null) {
+            return;
+        }
+
+
+        String medicationName =
+                intent.getStringExtra(
+                        "refill_medication_name"
+                );
+
+        String dosage =
+                intent.getStringExtra(
+                        "refill_dosage"
+                );
+
+        int quantity =
+                intent.getIntExtra(
+                        "refill_quantity",
+                        0
+                );
+
+
+        /*
+         * If this page was opened normally instead of
+         * through the Refill button, do nothing.
+         */
+        if (medicationName == null
+                || medicationName.trim().isEmpty()) {
+
+            return;
+        }
+
+
+        medicationNameInput.setText(
+                medicationName
+        );
+
+
+        if (dosage != null) {
+
+            dosageInput.setText(
+                    dosage
+            );
+        }
+
+
+        if (quantity > 0) {
+
+            quantityInput.setText(
+                    String.valueOf(
+                            quantity
+                    )
+            );
+        }
     }
 
 
@@ -479,6 +746,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                         MediaStore.ACTION_IMAGE_CAPTURE
                 );
 
+
         if (cameraIntent.resolveActivity(
                 getPackageManager()
         ) != null) {
@@ -510,6 +778,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 permissions,
                 grantResults
         );
+
 
         if (requestCode
                 == CAMERA_PERMISSION_CODE) {
@@ -544,6 +813,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 data
         );
 
+
         if (requestCode == CAMERA_REQUEST_CODE
                 && resultCode == RESULT_OK
                 && data != null) {
@@ -551,10 +821,14 @@ public class MedicationOrderActivity extends AppCompatActivity {
             Bundle extras =
                     data.getExtras();
 
+
             if (extras != null) {
 
                 Bitmap prescriptionPhoto =
-                        (Bitmap) extras.get("data");
+                        (Bitmap) extras.get(
+                                "data"
+                        );
+
 
                 if (prescriptionPhoto != null) {
 
@@ -566,6 +840,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                             View.VISIBLE
                     );
 
+
                     prescriptionStatus.setText(
                             "Prescription photo captured successfully."
                     );
@@ -574,6 +849,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                             0xFF0B5D4B
                     );
 
+
                     aiAnalysisSection.setVisibility(
                             View.VISIBLE
                     );
@@ -581,6 +857,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                     aiAnalysisText.setText(
                             "Checking prescription..."
                     );
+
 
                     new Handler().postDelayed(
                             () -> aiAnalysisText.setText(
@@ -621,6 +898,10 @@ public class MedicationOrderActivity extends AppCompatActivity {
                         .trim();
 
 
+        // -----------------------------------------
+        // VALIDATION
+        // -----------------------------------------
+
         if (name.isEmpty()) {
 
             medicationNameInput.setError(
@@ -653,6 +934,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
         int quantity;
 
+
         try {
 
             quantity =
@@ -680,18 +962,17 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
-        // No fake price.
-        // Price will be added after pharmacy selection.
-
-        double price = 0.00;
-
+        /*
+         * No fake medication price.
+         * Price comes from the selected pharmacy.
+         */
 
         Medication medication =
                 new Medication(
                         name,
                         dosage,
                         quantity,
-                        price
+                        0.00
                 );
 
 
@@ -700,11 +981,12 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
-        // A new medication means the previous pharmacy
-        // selection should no longer be considered valid.
+        /*
+         * Adding/changing medication invalidates
+         * the previous pharmacy price selection.
+         */
 
         clearSelectedPharmacy();
-
 
         displayMedications();
 
@@ -745,11 +1027,13 @@ public class MedicationOrderActivity extends AppCompatActivity {
             Medication medication =
                     medications.get(i);
 
+
             LinearLayout medicationRow =
                     createMedicationRow(
                             medication,
                             i
                     );
+
 
             medicationList.addView(
                     medicationRow
@@ -767,7 +1051,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
             int position) {
 
         LinearLayout row =
-                new LinearLayout(this);
+                new LinearLayout(
+                        this
+                );
 
         row.setOrientation(
                 LinearLayout.VERTICAL
@@ -781,8 +1067,14 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
+        // -----------------------------------------
+        // MEDICATION NAME
+        // -----------------------------------------
+
         TextView medicationName =
-                new TextView(this);
+                new TextView(
+                        this
+                );
 
         medicationName.setText(
                 medication.name
@@ -802,11 +1094,18 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
+        // -----------------------------------------
+        // MEDICATION DETAILS
+        // -----------------------------------------
+
         TextView medicationDetails =
-                new TextView(this);
+                new TextView(
+                        this
+                );
 
 
         String priceText;
+
 
         if (medication.price > 0) {
 
@@ -841,8 +1140,14 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
+        // -----------------------------------------
+        // REMOVE
+        // -----------------------------------------
+
         Button removeButton =
-                new Button(this);
+                new Button(
+                        this
+                );
 
         removeButton.setText(
                 "Remove"
@@ -853,21 +1158,20 @@ public class MedicationOrderActivity extends AppCompatActivity {
         );
 
 
-        removeButton.setOnClickListener(v -> {
+        removeButton.setOnClickListener(
+                v -> {
 
-            medications.remove(
-                    position
-            );
+                    medications.remove(
+                            position
+                    );
 
-            // Pharmacy price was associated with the
-            // current medication selection.
+                    clearSelectedPharmacy();
 
-            clearSelectedPharmacy();
+                    displayMedications();
 
-            displayMedications();
-
-            calculateMedicationTotal();
-        });
+                    calculateMedicationTotal();
+                }
+        );
 
 
         row.addView(
@@ -893,11 +1197,17 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
     private void clearMedicationInputs() {
 
-        medicationNameInput.setText("");
+        medicationNameInput.setText(
+                ""
+        );
 
-        dosageInput.setText("");
+        dosageInput.setText(
+                ""
+        );
 
-        quantityInput.setText("");
+        quantityInput.setText(
+                ""
+        );
 
         medicationNameInput.requestFocus();
     }
@@ -909,10 +1219,21 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
     private void clearSelectedPharmacy() {
 
-        selectedPharmacyId = null;
-        selectedPharmacyNameValue = null;
-        selectedPharmacyLocation = null;
-        selectedPharmacyDistanceValue = null;
+        selectedPharmacyId =
+                null;
+
+        selectedPharmacyNameValue =
+                null;
+
+        selectedPharmacyLocation =
+                null;
+
+        selectedPharmacyDistanceValue =
+                null;
+
+
+        selectedMedicationName =
+                null;
 
         selectedMedicationPriceValue =
                 0.00;
@@ -921,13 +1242,21 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 null;
 
 
+        selectedPharmacyOffersDelivery =
+                false;
+
+        selectedPharmacyDeliveryFee =
+                0.00;
+
+
         selectedPharmacySection.setVisibility(
                 View.GONE
         );
 
 
-        // Reset medication prices because they must
-        // come from a selected pharmacy.
+        // -----------------------------------------
+        // RESET MEDICATION PRICES
+        // -----------------------------------------
 
         for (Medication medication :
                 medications) {
@@ -937,8 +1266,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
-        // Until delivery information is connected
-        // to the selected pharmacy, reset delivery.
+        // -----------------------------------------
+        // RESET DELIVERY
+        // -----------------------------------------
 
         deliveryFee =
                 0.00;
@@ -947,9 +1277,16 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 false
         );
 
+        deliveryRadio.setEnabled(
+                false
+        );
+
         deliverySection.setVisibility(
                 View.GONE
         );
+
+
+        updateOrderSummary();
     }
 
 
@@ -963,24 +1300,62 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 .setOnCheckedChangeListener(
                         (group, checkedId) -> {
 
+
+                            // ---------------------------------
+                            // DELIVERY
+                            // ---------------------------------
+
                             if (checkedId
                                     == R.id.deliveryRadio) {
+
+
+                                if (!selectedPharmacyOffersDelivery) {
+
+                                    deliveryRadio.setChecked(
+                                            false
+                                    );
+
+                                    collectionRadio.setChecked(
+                                            true
+                                    );
+
+                                    deliverySection.setVisibility(
+                                            View.GONE
+                                    );
+
+                                    deliveryFee =
+                                            0.00;
+
+
+                                    Toast.makeText(
+                                            this,
+                                            "This pharmacy does not offer delivery.",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+
+                                    updateOrderSummary();
+
+                                    return;
+                                }
+
 
                                 deliverySection.setVisibility(
                                         View.VISIBLE
                                 );
 
-                                /*
-                                 * TEMPORARY.
-                                 *
-                                 * Next step:
-                                 * this will come from the selected
-                                 * pharmacy's delivery_fee field.
-                                 */
-                                deliveryFee =
-                                        35.00;
 
-                            } else {
+                                deliveryFee =
+                                        selectedPharmacyDeliveryFee;
+
+
+                            } else if (checkedId
+                                    == R.id.collectionRadio) {
+
+
+                                // ---------------------------------
+                                // COLLECTION
+                                // ---------------------------------
 
                                 deliverySection.setVisibility(
                                         View.GONE
@@ -989,6 +1364,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                                 deliveryFee =
                                         0.00;
                             }
+
 
                             updateOrderSummary();
                         }
@@ -1005,12 +1381,14 @@ public class MedicationOrderActivity extends AppCompatActivity {
         medicationTotal =
                 0.00;
 
+
         for (Medication medication :
                 medications) {
 
             medicationTotal +=
                     medication.price;
         }
+
 
         updateOrderSummary();
     }
@@ -1061,7 +1439,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
     private void confirmOrder() {
 
+        // -----------------------------------------
         // MEDICATION
+        // -----------------------------------------
 
         if (medications.isEmpty()) {
 
@@ -1074,7 +1454,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
+        // -----------------------------------------
         // PHARMACY
+        // -----------------------------------------
 
         if (selectedPharmacyId == null
                 || selectedPharmacyNameValue == null) {
@@ -1088,7 +1470,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
-        // MAKE SURE A REAL PRICE WAS SELECTED
+        // -----------------------------------------
+        // PRICE
+        // -----------------------------------------
 
         if (selectedMedicationPriceValue <= 0) {
 
@@ -1101,9 +1485,12 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
+        // -----------------------------------------
         // DELIVERY METHOD
+        // -----------------------------------------
 
         String method;
+
 
         if (collectionRadio.isChecked()) {
 
@@ -1111,6 +1498,16 @@ public class MedicationOrderActivity extends AppCompatActivity {
                     "Collection";
 
         } else if (deliveryRadio.isChecked()) {
+
+            if (!selectedPharmacyOffersDelivery) {
+
+                showMessage(
+                        "Delivery Unavailable",
+                        "The selected pharmacy does not offer delivery."
+                );
+
+                return;
+            }
 
             method =
                     "Delivery";
@@ -1126,7 +1523,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
+        // -----------------------------------------
         // DELIVERY ADDRESS
+        // -----------------------------------------
 
         if (deliveryRadio.isChecked()) {
 
@@ -1135,6 +1534,7 @@ public class MedicationOrderActivity extends AppCompatActivity {
                             .getText()
                             .toString()
                             .trim();
+
 
             if (address.isEmpty()) {
 
@@ -1147,9 +1547,13 @@ public class MedicationOrderActivity extends AppCompatActivity {
         }
 
 
+        // -----------------------------------------
         // CONFIRMATION
+        // -----------------------------------------
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(
+                this
+        )
 
                 .setTitle(
                         "Confirm Order"
@@ -1218,48 +1622,259 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // PLACE ORDER
-    // =========================================================
+// PLACE ORDER
+// =========================================================
 
     private void placeOrder() {
 
-        /*
-         * This is still temporary.
-         *
-         * Next stage will send the order to PHP/MySQL
-         * and use the real database order ID.
-         */
+        if (medications.isEmpty()) {
+            return;
+        }
 
-        String orderId =
-                "PH"
-                        + System.currentTimeMillis();
+        // -----------------------------------------------------
+        // GET LOGGED-IN PATIENT
+        // -----------------------------------------------------
+
+        SessionManager sessionManager =
+                new SessionManager(this);
+
+        String patientId =
+                sessionManager.getUserId();
+
+        if (patientId == null
+                || patientId.trim().isEmpty()) {
+
+            showMessage(
+                    "Session Error",
+                    "Unable to identify the logged-in patient."
+            );
+
+            return;
+        }
 
 
-        showMessage(
-                "Order Confirmed",
+        // -----------------------------------------------------
+        // GET MEDICATION
+        // -----------------------------------------------------
 
-                "Your medication order has been placed."
+        Medication medication =
+                medications.get(0);
 
-                        + "\n\n"
 
-                        + "Order ID: "
-                        + orderId
+        // -----------------------------------------------------
+        // FULFILMENT METHOD
+        // -----------------------------------------------------
 
-                        + "\n\n"
+        final String fulfillmentMethod;
+        final String deliveryAddress;
+        final double finalDeliveryFee;
 
-                        + "Pharmacy: "
-                        + selectedPharmacyNameValue
+        if (deliveryRadio.isChecked()) {
 
-                        + "\n\n"
+            fulfillmentMethod = "delivery";
 
-                        + "Total: "
-                        + String.format(
-                        Locale.getDefault(),
-                        "R%.2f",
-                        orderTotal
-                )
+            deliveryAddress =
+                    addressInput
+                            .getText()
+                            .toString()
+                            .trim();
+
+            finalDeliveryFee =
+                    deliveryFee;
+
+        } else {
+
+            fulfillmentMethod = "collection";
+
+            deliveryAddress = "";
+
+            finalDeliveryFee = 0.00;
+        }
+
+
+        // -----------------------------------------------------
+        // PREVENT DOUBLE SUBMISSION
+        // -----------------------------------------------------
+
+        confirmButton.setEnabled(false);
+
+        confirmButton.setText(
+                "Placing Order..."
         );
+
+
+        // -----------------------------------------------------
+        // SEND ORDER TO PHP
+        // -----------------------------------------------------
+
+        RetrofitClient.INSTANCE
+                .getApiService()
+                .createOrder(
+                        patientId,
+                        selectedPharmacyId,
+                        medication.name,
+                        medication.quantity,
+                        orderTotal,
+                        fulfillmentMethod,
+                        deliveryAddress,
+                        finalDeliveryFee
+                )
+                .enqueue(
+                        new Callback<CreateOrderResponse>() {
+
+                            @Override
+                            public void onResponse(
+                                    Call<CreateOrderResponse> call,
+                                    Response<CreateOrderResponse> response) {
+
+                                confirmButton.setEnabled(true);
+
+                                confirmButton.setText(
+                                        "Confirm Order"
+                                );
+
+
+                                if (!response.isSuccessful()
+                                        || response.body() == null) {
+
+                                    showMessage(
+                                            "Order Failed",
+                                            "Unable to place your order."
+                                    );
+
+                                    return;
+                                }
+
+
+                                CreateOrderResponse result =
+                                        response.body();
+
+
+                                if (!result.getSuccess()) {
+
+                                    showMessage(
+                                            "Order Failed",
+                                            result.getMessage()
+                                    );
+
+                                    return;
+                                }
+
+
+                                // -----------------------------------------
+                                // DATABASE ORDER ID
+                                // -----------------------------------------
+
+                                Integer orderId =
+                                        result.getOrder_id();
+
+
+                                if (orderId == null) {
+
+                                    showMessage(
+                                            "Order Error",
+                                            "The order was saved but no order ID was returned."
+                                    );
+
+                                    return;
+                                }
+
+
+                                // -----------------------------------------
+                                // OPEN CONFIRMATION PAGE
+                                // -----------------------------------------
+
+                                Intent intent =
+                                        new Intent(
+                                                MedicationOrderActivity.this,
+                                                OrderConfirmedActivity.class
+                                        );
+
+
+                                intent.putExtra(
+                                        "order_id",
+                                        orderId
+                                );
+
+                                intent.putExtra(
+                                        "medication_name",
+                                        medication.name
+                                );
+
+                                intent.putExtra(
+                                        "dosage",
+                                        medication.dosage
+                                );
+
+                                intent.putExtra(
+                                        "quantity",
+                                        medication.quantity
+                                );
+
+                                intent.putExtra(
+                                        "pharmacy_name",
+                                        selectedPharmacyNameValue
+                                );
+
+                                intent.putExtra(
+                                        "pharmacy_location",
+                                        selectedPharmacyLocation
+                                );
+
+                                intent.putExtra(
+                                        "fulfillment_method",
+                                        fulfillmentMethod
+                                );
+
+                                intent.putExtra(
+                                        "delivery_address",
+                                        deliveryAddress
+                                );
+
+                                intent.putExtra(
+                                        "medication_total",
+                                        medicationTotal
+                                );
+
+                                intent.putExtra(
+                                        "delivery_fee",
+                                        finalDeliveryFee
+                                );
+
+                                intent.putExtra(
+                                        "order_total",
+                                        orderTotal
+                                );
+
+
+                                startActivity(intent);
+
+                                finish();
+                            }
+
+
+                            @Override
+                            public void onFailure(
+                                    Call<CreateOrderResponse> call,
+                                    Throwable t) {
+
+                                confirmButton.setEnabled(true);
+
+                                confirmButton.setText(
+                                        "Confirm Order"
+                                );
+
+
+                                showMessage(
+                                        "Connection Error",
+                                        "Unable to connect to the server."
+                                );
+                            }
+                        }
+                );
     }
+
+
 
 
     // =========================================================
@@ -1268,7 +1883,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
 
     private void cancelOrder() {
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(
+                this
+        )
 
                 .setTitle(
                         "Cancel Order?"
@@ -1301,7 +1918,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
                             medicationMethodGroup
                                     .clearCheck();
 
-                            addressInput.setText("");
+                            addressInput.setText(
+                                    ""
+                            );
 
 
                             prescriptionStatus.setText(
@@ -1342,7 +1961,9 @@ public class MedicationOrderActivity extends AppCompatActivity {
             String title,
             String message) {
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(
+                this
+        )
 
                 .setTitle(
                         title

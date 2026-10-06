@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,6 +26,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.proteahealth.Patient.EmergencyActivity;
+import com.proteahealth.Patient.MedicationPriceComparisonActivity;
+import com.proteahealth.Patient.MedicationsActivity;
+import com.proteahealth.Patient.Patient_Home;
 import com.proteahealth.model.Featurebanner;
 
 import org.json.JSONArray;
@@ -43,6 +49,7 @@ public class BlogActivity extends AppCompatActivity {
     private Button btnNutrition;
 
     private ArticleAdapter articleAdapter;
+    private ListView listArticles;
 
     private RecyclerView recyclerQuestions;
     private QuestionAdapter questionAdapter;
@@ -86,19 +93,11 @@ public class BlogActivity extends AppCompatActivity {
         }
 
 
-        // ----------------------------------------------------
-        // LOCAL QUESTION STORAGE
-        // ----------------------------------------------------
-
         questionStorage = getSharedPreferences(
                 "protea_blog_local_drafts",
                 MODE_PRIVATE
         );
 
-
-        // ----------------------------------------------------
-        // FEATURE BANNER
-        // ----------------------------------------------------
 
         ViewPager2 banner = findViewById(R.id.banner2);
 
@@ -119,13 +118,9 @@ public class BlogActivity extends AppCompatActivity {
         }
 
 
-        // ----------------------------------------------------
-        // ARTICLES / HEALTH TIPS
-        // ----------------------------------------------------
-
         loadSampleArticles();
 
-        ListView listArticles = findViewById(R.id.listArticles);
+        listArticles = findViewById(R.id.listArticles);
 
         visibleArticles.clear();
         visibleArticles.addAll(allArticles);
@@ -136,6 +131,8 @@ public class BlogActivity extends AppCompatActivity {
         );
 
         listArticles.setAdapter(articleAdapter);
+
+        fitListHeight();
 
         listArticles.setOnItemClickListener(
                 (parent, view, position, id) -> {
@@ -149,10 +146,6 @@ public class BlogActivity extends AppCompatActivity {
                 }
         );
 
-
-        // ----------------------------------------------------
-        // SEARCH
-        // ----------------------------------------------------
 
         SearchView searchView = findViewById(R.id.search_bar);
 
@@ -177,10 +170,49 @@ public class BlogActivity extends AppCompatActivity {
                 }
         );
 
+        ImageButton navProfile = findViewById(R.id.navProfile);
+        ImageButton navSetting = findViewById(R.id.navSetting);
+        ImageButton navHome = findViewById(R.id.navhome);
+        ImageButton navEmergency = findViewById(R.id.navEmergency);
+        ImageButton navMed = findViewById(R.id.navMed);
 
-        // ----------------------------------------------------
-        // CATEGORY BUTTONS
-        // ----------------------------------------------------
+        navProfile.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
+                                ProfileActivity .class
+                        )
+                )
+        );
+
+        navHome.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
+                                Patient_Home.class
+                        )
+                )
+        );
+
+        navSetting.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
+                                MedicationPriceComparisonActivity.class
+                        )
+                )
+        );
+
+        navEmergency.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
+                                EmergencyActivity.class
+                        )
+                )
+        );
+
+        navMed.setOnClickListener(view -> startActivity(new Intent(this, MedicationsActivity.class)));
 
         btnAll = findViewById(R.id.btnAll);
         btnDiabetes = findViewById(R.id.btnDiabetes);
@@ -231,10 +263,6 @@ public class BlogActivity extends AppCompatActivity {
         updateCategoryButtons();
 
 
-        // ----------------------------------------------------
-        // COMMUNITY QUESTIONS
-        // ----------------------------------------------------
-
         recyclerQuestions = findViewById(R.id.recyclerQuestions);
 
         recyclerQuestions.setLayoutManager(
@@ -251,10 +279,6 @@ public class BlogActivity extends AppCompatActivity {
         recyclerQuestions.setAdapter(questionAdapter);
 
 
-        // ----------------------------------------------------
-        // ASK QUESTION
-        // ----------------------------------------------------
-
         AppCompatButton btnAskQuestion =
                 findViewById(R.id.btnAskQuestion);
 
@@ -262,10 +286,6 @@ public class BlogActivity extends AppCompatActivity {
                 view -> showQuestionForm()
         );
 
-
-        // ----------------------------------------------------
-        // MY QUESTIONS
-        // ----------------------------------------------------
 
         AppCompatButton btnMyQuestions =
                 findViewById(R.id.btnMyQuestions);
@@ -275,10 +295,6 @@ public class BlogActivity extends AppCompatActivity {
         );
     }
 
-
-    // ========================================================
-    // CATEGORY BUTTONS
-    // ========================================================
 
     private void updateCategoryButtons() {
 
@@ -304,25 +320,62 @@ public class BlogActivity extends AppCompatActivity {
 
     private void resetButton(Button button) {
 
-        button.setTextColor(Color.rgb(50, 50, 50));
-        button.setBackgroundResource(
-                R.drawable.input_background
-        );
+        styleChip(button, false);
     }
 
 
     private void selectButton(Button button) {
 
-        button.setTextColor(Color.WHITE);
-        button.setBackgroundResource(
-                R.drawable.input_background
-        );
+        styleChip(button, true);
     }
 
 
-    // ========================================================
-    // ARTICLES
-    // ========================================================
+    private void styleChip(Button button, boolean selected) {
+
+        float density = getResources().getDisplayMetrics().density;
+
+        int teal = ContextCompat.getColor(this, R.color.teal_700);
+
+        GradientDrawable shape = new GradientDrawable();
+
+        shape.setCornerRadius(20 * density);
+        shape.setColor(selected ? teal : Color.WHITE);
+        shape.setStroke((int) density, teal);
+
+        button.setBackground(shape);
+        button.setTextColor(selected ? Color.WHITE : teal);
+    }
+
+
+    private void fitListHeight() {
+
+        if (articleAdapter == null || listArticles == null) {
+            return;
+        }
+
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(
+                getResources().getDisplayMetrics().widthPixels,
+                View.MeasureSpec.EXACTLY
+        );
+
+        int total = 0;
+
+        for (int i = 0; i < articleAdapter.getCount(); i++) {
+
+            View item = articleAdapter.getView(i, null, listArticles);
+
+            item.measure(widthSpec, View.MeasureSpec.UNSPECIFIED);
+
+            total += item.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listArticles.getLayoutParams();
+
+        params.height = total;
+
+        listArticles.setLayoutParams(params);
+    }
+
 
     private void loadSampleArticles() {
 
@@ -402,12 +455,10 @@ public class BlogActivity extends AppCompatActivity {
         }
 
         articleAdapter.notifyDataSetChanged();
+
+        fitListHeight();
     }
 
-
-    // ========================================================
-    // HEALTH TIP POPUP
-    // ========================================================
 
     private void showHealthTip(Article article) {
         new AlertDialog.Builder(this)
@@ -421,10 +472,6 @@ public class BlogActivity extends AppCompatActivity {
                 .show();
     }
 
-
-    // ========================================================
-    // QUESTION FORM
-    // ========================================================
 
     private void showQuestionForm() {
 
@@ -533,10 +580,6 @@ public class BlogActivity extends AppCompatActivity {
     }
 
 
-    // ========================================================
-    // SAVE QUESTION
-    // ========================================================
-
     private void saveQuestion(
             String question,
             String category,
@@ -596,7 +639,6 @@ public class BlogActivity extends AppCompatActivity {
                     .apply();
 
 
-            // Refresh community feed
             loadQuestions();
 
             questionAdapter.notifyDataSetChanged();
@@ -620,16 +662,11 @@ public class BlogActivity extends AppCompatActivity {
     }
 
 
-    // ========================================================
-    // LOAD QUESTIONS
-    // ========================================================
-
     private void loadQuestions() {
 
         questions.clear();
 
 
-        // Sample community questions
         questions.add(
                 new Question(
                         "Sarah M.",
@@ -669,7 +706,6 @@ public class BlogActivity extends AppCompatActivity {
         );
 
 
-        // Add locally saved questions
         try {
 
             JSONArray array =
@@ -727,10 +763,6 @@ public class BlogActivity extends AppCompatActivity {
     }
 
 
-    // ========================================================
-    // READ QUESTIONS
-    // ========================================================
-
     private JSONArray readQuestions() {
 
         String raw =
@@ -749,10 +781,6 @@ public class BlogActivity extends AppCompatActivity {
         }
     }
 
-
-    // ========================================================
-    // MY QUESTIONS
-    // ========================================================
 
     private void showMyQuestions() {
         Intent intent = new Intent(this, QuestionsActivity.class);
@@ -816,10 +844,6 @@ public class BlogActivity extends AppCompatActivity {
     }
 
 
-    // ========================================================
-    // ARTICLE MODEL
-    // ========================================================
-
     static class Article {
 
         String category;
@@ -842,10 +866,6 @@ public class BlogActivity extends AppCompatActivity {
         }
     }
 
-
-    // ========================================================
-    // ARTICLE ADAPTER
-    // ========================================================
 
     static class ArticleAdapter extends BaseAdapter {
 
@@ -969,10 +989,6 @@ public class BlogActivity extends AppCompatActivity {
     }
 
 
-    // ========================================================
-    // QUESTION MODEL
-    // ========================================================
-
     static class Question {
 
         String userName;
@@ -1004,10 +1020,6 @@ public class BlogActivity extends AppCompatActivity {
         }
     }
 
-
-    // ========================================================
-    // QUESTION ADAPTER
-    // ========================================================
 
     static class QuestionAdapter
             extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
@@ -1059,6 +1071,14 @@ public class BlogActivity extends AppCompatActivity {
                     question.userName
             );
 
+            holder.tvAvatar.setText(
+                    question.userName.isEmpty()
+                            ? "?"
+                            : question.userName.substring(0, 1).toUpperCase()
+            );
+
+            holder.tvDate.setVisibility(View.GONE);
+
             holder.tvCategory.setText(
                     question.category
             );
@@ -1072,24 +1092,24 @@ public class BlogActivity extends AppCompatActivity {
                     question.doctorAnswer
             )) {
 
-                holder.doctorAnswerContainer
-                        .setVisibility(View.VISIBLE);
+                holder.tvDescription.setVisibility(View.VISIBLE);
 
-                holder.tvDoctorName.setText(
-                        question.doctorName
-                );
-
-                holder.tvDoctorAnswer.setText(
+                holder.tvDescription.setText(
                         question.doctorAnswer
                 );
 
-                holder.tvVerified.setVisibility(
-                        question.verified
-                                ? View.VISIBLE
-                                : View.GONE
+                holder.doctorAnswerContainer
+                        .setVisibility(View.VISIBLE);
+
+                holder.tvDoctorAnswer.setText(
+                        (question.verified ? "Verified · " : "")
+                                + "Answered by "
+                                + question.doctorName
                 );
 
             } else {
+
+                holder.tvDescription.setVisibility(View.GONE);
 
                 holder.doctorAnswerContainer
                         .setVisibility(View.GONE);
@@ -1122,12 +1142,13 @@ public class BlogActivity extends AppCompatActivity {
         static class QuestionViewHolder
                 extends RecyclerView.ViewHolder {
 
+            TextView tvAvatar;
             TextView tvName;
+            TextView tvDate;
             TextView tvCategory;
             TextView tvQuestion;
-            TextView tvDoctorName;
+            TextView tvDescription;
             TextView tvDoctorAnswer;
-            TextView tvVerified;
             TextView tvLikes;
 
             LinearLayout doctorAnswerContainer;
@@ -1136,15 +1157,19 @@ public class BlogActivity extends AppCompatActivity {
             QuestionViewHolder(@NonNull View itemView) {
                 super(itemView);
 
+                tvAvatar = itemView.findViewById(R.id.tvQuestionAvatar);
                 tvName = itemView.findViewById(R.id.tvQuestionUser);
+                tvDate = itemView.findViewById(R.id.tvQuestionDate);
                 tvCategory = itemView.findViewById(R.id.tvQuestionTag);
                 tvQuestion = itemView.findViewById(R.id.tvQuestionTitle);
-                tvDoctorName = itemView.findViewById(R.id.tvQuestionUser);
+                tvDescription = itemView.findViewById(R.id.tvQuestionDescription);
                 tvDoctorAnswer = itemView.findViewById(R.id.tvDoctorAnswer);
-                tvVerified = itemView.findViewById(R.id.tvQuestionTag);
                 tvLikes = itemView.findViewById(R.id.tvCommentCount);
                 doctorAnswerContainer = itemView.findViewById(R.id.layoutDoctorAnswer);
             }
         }
     }
 }
+
+
+

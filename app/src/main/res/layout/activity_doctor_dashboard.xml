@@ -1,301 +1,522 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:id="@+id/doctorRoot"
+
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
+
     android:background="#F7FAF9">
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="70dp"
-    android:fillViewport="true">
+    <ScrollView
 
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="28dp">
+
+        android:layout_height="match_parent"
+
+        android:layout_marginBottom="70dp"
+
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:contentDescription="Protea Health logo"
-                android:scaleType="fitCenter"
-                android:src="@drawable/project_logo_mark" />
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:paddingStart="16dp"
+
+            android:paddingTop="16dp"
+
+            android:paddingEnd="16dp"
+
+            android:paddingBottom="28dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
+
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="52dp"
+
+                    android:layout_height="52dp"
+
+                    android:contentDescription="Protea Health logo"
+
+                    android:scaleType="fitCenter"
+
+                    android:src="@drawable/project_logo_mark" />
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="10dp"
+
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="3dp"
+
+                        android:text="Doctor dashboard"
+
+                        android:textColor="#152C29"
+
+                        android:textSize="21sp"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatImageButton
+
+                    android:id="@+id/btnNotifications"
+
+                    android:layout_width="48dp"
+
+                    android:layout_height="48dp"
+
+                    android:background="@drawable/bg_home_notification"
+
+                    android:contentDescription="Notifications"
+
+                    android:padding="12dp"
+
+                    app:srcCompat="@drawable/ic_home_bell"
+
+                    app:tint="#111111" />
+            </LinearLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+
+                android:id="@+id/banner3"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="190dp"
+
+                android:layout_marginStart="20dp"
+
+                android:layout_marginTop="16dp"
+
+                android:layout_marginEnd="20dp"
+
+                android:clipChildren="false"
+
+                android:clipToPadding="false" />
+
+            <!-- Banner indicator dots -->
+            <LinearLayout
+
+                android:id="@+id/bannerDots"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+
+                android:layout_marginTop="8dp"
+
+                android:gravity="center"
+
+                android:orientation="horizontal" />
+
+            <TextView
+
+                android:id="@+id/tvPreviewLabel"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
+                android:text="PREVIEW DATA · Decisions are stored on this device only"
+
+                android:textColor="#875000"
+
+                android:textSize="12sp"
+
+                android:textStyle="bold"
+
+                android:visibility="gone" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:id="@+id/tvTodayAppointmentsCount"
+
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginEnd="6dp"
+
+                    android:layout_weight="1"
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:backgroundTint="@color/white"
+
+                    android:gravity="center"
+
+                    android:minHeight="92dp"
+
+                    android:padding="12dp"
+
+                    android:text="—\nRequests today"
+
+                    android:textColor="#0C514A"
+
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:id="@+id/tvFollowUpsCount"
+
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="6dp"
+
+                    android:layout_weight="1"
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:backgroundTint="#1B4E0B"
+
+                    android:gravity="center"
+
+                    android:minHeight="92dp"
+
+                    android:padding="12dp"
+
+                    android:text="—\nOpen follow-ups"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="24dp"
+
+                android:text="Appointment requests"
+
+                android:textColor="@color/green"
+
+                android:textSize="19sp"
+
+                android:textStyle="bold" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="4dp"
+
+                android:text="Pending requests appear first, then by assigned category."
+
+                android:textColor="#52605D"
+
+                android:textSize="13sp" />
+
+            <LinearLayout
+
+                android:id="@+id/appointmentsContainer"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
                 android:orientation="vertical">
 
                 <TextView
+
+                    android:id="@+id/tvAppointmentsEmpty"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:text="PROTEA HEALTH"
-                    android:textColor="#0C514A"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:padding="18dp"
+
+                    android:text="No appointment requests to display."
+
+                    android:textColor="#52605D"
+
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:text="Priority follow-ups"
+
+                android:textColor="@color/green"
+
+                android:textSize="19sp"
+
+                android:textStyle="bold" />
+
+            <LinearLayout
+
+                android:id="@+id/followUpsContainer"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
+                android:orientation="vertical">
 
                 <TextView
+
+                    android:id="@+id/tvFollowUpsEmpty"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="Doctor dashboard"
-                    android:textColor="#152C29"
-                    android:textSize="21sp"
-                    android:textStyle="bold" />
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:padding="18dp"
+
+                    android:text="No open follow-ups."
+
+                    android:textColor="#52605D"
+
+                    android:textSize="15sp" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_home_banner"
-            android:orientation="vertical"
-            android:padding="20dp">
 
             <TextView
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:text="Today’s overview"
-                android:textColor="#FFFFFF"
-                android:textSize="21sp"
+
+                android:layout_marginTop="24dp"
+
+                android:text="Patient questions"
+
+                android:textColor="@color/green"
+
+                android:textSize="19sp"
+
                 android:textStyle="bold" />
 
             <TextView
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="4dp"
-                android:text="Review requests and follow up with your patients."
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvPreviewLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="PREVIEW DATA · Decisions are stored on this device only"
-            android:textColor="#875000"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+                android:text="Read questions and answer those awaiting a response."
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+                android:textColor="#52605D"
+
+                android:textSize="13sp" />
+
+            <LinearLayout
+
+                android:id="@+id/questionsContainer"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:id="@+id/tvQuestionsEmpty"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:padding="18dp"
+
+                    android:text="No patient questions to display."
+
+                    android:textColor="#52605D"
+
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvTodayAppointmentsCount"
-                android:layout_width="0dp"
+
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_home_card"
-                android:backgroundTint="#DDF2F0"
-                android:gravity="center"
-                android:minHeight="92dp"
-                android:padding="12dp"
-                android:text="—\nRequests today"
-                android:textColor="#0C514A"
-                android:textSize="16sp"
+
+                android:layout_marginTop="16dp"
+
+                android:text="Health tips"
+
+                android:textColor="@color/green"
+
+                android:textSize="19sp"
+
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvFollowUpsCount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_home_card"
-                android:backgroundTint="#FFF0DF"
-                android:gravity="center"
-                android:minHeight="92dp"
-                android:padding="12dp"
-                android:text="—\nOpen follow-ups"
-                android:textColor="#66420F"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Appointment requests"
-            android:textColor="#152C29"
-            android:textSize="19sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Pending requests appear first, then by assigned category."
-            android:textColor="#52605D"
-            android:textSize="13sp" />
-
-        <LinearLayout
-            android:id="@+id/appointmentsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvAppointmentsEmpty"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_home_card"
-                android:padding="18dp"
-                android:text="No appointment requests to display."
-                android:textColor="#52605D"
-                android:textSize="15sp" />
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Priority follow-ups"
-            android:textColor="#152C29"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+                android:layout_marginTop="4dp"
 
-        <LinearLayout
-            android:id="@+id/followUpsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical">
+                android:text="Write and review tips for patients."
 
-            <TextView
-                android:id="@+id/tvFollowUpsEmpty"
+                android:textColor="@color/black"
+
+                android:textSize="13sp" />
+
+            <Button
+
+                android:id="@+id/btnPostTip"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_home_card"
-                android:padding="18dp"
-                android:text="No open follow-ups."
-                android:textColor="#52605D"
-                android:textSize="15sp" />
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Patient questions"
-            android:textColor="#152C29"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+                android:layout_marginTop="12dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Read questions and answer those awaiting a response."
-            android:textColor="#52605D"
-            android:textSize="13sp" />
+                android:background="@drawable/green_button"
 
-        <LinearLayout
-            android:id="@+id/questionsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical">
+                android:minHeight="48dp"
 
-            <TextView
-                android:id="@+id/tvQuestionsEmpty"
+                android:padding="15dp"
+
+                android:text="Post a health tip"
+
+                android:textAllCaps="false"
+
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+
+                android:id="@+id/tipsContainer"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_home_card"
-                android:padding="18dp"
-                android:text="No patient questions to display."
-                android:textColor="#52605D"
-                android:textSize="15sp" />
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Health tips"
-            android:textColor="#152C29"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+                android:layout_marginTop="12dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Write and review tips for patients."
-            android:textColor="#52605D"
-            android:textSize="13sp" />
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnPostTip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="#159EA5"
-            android:minHeight="48dp"
-            android:text="Post a health tip"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+                <TextView
 
-        <LinearLayout
-            android:id="@+id/tipsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical">
+                    android:id="@+id/tvTipsEmpty"
 
-            <TextView
-                android:id="@+id/tvTipsEmpty"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/bg_home_card"
+
+                    android:padding="18dp"
+
+                    android:text="No health tips posted in this preview yet."
+
+                    android:textColor="#52605D"
+
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <Button
+
+                android:id="@+id/btnSearchPatients"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_home_card"
-                android:padding="18dp"
-                android:text="No health tips posted in this preview yet."
-                android:textColor="#52605D"
-                android:textSize="15sp" />
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnSearchPatients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:backgroundTint="#0C514A"
-            android:minHeight="48dp"
-            android:text="Find dashboard patients"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-</ScrollView>
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="22dp"
+
+                android:background="@drawable/pink_button"
+
+                android:backgroundTint="#0C514A"
+
+                android:minHeight="48dp"
+
+                android:text="Find dashboard patients"
+
+                android:textAllCaps="false"
+
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </ScrollView>
 
     <include
+
         layout="@layout/doctor_bottom_nav"
+
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
+
         android:layout_gravity="bottom" />
 
 </FrameLayout>

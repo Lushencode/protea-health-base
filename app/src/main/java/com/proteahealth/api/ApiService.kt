@@ -100,4 +100,22 @@ interface ApiService {
 
     @GET("get_pharmacies.php")
     fun getPharmacies(): Call<PharmacyResponse>
+
+    @GET("get_medication_prices.php")
+    fun getMedicationPrices(
+        @Query("medication_name") medicationName: String
+    ): Call<MedicationPriceResponse>
+
+    @FormUrlEncoded
+    @POST("create_order.php")
+    fun createOrder(
+        @Field("patient_id") patientId: String,
+        @Field("pharmacy_id") pharmacyId: String,
+        @Field("medication_name") medicationName: String,
+        @Field("quantity") quantity: Int,
+        @Field("amount") amount: Double,
+        @Field("fulfillment_method") fulfillmentMethod: String,
+        @Field("delivery_address") deliveryAddress: String,
+        @Field("delivery_fee") deliveryFee: Double
+    ): Call<CreateOrderResponse>
 }

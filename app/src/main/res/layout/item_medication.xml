@@ -92,26 +92,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <!-- TAKEN / UNDO ROW -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnLogTaken"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Log as Taken"
+                    android:textSize="13sp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/btn_log_taken_bg" />
+
+                <Button
+                    android:id="@+id/btnUndoTaken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Undo"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- REFILL -->
 
             <Button
-                android:id="@+id/btnLogTaken"
-                android:layout_width="0dp"
+                android:id="@+id/btnRefill"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Log as Taken"
+                android:layout_marginTop="8dp"
+                android:text="Refill Medication"
                 android:textSize="13sp"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/btn_log_taken_bg" />
-
-            <Button
-                android:id="@+id/btnUndoTaken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Undo"
-                android:textSize="13sp"
-                android:visibility="gone" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>

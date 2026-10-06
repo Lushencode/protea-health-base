@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Protea Health pink -->
+    <solid android:color="#BA1E8B" />
+
+    <!-- Rounded corners -->
+    <corners android:radius="16dp" />
+
+</shape>

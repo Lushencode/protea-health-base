@@ -23,7 +23,7 @@ import com.proteahealth.R;
 
 import java.util.Calendar;
 
-public class Appointment extends AppCompatActivity {
+public class AppointmentActivity extends AppCompatActivity {
 
     // Appointment fields
     private Spinner appointmentTypeSpinner;
@@ -194,7 +194,7 @@ public class Appointment extends AppCompatActivity {
 
             DatePickerDialog datePickerDialog =
                     new DatePickerDialog(
-                            Appointment.this,
+                            AppointmentActivity.this,
                             (view, selectedYear, selectedMonth, selectedDay) -> {
 
                                 String selectedDate =
@@ -232,7 +232,7 @@ public class Appointment extends AppCompatActivity {
 
             TimePickerDialog timePickerDialog =
                     new TimePickerDialog(
-                            Appointment.this,
+                            AppointmentActivity.this,
                             (view, selectedHour, selectedMinute) -> {
 
                                 String formattedTime =

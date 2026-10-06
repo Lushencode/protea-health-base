@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalendarDateText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">#222222</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CalendarWeekDayText" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">#D81B60</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

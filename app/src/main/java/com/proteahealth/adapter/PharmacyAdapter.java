@@ -22,57 +22,80 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 public class PharmacyAdapter
         extends RecyclerView.Adapter<PharmacyAdapter.PharmacyViewHolder> {
 
+
+    // =========================================================
+    // PHARMACY SELECTION LISTENER
+    // =========================================================
+
     public interface OnPharmacySelectedListener {
+
         void onPharmacySelected(
                 Pharmacy pharmacy,
                 Medication medication
         );
     }
 
+
     private OnPharmacySelectedListener selectionListener;
+
 
     // Original complete list
     private final List<Pharmacy> allPharmacies;
 
-    // Pharmacies currently being displayed
+
+    // Pharmacies currently displayed
     private final List<Pharmacy> displayedPharmacies;
 
 
-    // ============================================================
-    // CONSTRUCTOR
-    // ============================================================
+    // =========================================================
+    // CONSTRUCTOR WITHOUT LISTENER
+    // =========================================================
 
-    public PharmacyAdapter(List<Pharmacy> pharmacies) {
-
-
+    public PharmacyAdapter(
+            List<Pharmacy> pharmacies) {
 
         allPharmacies =
-                new ArrayList<>(pharmacies);
+                new ArrayList<>(
+                        pharmacies
+                );
 
         displayedPharmacies =
-                new ArrayList<>(pharmacies);
+                new ArrayList<>(
+                        pharmacies
+                );
     }
+
+
+    // =========================================================
+    // CONSTRUCTOR WITH LISTENER
+    // =========================================================
 
     public PharmacyAdapter(
             List<Pharmacy> pharmacies,
-            OnPharmacySelectedListener selectionListener
-    ) {
+            OnPharmacySelectedListener selectionListener) {
 
         allPharmacies =
-                new ArrayList<>(pharmacies);
+                new ArrayList<>(
+                        pharmacies
+                );
 
         displayedPharmacies =
-                new ArrayList<>(pharmacies);
+                new ArrayList<>(
+                        pharmacies
+                );
 
-        this.selectionListener = selectionListener;
+        this.selectionListener =
+                selectionListener;
     }
 
-    // ============================================================
+
+    // =========================================================
     // CREATE PHARMACY CARD
-    // ============================================================
+    // =========================================================
 
     @NonNull
     @Override
@@ -81,20 +104,23 @@ public class PharmacyAdapter
             int viewType) {
 
         View view =
-                LayoutInflater.from(parent.getContext())
+                LayoutInflater
+                        .from(parent.getContext())
                         .inflate(
                                 R.layout.item_pharmacy,
                                 parent,
                                 false
                         );
 
-        return new PharmacyViewHolder(view);
+        return new PharmacyViewHolder(
+                view
+        );
     }
 
 
-    // ============================================================
+    // =========================================================
     // DISPLAY PHARMACY INFORMATION
-    // ============================================================
+    // =========================================================
 
     @Override
     public void onBindViewHolder(
@@ -102,54 +128,114 @@ public class PharmacyAdapter
             int position) {
 
         Pharmacy pharmacy =
-                displayedPharmacies.get(position);
+                displayedPharmacies.get(
+                        position
+                );
 
 
-        // --------------------------------------------------------
+        // =====================================================
         // PHARMACY NAME
-        // --------------------------------------------------------
+        // =====================================================
 
         holder.tvPharmacyName.setText(
                 pharmacy.getName()
         );
 
 
-        // --------------------------------------------------------
+        // =====================================================
         // LOCATION
-        // --------------------------------------------------------
+        // =====================================================
 
-        holder.tvLocation.setText(
-                pharmacy.getLocation()
-        );
+        String location =
+                pharmacy.getLocation();
+
+        if (location == null
+                || location.trim().isEmpty()) {
+
+            holder.tvLocation.setText(
+                    "Location unavailable"
+            );
+
+        } else {
+
+            holder.tvLocation.setText(
+                    location
+            );
+        }
 
 
-        // --------------------------------------------------------
+        // =====================================================
         // DISTANCE
-        // --------------------------------------------------------
+        // =====================================================
 
-        holder.tvDistance.setText(
-                pharmacy.getDistance()
-        );
+        String distance =
+                pharmacy.getDistance();
+
+        if (distance == null
+                || distance.trim().isEmpty()) {
+
+            holder.tvDistance.setText(
+                    "Distance unavailable"
+            );
+
+        } else {
+
+            holder.tvDistance.setText(
+                    distance
+            );
+        }
+
+        if (pharmacy.isOffersDelivery()) {
+
+            holder.tvDelivery.setText(
+                    String.format(
+                            java.util.Locale.getDefault(),
+                            "Delivery available — R%.2f",
+                            pharmacy.getDeliveryFee()
+                    )
+            );
+
+        } else {
+
+            holder.tvDelivery.setText(
+                    "Collection only"
+            );
+        }
 
 
-        // --------------------------------------------------------
+        // =====================================================
         // OPENING HOURS
-        // --------------------------------------------------------
+        // =====================================================
 
-        holder.tvOpenHours.setText(
-                "Open " + pharmacy.getOpenHours()
-        );
+        String openHours =
+                pharmacy.getOpenHours();
+
+        if (openHours == null
+                || openHours.trim().isEmpty()) {
+
+            holder.tvOpenHours.setText(
+                    "Hours unavailable"
+            );
+
+        } else {
+
+            holder.tvOpenHours.setText(
+                    "Open " + openHours
+            );
+        }
 
 
-        // --------------------------------------------------------
-        // MEDICATION
-        // --------------------------------------------------------
+        // =====================================================
+        // MEDICATION INFORMATION
+        // =====================================================
 
         if (pharmacy.getMedications() != null
                 && !pharmacy.getMedications().isEmpty()) {
 
             Medication medication =
-                    pharmacy.getMedications().get(0);
+                    pharmacy
+                            .getMedications()
+                            .get(0);
 
 
             holder.tvMedicationName.setText(
@@ -176,37 +262,52 @@ public class PharmacyAdapter
             );
         }
 
-        holder.itemView.setOnClickListener(v -> {
 
-            if (selectionListener == null) {
-                return;
-            }
+        // =====================================================
+        // SELECT PHARMACY
+        // =====================================================
 
-            if (pharmacy.getMedications() == null
-                    || pharmacy.getMedications().isEmpty()) {
+        holder.itemView.setOnClickListener(
+                v -> {
 
-                Toast.makeText(
-                        v.getContext(),
-                        "Medication unavailable at this pharmacy",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-                return;
-            }
-
-            Medication medication =
-                    pharmacy.getMedications().get(0);
-
-            selectionListener.onPharmacySelected(
-                    pharmacy,
-                    medication
-            );
-        });
+                    if (selectionListener == null) {
+                        return;
+                    }
 
 
-        // ========================================================
-        // VIEW PHARMACY BUTTON
-        // ========================================================
+                    if (pharmacy.getMedications() == null
+                            || pharmacy
+                            .getMedications()
+                            .isEmpty()) {
+
+                        Toast.makeText(
+                                v.getContext(),
+                                "Medication unavailable at this pharmacy",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        return;
+                    }
+
+
+                    Medication medication =
+                            pharmacy
+                                    .getMedications()
+                                    .get(0);
+
+
+                    selectionListener
+                            .onPharmacySelected(
+                                    pharmacy,
+                                    medication
+                            );
+                }
+        );
+
+
+        // =====================================================
+        // VIEW PHARMACY IN GOOGLE MAPS
+        // =====================================================
 
         holder.btnViewPharmacy.setOnClickListener(
                 v -> {
@@ -218,7 +319,15 @@ public class PharmacyAdapter
                             pharmacy.getLocation();
 
 
-                    // Combine pharmacy name and address
+                    if (pharmacyName == null) {
+                        pharmacyName = "";
+                    }
+
+                    if (pharmacyAddress == null) {
+                        pharmacyAddress = "";
+                    }
+
+
                     String searchQuery =
                             pharmacyName
                                     + ", "
@@ -227,29 +336,32 @@ public class PharmacyAdapter
 
                     try {
 
-                        // Encode the search text
                         String encodedQuery =
                                 URLEncoder.encode(
                                         searchQuery,
-                                        StandardCharsets.UTF_8.toString()
+                                        StandardCharsets.UTF_8
+                                                .toString()
                                 );
 
 
-                        // Google Maps search URL
                         String googleMapsUrl =
                                 "https://www.google.com/maps/search/?api=1&query="
                                         + encodedQuery;
 
 
-                        // Open Google Maps
                         Intent intent =
                                 new Intent(
                                         Intent.ACTION_VIEW,
-                                        Uri.parse(googleMapsUrl)
+                                        Uri.parse(
+                                                googleMapsUrl
+                                        )
                                 );
 
 
-                        v.getContext().startActivity(intent);
+                        v.getContext()
+                                .startActivity(
+                                        intent
+                                );
 
 
                     } catch (Exception e) {
@@ -265,9 +377,9 @@ public class PharmacyAdapter
     }
 
 
-    // ============================================================
+    // =========================================================
     // NUMBER OF PHARMACIES
-    // ============================================================
+    // =========================================================
 
     @Override
     public int getItemCount() {
@@ -276,9 +388,9 @@ public class PharmacyAdapter
     }
 
 
-    // ============================================================
-    // SEARCH / FILTER
-    // ============================================================
+    // =========================================================
+    // FILTER BY MEDICATION
+    // =========================================================
 
     public void filterByMedication(
             String searchText) {
@@ -286,9 +398,9 @@ public class PharmacyAdapter
         displayedPharmacies.clear();
 
 
-        // --------------------------------------------------------
+        // =====================================================
         // EMPTY SEARCH
-        // --------------------------------------------------------
+        // =====================================================
 
         if (searchText == null
                 || searchText.trim().isEmpty()) {
@@ -307,12 +419,13 @@ public class PharmacyAdapter
                             );
 
 
-            // ----------------------------------------------------
-            // SEARCH THROUGH PHARMACIES
-            // ----------------------------------------------------
+            // =================================================
+            // SEARCH EACH PHARMACY
+            // =================================================
 
             for (Pharmacy pharmacy :
                     allPharmacies) {
+
 
                 if (pharmacy.getMedications()
                         == null) {
@@ -321,24 +434,33 @@ public class PharmacyAdapter
                 }
 
 
-                // ------------------------------------------------
+                // =============================================
                 // SEARCH MEDICATIONS
-                // ------------------------------------------------
+                // =============================================
 
                 for (Medication medication :
                         pharmacy.getMedications()) {
 
-                    if (medication.getName()
+
+                    if (medication.getName() == null) {
+                        continue;
+                    }
+
+
+                    if (medication
+                            .getName()
                             .toLowerCase(
                                     Locale.getDefault()
                             )
-                            .contains(search)) {
+                            .contains(
+                                    search
+                            )) {
 
                         displayedPharmacies.add(
                                 pharmacy
                         );
 
-                        // Prevent duplicate pharmacies
+                        // Prevent duplicate pharmacy cards
                         break;
                     }
                 }
@@ -346,17 +468,17 @@ public class PharmacyAdapter
         }
 
 
-        // Refresh RecyclerView
         notifyDataSetChanged();
     }
 
 
-    // ============================================================
+    // =========================================================
     // VIEW HOLDER
-    // ============================================================
+    // =========================================================
 
     public static class PharmacyViewHolder
             extends RecyclerView.ViewHolder {
+
 
         TextView tvPharmacyName;
         TextView tvLocation;
@@ -367,16 +489,16 @@ public class PharmacyAdapter
 
         Button btnViewPharmacy;
 
+        TextView tvDelivery;
+
 
         public PharmacyViewHolder(
                 @NonNull View itemView) {
 
-            super(itemView);
+            super(
+                    itemView
+            );
 
-
-            // ----------------------------------------------------
-            // CONNECT TEXT VIEWS
-            // ----------------------------------------------------
 
             tvPharmacyName =
                     itemView.findViewById(
@@ -414,13 +536,14 @@ public class PharmacyAdapter
                     );
 
 
-            // ----------------------------------------------------
-            // CONNECT VIEW PHARMACY BUTTON
-            // ----------------------------------------------------
-
             btnViewPharmacy =
                     itemView.findViewById(
                             R.id.btnViewPharmacy
+                    );
+
+            tvDelivery =
+                    itemView.findViewById(
+                            R.id.tvDelivery
                     );
         }
     }

@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import android.content.Intent;
 
+import com.proteahealth.MedicationOrderActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -161,6 +163,41 @@ public class MedicationAdapter
                     holder,
                     medication,
                     "undo"
+            );
+        });
+
+        // -----------------------------------------
+// REFILL MEDICATION
+// -----------------------------------------
+
+        holder.btnRefill.setOnClickListener(v -> {
+
+            Intent intent =
+                    new Intent(
+                            v.getContext(),
+                            MedicationOrderActivity.class
+                    );
+
+            intent.putExtra(
+                    "refill_medication_name",
+                    medication.getMedication_name()
+            );
+
+            intent.putExtra(
+                    "refill_dosage",
+                    medication.getDosage()
+            );
+
+            /*
+             * Refill using the originally prescribed quantity.
+             */
+            intent.putExtra(
+                    "refill_quantity",
+                    medication.getQuantity()
+            );
+
+            v.getContext().startActivity(
+                    intent
             );
         });
     }
@@ -504,6 +541,8 @@ public class MedicationAdapter
         Button btnLogTaken;
         Button btnUndoTaken;
 
+        Button btnRefill;
+
         MedicationViewHolder(
                 @NonNull View itemView
         ) {
@@ -548,6 +587,11 @@ public class MedicationAdapter
             btnUndoTaken =
                     itemView.findViewById(
                             R.id.btnUndoTaken
+                    );
+
+            btnRefill =
+                    itemView.findViewById(
+                            R.id.btnRefill
                     );
         }
     }

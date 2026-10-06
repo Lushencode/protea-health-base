@@ -52,7 +52,7 @@ public class Patient_Home extends AppCompatActivity {
         btnAppointment.setOnClickListener(v -> {
             Intent intent = new Intent(
                     Patient_Home.this,
-                    Appointment.class
+                    AppointmentActivity.class
             );
 
             startActivity(intent);
