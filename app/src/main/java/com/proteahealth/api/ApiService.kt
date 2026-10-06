@@ -7,6 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.Call
+import retrofit2.http.FieldMap
 
 interface ApiService {
 
@@ -84,6 +85,19 @@ interface ApiService {
         @Field("id") id: String,
         @Field("role") role: String
     ): Response<ProfileResponse>
+
+    @FormUrlEncoded
+    @POST("get_profile.php")
+    fun getProfileCall(
+        @Field("id") id: String,
+        @Field("role") role: String
+    ): Call<ProfileResponse>
+
+    @FormUrlEncoded
+    @POST("update_profile.php")
+    fun updateProfile(
+        @FieldMap fields: Map<String, String>
+    ): Call<UpdateProfileResponse>
 
     @GET("get_medications.php")
     fun getMedications(

@@ -21,10 +21,73 @@ import com.proteahealth.Patient.MedicationPriceComparisonActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CancellationException
 import android.app.Activity
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationManagerCompat
+
 
 class ProfileActivity : AppCompatActivity() {
 
+    private val notificationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+
+            val switchNotifications =
+                findViewById<SwitchCompat>(R.id.switchNotifications)
+
+
+
+
+            if (isGranted) {
+                switchNotifications.isChecked = true
+
+                getSharedPreferences(
+                    "notification_preferences",
+                    MODE_PRIVATE
+                ).edit()
+                    .putBoolean("notifications_enabled", true)
+                    .apply()
+
+                Toast.makeText(
+                    this,
+                    "Notifications enabled",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+                switchNotifications.isChecked = false
+
+                getSharedPreferences(
+                    "notification_preferences",
+                    MODE_PRIVATE
+                ).edit()
+                    .putBoolean("notifications_enabled", false)
+                    .apply()
+
+                Toast.makeText(
+                    this,
+                    "Notification permission was not granted",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     private lateinit var sessionManager: SessionManager
+
+    private val editProfileLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                recreate()
+            }
+        }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +214,10 @@ class ProfileActivity : AppCompatActivity() {
         val tvPharmacyVerification =
             findViewById<TextView>(R.id.tvPharmacyVerification)
 
+        // edit profile
+
+        val btnEditProfile =
+            findViewById<Button>(R.id.btnEditProfile)
 
         // ------------------------------------------------
         // SETTINGS
@@ -158,6 +225,9 @@ class ProfileActivity : AppCompatActivity() {
 
         val switchDarkMode =
             findViewById<SwitchCompat>(R.id.switchDarkMode)
+
+        val switchNotifications =
+            findViewById<SwitchCompat>(R.id.switchNotifications)
 
         val btnLogout =
             findViewById<Button>(R.id.btnLogout)
@@ -250,6 +320,87 @@ class ProfileActivity : AppCompatActivity() {
                     0,
                     0
                 )
+            }
+        }
+
+        // ------------------------------------------------
+// NOTIFICATIONS
+// ------------------------------------------------
+
+        val notificationPreferences =
+            getSharedPreferences(
+                "notification_preferences",
+                MODE_PRIVATE
+            )
+
+        val appNotificationsEnabled =
+            notificationPreferences.getBoolean(
+                "notifications_enabled",
+                false
+            )
+
+        val systemNotificationsEnabled =
+            NotificationManagerCompat
+                .from(this)
+                .areNotificationsEnabled()
+
+        switchNotifications.setOnCheckedChangeListener(null)
+
+        switchNotifications.isChecked =
+            appNotificationsEnabled && systemNotificationsEnabled
+
+        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+
+            if (isChecked) {
+
+                if (
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    notificationPermissionLauncher.launch(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+
+                } else if (
+                    NotificationManagerCompat
+                        .from(this)
+                        .areNotificationsEnabled()
+                ) {
+
+                    notificationPreferences.edit()
+                        .putBoolean("notifications_enabled", true)
+                        .apply()
+
+                    Toast.makeText(
+                        this,
+                        "Notifications enabled",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+
+                    switchNotifications.isChecked = false
+
+                    Toast.makeText(
+                        this,
+                        "Notifications are disabled in Android settings",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            } else {
+
+                notificationPreferences.edit()
+                    .putBoolean("notifications_enabled", false)
+                    .apply()
+
+                Toast.makeText(
+                    this,
+                    "Notifications disabled",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -445,9 +596,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
 
-        // ------------------------------------------------
-        // PATIENT BOTTOM NAV BUTTONS
-        // ------------------------------------------------
+
 // PATIENT BOTTOM NAV BUTTONS
 // ------------------------------------------------
 
@@ -600,6 +749,20 @@ class ProfileActivity : AppCompatActivity() {
             navDoctorProfile.setBackgroundResource(
                 R.drawable.nav_icon_glow
             )
+        }
+
+        // ------------------------------------------------
+// EDIT PROFILE
+// ------------------------------------------------
+
+        btnEditProfile.setOnClickListener {
+
+            val intent = Intent(
+                this,
+                EditProfileActivity::class.java
+            )
+
+            editProfileLauncher.launch(intent)
         }
 
 

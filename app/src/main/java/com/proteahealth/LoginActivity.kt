@@ -24,6 +24,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var signupTextView: TextView
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,11 +37,13 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         signupTextView = findViewById(R.id.signupTextView)
 
+
+
         // User types
         val roles = arrayOf(
             "Patient",
             "Doctor",
-            "Pharmacy"
+            "Pharmacist"
         )
 
         val adapter = ArrayAdapter(
@@ -76,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
                 "Doctor" -> "doctor"
 
-                "Pharmacy" -> "pharmacy"
+                "Pharmacist" -> "pharmacist"
 
                 else -> ""
             }
@@ -165,7 +169,7 @@ class LoginActivity : AppCompatActivity() {
                                 )
                             }
 
-                            "pharmacy" -> {
+                            "pharmacist" -> {
                                 startActivity(
                                     Intent(
                                         this@LoginActivity,

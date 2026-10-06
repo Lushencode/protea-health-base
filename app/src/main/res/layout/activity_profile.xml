@@ -361,6 +361,14 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp" />
+
 
             <!-- ===================== -->
             <!-- SETTINGS -->
@@ -384,6 +392,19 @@
                 android:textColor="?android:textColorPrimary"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp" />
+
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Allow Notifications"
+                android:textSize="16sp"
+                android:textColor="?android:textColorPrimary"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+
 
 
             <!-- LOGOUT -->

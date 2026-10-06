@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="?android:colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- ===================== -->
+        <!-- TITLE -->
+        <!-- ===================== -->
+
+        <TextView
+            android:id="@+id/tvEditProfileTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvEditProfileRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="24dp" />
+
+
+        <!-- ===================== -->
+        <!-- PERSONAL INFORMATION -->
+        <!-- ===================== -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Information"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginBottom="16dp" />
+
+
+        <!-- NAME -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="12dp" />
+
+
+        <!-- SURNAME -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Surname"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter surname"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="12dp" />
+
+
+        <!-- EMAIL -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter email address"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="24dp" />
+
+
+        <!-- ================================================= -->
+        <!-- PATIENT SECTION -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/patientEditSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Information"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+
+            <!-- AGE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPatientAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter age"
+                android:inputType="number"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- PHONE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPatientPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- GENDER -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPatientGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter gender"
+                android:inputType="text"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- HOME ADDRESS -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home Address"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPatientAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter home address"
+                android:inputType="textPostalAddress"
+                android:minLines="2"
+                android:gravity="top"
+                android:layout_marginBottom="20dp" />
+
+
+            <!-- EMERGENCY CONTACT HEADER -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency Contact"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- EMERGENCY CONTACT NAME -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency Contact Name"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etEmergencyContactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter contact name"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- EMERGENCY CONTACT NUMBER -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency Contact Number"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etEmergencyContactNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter contact number"
+                android:inputType="phone"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- RELATIONSHIP -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Relationship"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etEmergencyContactRelationship"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter relationship"
+                android:inputType="text"
+                android:layout_marginBottom="20dp" />
+
+
+            <!-- MEDICAL INFORMATION HEADER -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medical Information"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- ALLERGIES -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allergies"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etAllergies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter allergies or none"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:gravity="top"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- MEDICAL CONDITIONS -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medical Conditions"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etMedicalConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter medical conditions or none"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:gravity="top"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+
+        <!-- ================================================= -->
+        <!-- DOCTOR SECTION -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/doctorEditSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doctor Information"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+
+            <!-- SPECIALIZATION -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Specialization"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etSpecialization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter specialization"
+                android:inputType="text"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- LOCATION -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etDoctorLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter location"
+                android:inputType="textPostalAddress"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- CLINIC NAME -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clinic Name"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etClinicName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter clinic name"
+                android:inputType="text"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- EXPERIENCE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Years of Professional Experience"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etDoctorExperience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter number of years"
+                android:inputType="number"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- CONSULTATION PRICE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consultation Price (R)"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etConsultationPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter consultation price"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+
+        <!-- ================================================= -->
+        <!-- PHARMACIST SECTION -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/pharmacistEditSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pharmacist Information"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginBottom="16dp" />
+
+
+            <!-- PHONE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPharmacistPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- PHARMACY LOCATION -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pharmacy Location"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPharmacyLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter pharmacy location"
+                android:inputType="textPostalAddress"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- WORK EXPERIENCE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Years of Work Experience"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPharmacistExperience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter number of years"
+                android:inputType="number"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+
+        <!-- ===================== -->
+        <!-- ACTION BUTTONS -->
+        <!-- ===================== -->
+
+        <Button
+            android:id="@+id/btnSaveProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnCancelEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp" />
+
+    </LinearLayout>
+
+</ScrollView>
