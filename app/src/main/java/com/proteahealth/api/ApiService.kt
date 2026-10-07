@@ -132,4 +132,24 @@ interface ApiService {
         @Field("delivery_address") deliveryAddress: String,
         @Field("delivery_fee") deliveryFee: Double
     ): Call<CreateOrderResponse>
+
+    @GET("get_doctors.php")
+    fun getDoctors(): Call<DoctorResponse>
+
+    @GET("get_doctor_availability.php")
+    fun getDoctorAvailability(
+        @Query("doctor_id") doctorId: Int,
+        @Query("date") date: String
+    ): Call<DoctorAvailabilityResponse>
+
+    @FormUrlEncoded
+    @POST("create_appointment.php")
+    fun createAppointment(
+        @Field("patient_id") patientId: Int,
+        @Field("doctor_id") doctorId: Int,
+        @Field("appointment_type") appointmentType: String,
+        @Field("appointment_date") appointmentDate: String,
+        @Field("appointment_time") appointmentTime: String,
+        @Field("reason") reason: String
+    ): Call<AppointmentCreateResponse>
 }

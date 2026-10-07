@@ -1,6 +1,5 @@
 package com.proteahealth.Patient;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,14 +23,33 @@ import com.proteahealth.ProfileActivity;
 import com.proteahealth.R;
 import com.proteahealth.data.SessionManager;
 import com.proteahealth.model.Featurebanner;
+import android.view.View;
+
+import com.proteahealth.api.Medication;
+import com.proteahealth.api.MedicationResponse;
+import com.proteahealth.api.RetrofitClient;
+import com.proteahealth.api.MedicationUpdateResponse;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.widget.ImageButton;
 
 public class Patient_Home extends AppCompatActivity {
 
     private Button btnTakeMedicine;
+
     private TextView tvDoseStatus;
-    private SharedPreferences demoPreferences;
+    private TextView tvMedicineName;
+    private TextView tvMedicineDosage;
+
+    private View cardMedicine;
+
+    private Medication currentMedication;
+
 
 
 
@@ -42,10 +60,7 @@ public class Patient_Home extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-        demoPreferences = getSharedPreferences(
-                "demo_preferences",
-                MODE_PRIVATE
-        );
+
 
         Button btnAppointment = findViewById(R.id.btnAppointment);
 
@@ -90,7 +105,15 @@ public class Patient_Home extends AppCompatActivity {
         }
 
 
+        btnTakeMedicine = findViewById(R.id.btnTakeMedicine);
 
+        tvDoseStatus = findViewById(R.id.tvDoseStatus);
+        tvMedicineName = findViewById(R.id.tvMedicineName);
+        tvMedicineDosage = findViewById(R.id.tvMedicineDosage);
+
+        btnTakeMedicine.setOnClickListener(view -> markMedicationAsTaken());
+
+        cardMedicine = findViewById(R.id.cardMedicine);
         TextView tvToday = findViewById(R.id.tvToday);
         TextView tvVisitDate = findViewById(R.id.tvVisitDate);
 
@@ -103,7 +126,12 @@ public class Patient_Home extends AppCompatActivity {
 
 
         btnTakeMedicine = findViewById(R.id.btnTakeMedicine);
+
         tvDoseStatus = findViewById(R.id.tvDoseStatus);
+        tvMedicineName = findViewById(R.id.tvMedicineName);
+        tvMedicineDosage = findViewById(R.id.tvMedicineDosage);
+
+        cardMedicine = findViewById(R.id.cardMedicine);
 
         String today = new SimpleDateFormat(
                 "EEEE, d MMM",
@@ -144,16 +172,6 @@ public class Patient_Home extends AppCompatActivity {
         tvVisitDate.setText(visitDate.toUpperCase(Locale.ENGLISH));
 
         tvVisitDate.setText(visitDate + " · Clinic visit");
-
-        btnTakeMedicine.setOnClickListener(view -> {
-            // Demo only: remember today's sample dose on this device.
-            demoPreferences.edit()
-                    .putString("sample_dose_taken_date", getTodayKey())
-                    .apply();
-
-            refreshDoseStatus();
-            showMessage("Sample dose marked as taken.");
-        });
 
         findViewById(R.id.btnNotifications).setOnClickListener(
                 view -> showMessage("No new demo notifications.")
@@ -204,33 +222,446 @@ public class Patient_Home extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshDoseStatus();
+        loadHomeMedication();
     }
 
-    private String getTodayKey() {
-        return new SimpleDateFormat(
-                "yyyy-MM-dd",
-                Locale.ENGLISH
-        ).format(new Date());
+    private Medication findNextMedication(
+            List<Medication> medications
+    ) {
+
+        Medication nextMedication = null;
+
+        int currentMinutes =
+                Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                        * 60
+                        + Calendar.getInstance().get(Calendar.MINUTE);
+
+        int smallestDifference =
+                Integer.MAX_VALUE;
+
+
+        for (Medication medication : medications) {
+
+            if (medication.getRemaining_doses() <= 0) {
+                continue;
+            }
+
+            String time =
+                    medication.getScheduled_time();
+
+            if (time == null || time.isEmpty()) {
+                continue;
+            }
+
+            try {
+
+                String[] parts =
+                        time.split(":");
+
+                int hour =
+                        Integer.parseInt(parts[0]);
+
+                int minute =
+                        Integer.parseInt(parts[1]);
+
+                int medicationMinutes =
+                        hour * 60 + minute;
+
+
+                int difference =
+                        medicationMinutes - currentMinutes;
+
+
+                // If today's time already passed,
+                // treat it as later in the daily cycle.
+                if (difference < 0) {
+                    difference += 24 * 60;
+                }
+
+
+                if (difference < smallestDifference) {
+
+                    smallestDifference =
+                            difference;
+
+                    nextMedication =
+                            medication;
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+
+        // Fallback if medication has no valid time
+        if (nextMedication == null) {
+
+            for (Medication medication : medications) {
+
+                if (medication.getRemaining_doses() > 0) {
+
+                    return medication;
+                }
+            }
+        }
+
+
+        return nextMedication;
     }
 
-    private void refreshDoseStatus() {
-        String savedDate = demoPreferences.getString(
-                "sample_dose_taken_date",
-                ""
+    private void loadHomeMedication() {
+
+        SessionManager sessionManager =
+                new SessionManager(this);
+
+        String patientId =
+                sessionManager.getUserId();
+
+        if (patientId == null || patientId.isEmpty()) {
+
+            showMessage("Unable to find patient ID");
+            return;
+        }
+
+        RetrofitClient.INSTANCE
+                .getApiService()
+                .getMedications(patientId)
+                .enqueue(new Callback<MedicationResponse>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<MedicationResponse> call,
+                            Response<MedicationResponse> response
+                    ) {
+
+                        if (!response.isSuccessful()
+                                || response.body() == null
+                                || !response.body().getSuccess()) {
+
+                            showMessage(
+                                    "Unable to load today's medication"
+                            );
+
+                            return;
+                        }
+
+                        List<Medication> medications =
+                                response.body().getMedications();
+
+                        if (medications == null
+                                || medications.isEmpty()) {
+
+                            showNoMedication();
+                            return;
+                        }
+
+                        Medication medication =
+                                findNextMedication(medications);
+
+                        if (medication == null) {
+
+                            showNoMedication();
+                            return;
+                        }
+
+                        currentMedication = medication;
+
+                        displayMedication(medication);
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<MedicationResponse> call,
+                            Throwable t
+                    ) {
+
+                        showMessage(
+                                "Medication connection error: "
+                                        + t.getMessage()
+                        );
+                    }
+                });
+    }
+
+    private void displayMedication(Medication medication) {
+
+        cardMedicine.setVisibility(View.VISIBLE);
+
+        tvMedicineName.setText(
+                medication.getMedication_name()
         );
 
-        boolean takenToday = getTodayKey().equals(savedDate);
+        String dosage = medication.getDosage();
+
+        if (dosage == null || dosage.isEmpty()) {
+
+            tvMedicineDosage.setText(
+                    medication.getRemaining_doses()
+                            + " doses remaining"
+            );
+
+        } else {
+
+            tvMedicineDosage.setText(
+                    dosage
+                            + " · "
+                            + medication.getRemaining_doses()
+                            + " doses remaining"
+            );
+        }
+
+
+        String scheduledTime =
+                medication.getScheduled_time();
+
+        boolean takenToday =
+                isTakenToday(
+                        medication.getLast_taken_date()
+                );
+
+
+        if (takenToday) {
+
+            tvDoseStatus.setText(
+                    "Taken today"
+            );
+
+            btnTakeMedicine.setText(
+                    "Taken ✓"
+            );
+
+            btnTakeMedicine.setEnabled(false);
+
+        } else {
+
+            if (scheduledTime == null
+                    || scheduledTime.isEmpty()) {
+
+                tvDoseStatus.setText(
+                        "No scheduled time"
+                );
+
+            } else {
+
+                tvDoseStatus.setText(
+                        "Due at "
+                                + formatMedicationTime(
+                                scheduledTime
+                        )
+                );
+            }
+
+
+            if (medication.getRemaining_doses() <= 0) {
+
+                btnTakeMedicine.setText(
+                        "No doses remaining"
+                );
+
+                btnTakeMedicine.setEnabled(false);
+
+            } else {
+
+                btnTakeMedicine.setText(
+                        "I took it"
+                );
+
+                btnTakeMedicine.setEnabled(true);
+            }
+        }
+    }
+
+    private boolean isTakenToday(String lastTakenDate) {
+
+        if (lastTakenDate == null
+                || lastTakenDate.isEmpty()) {
+
+            return false;
+        }
+
+        return lastTakenDate.equals(
+                getToday()
+        );
+    }
+
+    private String getToday() {
+
+        SimpleDateFormat format =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                );
+
+        return format.format(
+                new Date()
+        );
+    }
+
+    private void showNoMedication() {
+
+        currentMedication = null;
+
+        tvMedicineName.setText(
+                "No medication due"
+        );
+
+        tvMedicineDosage.setText(
+                "You're all caught up"
+        );
 
         tvDoseStatus.setText(
-                takenToday ? "Taken today · 08:00 dose" : "Due at 08:00"
+                "No scheduled medication"
         );
 
         btnTakeMedicine.setText(
-                takenToday ? "Taken ✓" : "I took it"
+                "Nothing due"
         );
 
-        btnTakeMedicine.setEnabled(!takenToday);
+        btnTakeMedicine.setEnabled(false);
+    }
+
+    private String formatMedicationTime(
+            String time
+    ) {
+
+        try {
+
+            SimpleDateFormat input =
+                    new SimpleDateFormat(
+                            "HH:mm:ss",
+                            Locale.ENGLISH
+                    );
+
+            SimpleDateFormat output =
+                    new SimpleDateFormat(
+                            "HH:mm",
+                            Locale.ENGLISH
+                    );
+
+            Date parsed =
+                    input.parse(time);
+
+            if (parsed != null) {
+                return output.format(parsed);
+            }
+
+        } catch (Exception ignored) {
+
+        }
+
+
+        // Handles HH:mm values too
+        if (time.length() >= 5) {
+            return time.substring(0, 5);
+        }
+
+        return time;
+    }
+
+    private void markMedicationAsTaken() {
+
+        if (currentMedication == null) {
+
+            showMessage("No medication selected");
+            return;
+        }
+
+
+        SessionManager sessionManager =
+                new SessionManager(this);
+
+        String patientIdString =
+                sessionManager.getUserId();
+
+
+        if (patientIdString == null
+                || patientIdString.isEmpty()) {
+
+            showMessage("Unable to find patient ID");
+            return;
+        }
+
+
+        int patientId;
+
+        try {
+
+            patientId =
+                    Integer.parseInt(patientIdString);
+
+        } catch (NumberFormatException e) {
+
+            showMessage("Invalid patient ID");
+            return;
+        }
+
+
+        // Prevent multiple taps while request is running
+        btnTakeMedicine.setEnabled(false);
+        btnTakeMedicine.setText("Updating...");
+
+
+        RetrofitClient.INSTANCE
+                .getApiService()
+                .updateMedicationTaken(
+                        currentMedication.getPrescription_id(),
+                        patientId,
+                        "taken"
+                )
+                .enqueue(
+                        new Callback<MedicationUpdateResponse>() {
+
+                            @Override
+                            public void onResponse(
+                                    Call<MedicationUpdateResponse> call,
+                                    Response<MedicationUpdateResponse> response
+                            ) {
+
+                                if (response.isSuccessful()
+                                        && response.body() != null
+                                        && response.body().getSuccess()) {
+
+                                    showMessage(
+                                            "Medication marked as taken"
+                                    );
+
+                                    // Reload from MySQL so the dashboard
+                                    // shows the updated remaining doses.
+                                    loadHomeMedication();
+
+                                } else {
+
+                                    btnTakeMedicine.setEnabled(true);
+                                    btnTakeMedicine.setText("I took it");
+
+                                    String message =
+                                            response.body() != null
+                                                    ? response.body().getMessage()
+                                                    : "Unable to update medication";
+
+                                    showMessage(message);
+                                }
+                            }
+
+
+                            @Override
+                            public void onFailure(
+                                    Call<MedicationUpdateResponse> call,
+                                    Throwable t
+                            ) {
+
+                                btnTakeMedicine.setEnabled(true);
+                                btnTakeMedicine.setText("I took it");
+
+                                showMessage(
+                                        "Connection error: "
+                                                + t.getMessage()
+                                );
+                            }
+                        }
+                );
     }
 
     private void showMessage(String message) {

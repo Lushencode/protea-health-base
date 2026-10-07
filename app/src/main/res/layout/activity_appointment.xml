@@ -98,7 +98,25 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="7dp"
                     android:background="@drawable/input_background" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Doctor"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="6dp" />
 
+                <Spinner
+                    android:id="@+id/doctorSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+                <TextView
+                    android:id="@+id/tvDoctorSpecialization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Specialization will appear here"
+                    android:layout_marginTop="8dp" />
 
                 <!-- HEALTHCARE FACILITY -->
 
@@ -118,11 +136,22 @@
                     android:layout_marginTop="7dp"
                     android:background="@drawable/input_background"
                     android:hint="Clinic, hospital or practice"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:inputType="textCapSentences"
                     android:paddingStart="14dp"
                     android:paddingEnd="14dp"
                     android:textColor="#111111"
                     android:textColorHint="#999999" />
+
+                <TextView
+                    android:id="@+id/tvDoctorLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Facility address will appear here"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
