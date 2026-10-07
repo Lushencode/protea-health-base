@@ -152,4 +152,14 @@ interface ApiService {
         @Field("appointment_time") appointmentTime: String,
         @Field("reason") reason: String
     ): Call<AppointmentCreateResponse>
+
+    @GET("get_patient_appointments.php")
+    fun getPatientAppointments(
+        @Query("patient_id") patientId: Int
+    ): Call<PatientAppointmentsResponse>
+
+    @GET("get_notifications.php")
+    fun getNotifications(
+        @Query("patient_id") patientId: Int
+    ): Call<NotificationResponse>
 }

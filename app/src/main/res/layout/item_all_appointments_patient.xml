@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="14dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/tvDoctorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dr Name Surname"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1F2937" />
+
+        <TextView
+            android:id="@+id/tvSpecialization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Specialization"
+            android:textSize="14sp"
+            android:textColor="#6B7280"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvAppointmentType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clinic Visit"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1F2937"
+            android:layout_marginTop="14dp" />
+
+        <TextView
+            android:id="@+id/tvAppointmentDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="10 Oct 2026 • 10:00"
+            android:textSize="15sp"
+            android:textColor="#374151"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/tvClinic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clinic"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="14sp"
+            android:textColor="#6B7280"
+            android:layout_marginTop="3dp" />
+
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reason: Check-up"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/tvDoctorResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doctor response:"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginTop="14dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

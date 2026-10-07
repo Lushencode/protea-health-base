@@ -18,6 +18,10 @@ import java.util.Date;
 import java.util.Locale;
 import android.content.Intent;
 
+import com.proteahealth.NotificationActivity;
+import com.proteahealth.api.PatientAppointment;
+import com.proteahealth.api.PatientAppointmentsResponse;
+
 import com.proteahealth.BlogActivity;
 import com.proteahealth.ProfileActivity;
 import com.proteahealth.R;
@@ -41,6 +45,12 @@ import android.widget.ImageButton;
 public class Patient_Home extends AppCompatActivity {
 
     private Button btnTakeMedicine;
+
+    private TextView tvVisitDate;
+    private TextView tvVisitType;
+    private TextView tvVisitReason;
+    private TextView tvVisitDetails;
+    private View cardVisit;
 
     private TextView tvDoseStatus;
     private TextView tvMedicineName;
@@ -111,6 +121,12 @@ public class Patient_Home extends AppCompatActivity {
         tvMedicineName = findViewById(R.id.tvMedicineName);
         tvMedicineDosage = findViewById(R.id.tvMedicineDosage);
 
+        tvVisitDate = findViewById(R.id.tvVisitDate);
+        tvVisitType = findViewById(R.id.tvVisitType);
+        tvVisitReason = findViewById(R.id.tvVisitReason);
+        tvVisitDetails = findViewById(R.id.tvVisitDetails);
+        cardVisit = findViewById(R.id.cardVisit);
+
         btnTakeMedicine.setOnClickListener(view -> markMedicationAsTaken());
 
         cardMedicine = findViewById(R.id.cardMedicine);
@@ -173,18 +189,23 @@ public class Patient_Home extends AppCompatActivity {
 
         tvVisitDate.setText(visitDate + " · Clinic visit");
 
-        findViewById(R.id.btnNotifications).setOnClickListener(
-                view -> showMessage("No new demo notifications.")
-        );
+        findViewById(R.id.btnNotifications).setOnClickListener(v ->
+                startActivity(new Intent(this, NotificationActivity.class)));
+
 
         findViewById(R.id.btnSeeMedicines).setOnClickListener(
                 view -> startActivity(new Intent(this, MedicationsActivity.class)));
 
-        findViewById(R.id.btnViewVisits).setOnClickListener(
-                view -> showMessage(
-                        "This will connect to the group's appointments page."
-                )
-        );
+        findViewById(R.id.btnViewVisits).setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    Patient_Home.this,
+                    All_Appointments_PatientsActivity.class
+            );
+
+            startActivity(intent);
+        });
+
 
         findViewById(R.id.cardPrices).setOnClickListener(
                 view -> startActivity(new Intent(this, MedicationPriceComparisonActivity.class)));
@@ -223,8 +244,210 @@ public class Patient_Home extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadHomeMedication();
+        loadUpcomingAppointment();
     }
 
+    private void loadUpcomingAppointment() {
+
+        SessionManager sessionManager =
+                new SessionManager(this);
+
+        String patientIdString =
+                sessionManager.getUserId();
+
+        if (patientIdString == null ||
+                patientIdString.isEmpty()) {
+            return;
+        }
+
+        int patientId;
+
+        try {
+            patientId = Integer.parseInt(patientIdString);
+        } catch (NumberFormatException e) {
+            return;
+        }
+
+        RetrofitClient.INSTANCE
+                .getApiService()
+                .getPatientAppointments(patientId)
+                .enqueue(new Callback<PatientAppointmentsResponse>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<PatientAppointmentsResponse> call,
+                            Response<PatientAppointmentsResponse> response
+                    ) {
+
+                        if (!response.isSuccessful()
+                                || response.body() == null
+                                || !response.body().getSuccess()) {
+
+                            showNoUpcomingAppointment();
+                            return;
+                        }
+
+                        PatientAppointment nextAppointment =
+                                findNextAppointment(
+                                        response.body().getAppointments()
+                                );
+
+                        if (nextAppointment == null) {
+                            showNoUpcomingAppointment();
+                            return;
+                        }
+
+                        displayUpcomingAppointment(nextAppointment);
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<PatientAppointmentsResponse> call,
+                            Throwable t
+                    ) {
+                        showNoUpcomingAppointment();
+                    }
+                });
+    }
+
+    private PatientAppointment findNextAppointment(
+            List<PatientAppointment> appointments
+    ) {
+
+        SimpleDateFormat format =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss",
+                        Locale.US
+                );
+
+        Date now = new Date();
+
+        PatientAppointment nextAppointment = null;
+        Date nextDate = null;
+
+        for (PatientAppointment appointment : appointments) {
+
+            String status = appointment.getStatus();
+
+            // These should not appear as upcoming
+            if (status.equalsIgnoreCase("rejected")
+                    || status.equalsIgnoreCase("cancelled")
+                    || status.equalsIgnoreCase("completed")) {
+                continue;
+            }
+
+            try {
+
+                Date appointmentDate =
+                        format.parse(
+                                appointment.getAppointment_date()
+                                        + " "
+                                        + appointment.getAppointment_time()
+                        );
+
+                if (appointmentDate == null) {
+                    continue;
+                }
+
+                if (appointmentDate.before(now)) {
+                    continue;
+                }
+
+                if (nextDate == null ||
+                        appointmentDate.before(nextDate)) {
+
+                    nextDate = appointmentDate;
+                    nextAppointment = appointment;
+                }
+
+            } catch (Exception ignored) {
+            }
+        }
+
+        return nextAppointment;
+    }
+
+    private void displayUpcomingAppointment(
+            PatientAppointment appointment
+    ) {
+
+        cardVisit.setVisibility(View.VISIBLE);
+
+        tvVisitDate.setText(
+                formatHomeAppointmentDate(
+                        appointment.getAppointment_date(),
+                        appointment.getAppointment_time()
+                )
+        );
+
+        tvVisitType.setText(
+                appointment.getAppointment_type()
+        );
+
+        tvVisitReason.setText(
+                "Reason: " + appointment.getReason()
+        );
+
+        String status = appointment.getStatus();
+
+        String statusText;
+
+        if (status.equalsIgnoreCase("pending")) {
+
+            statusText = "Pending doctor confirmation";
+
+        } else if (status.equalsIgnoreCase("confirmed")) {
+
+            statusText = "Confirmed";
+
+        } else {
+
+            statusText = status;
+        }
+
+        tvVisitDetails.setText(
+                appointment.getDoctorDisplayName()
+                        + " • "
+                        + statusText
+        );
+    }
+
+    private String formatHomeAppointmentDate(
+            String date,
+            String time
+    ) {
+
+        try {
+
+            SimpleDateFormat input =
+                    new SimpleDateFormat(
+                            "yyyy-MM-dd HH:mm:ss",
+                            Locale.US
+                    );
+
+            SimpleDateFormat output =
+                    new SimpleDateFormat(
+                            "dd MMM yyyy • HH:mm",
+                            Locale.ENGLISH
+                    );
+
+            Date parsed =
+                    input.parse(date + " " + time);
+
+            if (parsed != null) {
+                return output.format(parsed);
+            }
+
+        } catch (Exception ignored) {
+        }
+
+        return date + " • " + time;
+    }
+
+    private void showNoUpcomingAppointment() {
+
+        cardVisit.setVisibility(View.GONE);
+    }
     private Medication findNextMedication(
             List<Medication> medications
     ) {

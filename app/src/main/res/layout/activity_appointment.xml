@@ -153,27 +153,9 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:text="Preferred Doctor"
-                    android:textColor="#222222"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/DoctorInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="7dp"
-                    android:background="@drawable/input_background"
-                    android:hint="Type your Name"
-                    android:inputType="textCapSentences"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#999999" />
+
+
 
 
                 <!-- DATE -->
@@ -276,8 +258,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Upcoming Appointments"
-                    android:textColor="#FF1493"
+                    android:text="View All"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -291,7 +273,7 @@
         android:id="@+id/patientBottomNav"
         layout="@layout/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom" />
 
 </FrameLayout>

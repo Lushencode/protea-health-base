@@ -84,6 +84,12 @@
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".Patient.All_Appointments_PatientsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
