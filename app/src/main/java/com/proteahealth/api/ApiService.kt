@@ -1,6 +1,8 @@
 package com.proteahealth.api
 
 import retrofit2.Response
+import okhttp3.ResponseBody
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -130,7 +132,9 @@ interface ApiService {
         @Field("amount") amount: Double,
         @Field("fulfillment_method") fulfillmentMethod: String,
         @Field("delivery_address") deliveryAddress: String,
-        @Field("delivery_fee") deliveryFee: Double
+        @Field("delivery_fee") deliveryFee: Double,
+        @Field("prescription_id") prescriptionId: Int?
+
     ): Call<CreateOrderResponse>
 
     @GET("get_doctors.php")
@@ -162,4 +166,42 @@ interface ApiService {
     fun getNotifications(
         @Query("patient_id") patientId: Int
     ): Call<NotificationResponse>
+
+    @GET("get_pharmacy_orders.php")
+    suspend fun getPharmacyOrders(): Response<PharmacyOrdersResponse>
+
+    @POST("update_pharmacy_order_status.php")
+    suspend fun updatePharmacyOrderStatus(
+        @Body request: UpdatePharmacyOrderStatusRequest
+    ): Response<UpdatePharmacyOrderStatusResponse>
+
+
+    @GET("get_patient_medication_inventory.php")
+    fun getPatientMedicationInventory(): Call<PatientMedicationInventoryResponse>
+
+
+    @GET("get_pharmacy_inventory.php")
+    fun getPharmacyInventory(): Call<PharmacyInventoryResponse>
+
+
+    @FormUrlEncoded
+    @POST("add_pharmacy_medication.php")
+    fun addPharmacyMedication(
+        @Field("medication_name") medicationName: String,
+        @Field("price") price: String,
+        @Field("stock_quantity") stockQuantity: Int
+    ): Call<AddPharmacyMedicationResponse>
+
+
+    @FormUrlEncoded
+    @POST("update_pharmacy_medication.php")
+    fun updatePharmacyMedication(
+        @Field("medication_id") medicationId: Int,
+        @Field("price") price: String,
+        @Field("stock_quantity") stockQuantity: Int
+    ): Call<UpdatePharmacyMedicationResponse>
+
+
+
+
 }

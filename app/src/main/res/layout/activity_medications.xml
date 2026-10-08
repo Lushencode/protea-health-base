@@ -162,6 +162,51 @@
 
             </LinearLayout>
 
+
+            <!-- ===================== -->
+            <!-- RECEIVED MEDICATIONS -->
+            <!-- ===================== -->
+            <LinearLayout
+                android:id="@+id/sectionReceivedMedications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="Received Medications"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#00695C" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Medications collected or delivered from pharmacies"
+                    android:textSize="13sp"
+                    android:textColor="?android:textColorSecondary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvReceivedMedications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/pharmacy_order_card_bg">
+
+    <!-- Order number and status -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvOrderId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Order #6"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#173D2C"/>
+
+        <TextView
+            android:id="@+id/tvOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#996300"
+            android:background="@drawable/pharmacy_order_status_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:background="#E5ECE8"/>
+
+    <!-- Medication -->
+    <TextView
+        android:id="@+id/tvOrderMedication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Paracetamol 500mg"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#173D2C"/>
+
+    <!-- Quantity -->
+    <TextView
+        android:id="@+id/tvOrderQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Quantity: 2"
+        android:textSize="14sp"
+        android:textColor="#62746A"/>
+
+    <!-- Patient -->
+    <TextView
+        android:id="@+id/tvOrderPatient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Patient ID: 6"
+        android:textSize="14sp"
+        android:textColor="#62746A"/>
+
+    <TextView
+        android:id="@+id/tvOrderPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Payment on Delivery: Cash"
+        android:textSize="14sp"
+        android:textColor="#62746A"
+        android:visibility="gone"/>
+
+    <!-- Fulfilment -->
+    <TextView
+        android:id="@+id/tvOrderFulfillment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Collection"
+        android:textSize="14sp"
+        android:textColor="#62746A"/>
+
+    <!-- Order date -->
+    <TextView
+        android:id="@+id/tvOrderDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="8 October 2026"
+        android:textSize="13sp"
+        android:textColor="#8A9990"/>
+
+    <!-- Amount -->
+    <!-- Medication subtotal -->
+    <TextView
+        android:id="@+id/tvOrderSubtotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Medication: R85.00"
+        android:textSize="14sp"
+        android:textColor="#62746A"/>
+
+    <!-- Delivery fee (only for delivery orders) -->
+    <TextView
+        android:id="@+id/tvOrderDeliveryFee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Delivery fee: R50.00"
+        android:textSize="14sp"
+        android:textColor="#62746A"
+        android:visibility="gone"/>
+
+    <!-- Final total -->
+    <TextView
+        android:id="@+id/tvOrderAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Total: R135.00"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#176B48"/>
+
+    <Button
+        android:id="@+id/btnUpdateOrderStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Update Status"
+        android:textAllCaps="false"
+        android:backgroundTint="#176B48"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnCancelOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Cancel Order"
+        android:textAllCaps="false"
+        android:backgroundTint="#B42318"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"/>
+
+</LinearLayout>

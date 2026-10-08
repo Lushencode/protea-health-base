@@ -1,7 +1,5 @@
-package com.proteahealth.data
+package com.proteahealth.api
 
-import com.proteahealth.api.ProfileUser
-import com.proteahealth.api.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Medication"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:layout_marginBottom="20dp" />
+
+    <EditText
+        android:id="@+id/etMedicationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Medication name"
+        android:inputType="textCapWords"
+        android:maxLength="200"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/etMedicationPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Price (R)"
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/etMedicationStock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Stock quantity"
+        android:inputType="number"
+        android:singleLine="true" />
+
+</LinearLayout>

@@ -1,7 +1,8 @@
-package com.proteahealth.pharmacist;
+package com.proteahealth.Pharmacist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,22 +15,21 @@ import com.proteahealth.data.SessionManager;
 
 public class PharmacistDashboardActivity extends AppCompatActivity {
 
-    private TextView tvPharmacyName;
-    private TextView tvPharmacistName;
-
-    private CardView cardOrders;
-    private CardView cardInventory;
-    private CardView cardProfile;
-    private CardView cardDemand;
-    private CardView cardOutbox;
-    private CardView cardSettings;
-
     private SessionManager sessionManager;
+
+    private TextView tvPharmacistName;
+    private TextView tvPharmacyName;
+    private TextView btnViewAllOrders;
+
+    private ImageButton btnPharmacyNotifications;
+
+    private CardView cardDemand;
+    private CardView cardSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pharmacist_dashboard);
+
 
         sessionManager = new SessionManager(this);
 
@@ -38,21 +38,24 @@ public class PharmacistDashboardActivity extends AppCompatActivity {
             return;
         }
 
+        setContentView(R.layout.activity_pharmacist_dashboard);
+
         initializeViews();
         loadUserInformation();
-        setupNavigation();
+        setupDashboardActions();
+        setupBottomNavigation();
     }
 
     private void initializeViews() {
 
-        tvPharmacyName = findViewById(R.id.tvPharmacyName);
         tvPharmacistName = findViewById(R.id.tvPharmacistName);
+        tvPharmacyName = findViewById(R.id.tvPharmacyName);
 
-        cardOrders = findViewById(R.id.cardOrders);
-        cardInventory = findViewById(R.id.cardInventory);
-        cardProfile = findViewById(R.id.cardProfile);
+        btnViewAllOrders = findViewById(R.id.btnViewAllOrders);
+        btnPharmacyNotifications =
+                findViewById(R.id.btnPharmacyNotifications);
+
         cardDemand = findViewById(R.id.cardDemand);
-        cardOutbox = findViewById(R.id.cardOutbox);
         cardSettings = findViewById(R.id.cardSettings);
     }
 
@@ -69,34 +72,70 @@ public class PharmacistDashboardActivity extends AppCompatActivity {
 
         tvPharmacistName.setText("Welcome, " + fullName);
 
-        // Later this will come from the pharmacy record in MySQL.
-        tvPharmacyName.setText("ProteaHealth Pharmacy");
+        // Placeholder until the pharmacy API is connected.
+        tvPharmacyName.setText("Pharmacy Dashboard");
     }
 
-    private void setupNavigation() {
+    private void setupDashboardActions() {
 
-        cardOrders.setOnClickListener(v ->
+        btnViewAllOrders.setOnClickListener(v ->
                 showComingSoon("Orders")
         );
 
-        cardInventory.setOnClickListener(v ->
-                showComingSoon("Inventory")
-        );
-
-        cardProfile.setOnClickListener(v ->
-                showComingSoon("Pharmacy Profile")
+        btnPharmacyNotifications.setOnClickListener(v ->
+                showComingSoon("Notifications")
         );
 
         cardDemand.setOnClickListener(v ->
                 showComingSoon("Medication Demand")
         );
 
-        cardOutbox.setOnClickListener(v ->
-                showComingSoon("Notifications")
-        );
-
         cardSettings.setOnClickListener(v ->
                 showComingSoon("Settings")
+        );
+    }
+
+    private void setupBottomNavigation() {
+
+        ImageButton navOrders =
+                findViewById(R.id.navPharmacyOrders);
+
+        ImageButton navInventory =
+                findViewById(R.id.navPharmacyInventory);
+
+        ImageButton navHome =
+                findViewById(R.id.navPharmacyHome);
+
+        ImageButton navDeliveries =
+                findViewById(R.id.navPharmacyDeliveries);
+
+        ImageButton navProfile =
+                findViewById(R.id.navPharmacyProfile);
+
+        navOrders.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistDashboardActivity.this,
+                                PharmacistOrdersActivity.class
+                        )
+        ));
+
+        navInventory.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistDashboardActivity.this,
+                                PharmacyInventoryActivity.class
+                        )
+                ));
+
+        navHome.setBackgroundResource(R.drawable.nav_icon_glow);
+
+        navDeliveries.setOnClickListener(v ->
+                showComingSoon("Deliveries")
+        );
+
+        navProfile.setOnClickListener(v ->
+                showComingSoon("Profile")
         );
     }
 
@@ -111,11 +150,10 @@ public class PharmacistDashboardActivity extends AppCompatActivity {
 
     private void goToLogin() {
 
-        Intent intent =
-                new Intent(
-                        PharmacistDashboardActivity.this,
-                        LoginActivity.class
-                );
+        Intent intent = new Intent(
+                this,
+                LoginActivity.class
+        );
 
         intent.addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |

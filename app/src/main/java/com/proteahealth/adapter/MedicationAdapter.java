@@ -188,6 +188,8 @@ public class MedicationAdapter
                     medication.getDosage()
             );
 
+
+
             /*
              * Refill using the originally prescribed quantity.
              */
@@ -195,6 +197,13 @@ public class MedicationAdapter
                     "refill_quantity",
                     medication.getQuantity()
             );
+
+
+            intent.putExtra(
+                    "refill_prescription_id",
+                    medication.getPrescription_id()
+            );
+
 
             v.getContext().startActivity(
                     intent

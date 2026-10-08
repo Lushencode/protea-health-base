@@ -17,6 +17,9 @@ import com.proteahealth.api.Medication;
 import com.proteahealth.api.MedicationResponse;
 import com.proteahealth.api.RetrofitClient;
 import com.proteahealth.data.SessionManager;
+import com.proteahealth.adapter.ReceivedMedicationAdapter;
+import com.proteahealth.model.PatientMedicationInventory;
+import com.proteahealth.api.PatientMedicationInventoryResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,6 @@ public class MedicationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medications);
 
-        loadMedications();
 
         // -----------------------------
         // BOTTOM NAVIGATION
@@ -152,6 +154,82 @@ public class MedicationsActivity extends AppCompatActivity {
                                 MedicationsActivity.this,
                                 "Connection error: "
                                         + t.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+    }
+
+
+
+    private void loadReceivedMedications() {
+
+        View section = findViewById(
+                R.id.sectionReceivedMedications
+        );
+
+        RecyclerView recyclerView = findViewById(
+                R.id.rvReceivedMedications
+        );
+
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+
+        recyclerView.setNestedScrollingEnabled(false);
+
+        RetrofitClient.INSTANCE
+                .getApiService()
+                .getPatientMedicationInventory()
+                .enqueue(new Callback<PatientMedicationInventoryResponse>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<PatientMedicationInventoryResponse> call,
+                            Response<PatientMedicationInventoryResponse> response
+                    ) {
+
+                        if (response.isSuccessful()
+                                && response.body() != null
+                                && response.body().getSuccess()) {
+
+                            List<PatientMedicationInventory> medications =
+                                    response.body().getMedications();
+
+                            if (medications == null || medications.isEmpty()) {
+                                section.setVisibility(View.GONE);
+                                return;
+                            }
+
+                            recyclerView.setAdapter(
+                                    new ReceivedMedicationAdapter(medications)
+                            );
+
+                            section.setVisibility(View.VISIBLE);
+
+                        } else {
+
+                            section.setVisibility(View.GONE);
+
+                            Toast.makeText(
+                                    MedicationsActivity.this,
+                                    "Unable to load received medications",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<PatientMedicationInventoryResponse> call,
+                            Throwable t
+                    ) {
+
+                        section.setVisibility(View.GONE);
+
+                        Toast.makeText(
+                                MedicationsActivity.this,
+                                "Inventory connection error: " + t.getMessage(),
                                 Toast.LENGTH_LONG
                         ).show();
                     }
@@ -287,5 +365,12 @@ public class MedicationsActivity extends AppCompatActivity {
         recyclerView.setAdapter(
                 new MedicationAdapter(medications)
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMedications();
+        loadReceivedMedications();
     }
 }

@@ -53,4 +53,14 @@ class SessionManager(context: Context) {
     fun logout() {
         preferences.edit().clear().apply()
     }
+
+    fun saveAccessToken(token: String) {
+        preferences.edit()
+            .putString("access_token", token)
+            .apply()
+    }
+
+    fun getAccessToken(): String {
+        return preferences.getString("access_token", "") ?: ""
+    }
 }

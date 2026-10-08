@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proteahealth"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -90,6 +91,16 @@
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />
+        <activity
+            android:name=".Pharmacist.PharmacistDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Pharmacist.PharmacistOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Pharmacist.PharmacyInventoryActivity"
+            android:exported="false" />
     </application>
+
 
 </manifest>

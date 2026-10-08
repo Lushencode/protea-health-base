@@ -15,6 +15,7 @@ import com.proteahealth.Signup.Signup_Role
 import com.proteahealth.api.RetrofitClient
 import com.proteahealth.data.SessionManager
 import kotlinx.coroutines.launch
+import com.proteahealth.Pharmacist.PharmacistDashboardActivity;
 
 class LoginActivity : AppCompatActivity() {
 
@@ -142,6 +143,23 @@ class LoginActivity : AppCompatActivity() {
                             email = user.email ?: "",
                             role = loginResponse.role ?: role
                         )
+                        val accessToken = loginResponse.accessToken
+
+                        if (accessToken.isNullOrBlank()) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Authentication token missing. Please try again.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            sessionManager.logout()
+                            return@launch
+                        }
+
+                        sessionManager.saveAccessToken(accessToken)
+                        android.util.Log.d(
+                            "AUTH_TEST",
+                            "Token saved: ${sessionManager.getAccessToken().isNotEmpty()}"
+                        )
 
                         Toast.makeText(
                             this@LoginActivity,
@@ -173,7 +191,7 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(
                                     Intent(
                                         this@LoginActivity,
-                                        Pharmacydashboard::class.java
+                                        PharmacistDashboardActivity::class.java
                                     )
                                 )
                             }
@@ -195,12 +213,35 @@ class LoginActivity : AppCompatActivity() {
 
                 } else {
 
-                    // Actual HTTP/server error
+                    val errorMessage = try {
+                        val errorJson = response.errorBody()?.string()
+
+                        if (!errorJson.isNullOrEmpty()) {
+                            org.json.JSONObject(errorJson)
+                                .optString("message", "Login failed")
+                        } else {
+                            "Login failed. Please try again."
+                        }
+                    } catch (e: Exception) {
+                        "Login failed. Please try again."
+                    }
+
+                    Toast.makeText(
+                        this@LoginActivity,
+                        errorMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+
+
+                    /* Actual HTTP/server error
                     Toast.makeText(
                         this@LoginActivity,
                         "Server error: ${response.code()}",
                         Toast.LENGTH_LONG
-                    ).show()
+                   ).show()
+
+                     */
+
                 }
 
             } catch (e: Exception) {

@@ -44,6 +44,8 @@ public class MedicationOrderActivity extends AppCompatActivity {
     // UI COMPONENTS
     // =========================================================
 
+    private int refillPrescriptionId = 0;
+
     private ImageButton backButton;
 
     private Button uploadPrescriptionButton;
@@ -680,6 +682,13 @@ public class MedicationOrderActivity extends AppCompatActivity {
                 );
 
 
+        refillPrescriptionId = intent.getIntExtra(
+                "refill_prescription_id",
+                0
+        );
+
+
+
         /*
          * If this page was opened normally instead of
          * through the Refill button, do nothing.
@@ -974,6 +983,20 @@ public class MedicationOrderActivity extends AppCompatActivity {
                         quantity,
                         0.00
                 );
+
+
+        if (refillPrescriptionId > 0) {
+            String originalRefillName = getIntent().getStringExtra(
+                    "refill_medication_name"
+            );
+
+            if (originalRefillName == null
+                    || !originalRefillName.trim().equalsIgnoreCase(name)
+                    || !medications.isEmpty()) {
+
+                refillPrescriptionId = 0;
+            }
+        }
 
 
         medications.add(
@@ -1717,7 +1740,8 @@ public class MedicationOrderActivity extends AppCompatActivity {
                         orderTotal,
                         fulfillmentMethod,
                         deliveryAddress,
-                        finalDeliveryFee
+                        finalDeliveryFee,
+                        refillPrescriptionId > 0 ? refillPrescriptionId : null
                 )
                 .enqueue(
                         new Callback<CreateOrderResponse>() {

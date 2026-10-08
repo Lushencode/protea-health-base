@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pharmacistBottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_gravity="bottom"
+    android:layout_margin="12dp"
+    android:background="@drawable/bottom_nav_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- Profile -->
+    <ImageButton
+        android:id="@+id/navPharmacyProfile"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Profile"
+        android:src="@drawable/baseline_account_circle_24"
+        app:tint="@android:color/white" />
+
+    <!-- Orders -->
+    <ImageButton
+        android:id="@+id/navPharmacyOrders"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Orders"
+        android:src="@drawable/outline_list_alt_24"
+        app:tint="@android:color/white" />
+
+    <!-- Home -->
+    <ImageButton
+        android:id="@+id/navPharmacyHome"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Home"
+        android:src="@drawable/outline_home_24"
+        app:tint="@android:color/white" />
+
+    <!-- Inventory -->
+    <ImageButton
+        android:id="@+id/navPharmacyInventory"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Inventory"
+        android:src="@drawable/outline_inventory_2_24"
+        app:tint="@android:color/white" />
+
+
+
+    <!-- Deliveries -->
+    <ImageButton
+        android:id="@+id/navPharmacyDeliveries"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="Deliveries"
+        android:src="@drawable/outline_delivery_truck_speed_24"
+        app:tint="@android:color/white" />
+
+
+
+</LinearLayout>

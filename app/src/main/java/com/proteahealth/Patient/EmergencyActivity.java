@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.proteahealth.ProfileActivity;
-import com.proteahealth.data.EmergencyProfileLoader;
+import com.proteahealth.api.EmergencyProfileLoader;
 import com.proteahealth.data.SessionManager;
 import com.proteahealth.R;
 
