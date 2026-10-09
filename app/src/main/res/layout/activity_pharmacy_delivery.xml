@@ -4,62 +4,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:background="#F8FAFC"
     android:padding="0dp">
 
     <TextView
+        android:id="@+id/tvDeliveryTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pharmacy Inventory"
+        android:text="Delivery Management"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#222222"
-        android:layout_marginBottom="8dp" />
+        android:textColor="#17324D"
+        android:layout_marginBottom="6dp"/>
 
     <TextView
+        android:id="@+id/tvDeliverySubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage medications, prices and stock"
+        android:text="Manage and track medication deliveries"
         android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#64748B"
+        android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/btnAddMedication"
+        android:id="@+id/btnRefreshDeliveries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Medication"
-        android:textAllCaps="false"
-        android:layout_marginBottom="16dp" />
+        android:text="Refresh Deliveries"
+        android:textAllCaps="false"/>
 
     <ProgressBar
-        android:id="@+id/inventoryProgressBar"
+        android:id="@+id/deliveryProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_marginTop="24dp"
+        android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/tvEmptyInventory"
+        android:id="@+id/tvEmptyDeliveries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No medications found"
-        android:textSize="16sp"
-        android:textColor="#777777"
+        android:text="No delivery orders found"
+        android:textSize="15sp"
+        android:textColor="#64748B"
         android:gravity="center"
         android:padding="24dp"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPharmacyInventory"
+        android:id="@+id/rvPharmacyDeliveries"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:clipToPadding="false" />
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"/>
 
     <include layout="@layout/pharmacist_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
     </include>
 
 </LinearLayout>

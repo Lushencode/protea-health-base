@@ -3,6 +3,7 @@ package com.proteahealth.Pharmacist;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proteahealth.ProfileActivity;
 import com.proteahealth.R;
 import com.proteahealth.adapter.PharmacyOrdersAdapter;
 import com.proteahealth.api.PharmacyOrderStatusUpdater;
@@ -111,12 +113,65 @@ public class PharmacistOrdersActivity extends AppCompatActivity {
 
 
         loadOrders();
+
+        ImageButton navOrders =
+                findViewById(R.id.navPharmacyOrders);
+
+        ImageButton navInventory =
+                findViewById(R.id.navPharmacyInventory);
+
+        ImageButton navHome =
+                findViewById(R.id.navPharmacyHome);
+
+        ImageButton navDeliveries =
+                findViewById(R.id.navPharmacyDeliveries);
+
+        ImageButton navProfile =
+                findViewById(R.id.navPharmacyProfile);
+
+        navHome.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistOrdersActivity.this,
+                                PharmacistDashboardActivity.class
+                        )
+                ));
+
+
+        navInventory.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistOrdersActivity.this,
+                                PharmacyInventoryActivity.class
+                        )
+                ));
+
+        navOrders.setBackgroundResource(R.drawable.nav_icon_glow);
+
+        navDeliveries.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistOrdersActivity.this,
+                                PharmacyDeliveryActivity.class
+                        )
+                )
+        );
+
+        navProfile.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacistOrdersActivity.this,
+                                ProfileActivity.class
+                        )
+                )
+        );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // Future order updates can be refreshed here.
+
     }
 
     private void loadOrders() {

@@ -183,6 +183,13 @@ interface ApiService {
     @GET("get_pharmacy_inventory.php")
     fun getPharmacyInventory(): Call<PharmacyInventoryResponse>
 
+    @GET("get_pharmacy_orders.php")
+    suspend fun getPharmacyDeliveryOrders(
+        @Query("fulfillment_method") fulfillmentMethod: String = "delivery"
+    ): Response<PharmacyOrdersResponse>
+
+
+
 
     @FormUrlEncoded
     @POST("add_pharmacy_medication.php")
@@ -200,6 +207,13 @@ interface ApiService {
         @Field("price") price: String,
         @Field("stock_quantity") stockQuantity: Int
     ): Call<UpdatePharmacyMedicationResponse>
+
+
+    @FormUrlEncoded
+    @POST("remove_pharmacy_medication.php")
+    fun removePharmacyMedication(
+        @Field("medication_id") medicationId: Int
+    ): Call<RemovePharmacyMedicationResponse>
 
 
 

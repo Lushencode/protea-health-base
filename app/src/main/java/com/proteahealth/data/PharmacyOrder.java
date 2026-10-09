@@ -36,4 +36,9 @@ public class PharmacyOrder {
 
     @SerializedName("delivery_fee")
     public String deliveryFee;
+
+
+    @SerializedName("delivery_address")
+    public String deliveryAddress;
+
 }

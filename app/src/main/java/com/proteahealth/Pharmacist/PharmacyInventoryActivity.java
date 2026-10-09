@@ -4,6 +4,7 @@ package com.proteahealth.Pharmacist;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proteahealth.ProfileActivity;
 import com.proteahealth.R;
 import com.proteahealth.adapter.PharmacyInventoryAdapter;
 import com.proteahealth.data.PharmacyInventoryItem;
@@ -58,11 +60,7 @@ public class PharmacyInventoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onRemove(PharmacyInventoryItem medication) {
-                        Toast.makeText(
-                                PharmacyInventoryActivity.this,
-                                "Remove: " + medication.getMedicationName(),
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        showRemoveMedicationDialog(medication);
                     }
                 }
         );
@@ -74,8 +72,70 @@ public class PharmacyInventoryActivity extends AppCompatActivity {
 
         btnAddMedication.setOnClickListener(v -> showAddMedicationDialog());
 
+
+        ImageButton navOrders =
+                findViewById(R.id.navPharmacyOrders);
+
+        ImageButton navInventory =
+                findViewById(R.id.navPharmacyInventory);
+
+        ImageButton navHome =
+                findViewById(R.id.navPharmacyHome);
+
+        ImageButton navDeliveries =
+                findViewById(R.id.navPharmacyDeliveries);
+
+        ImageButton navProfile =
+                findViewById(R.id.navPharmacyProfile);
+
+        navHome.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacyInventoryActivity.this,
+                                PharmacistDashboardActivity.class
+                        )
+                ));
+
+
+        navDeliveries.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacyInventoryActivity.this,
+                                PharmacyDeliveryActivity.class
+                        )
+                )
+        );
+
+
+        navInventory.setBackgroundResource(R.drawable.nav_icon_glow);
+
+        navOrders.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacyInventoryActivity.this,
+                                PharmacistOrdersActivity.class
+                        )
+                )
+        );
+
+
+        navProfile.setOnClickListener(v ->
+                startActivity(
+                        new android.content.Intent(
+                                PharmacyInventoryActivity.this,
+                                ProfileActivity.class
+                        )
+                )
+        );
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadInventory();
     }
+
 
     private void loadInventory() {
         progressBar.setVisibility(View.VISIBLE);
@@ -224,17 +284,23 @@ public class PharmacyInventoryActivity extends AppCompatActivity {
                                             dialog.dismiss();
                                             loadInventory();
 
-                                        } else {
-                                            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                                                    .setEnabled(true);
-
-                                            Toast.makeText(
-                                                    PharmacyInventoryActivity.this,
-                                                    "Unable to add medication (HTTP "
-                                                            + response.code() + ")",
-                                                    Toast.LENGTH_LONG
-                                            ).show();
                                         }
+                                        else {
+                                            if (response.code() == 409) {
+                                                Toast.makeText(
+                                                        PharmacyInventoryActivity.this,
+                                                        "Medicine already exists",
+                                                        Toast.LENGTH_LONG
+                                                ).show();
+                                            } else {
+                                                Toast.makeText(
+                                                        PharmacyInventoryActivity.this,
+                                                        "Unable to add medication. Please try again.",
+                                                        Toast.LENGTH_LONG
+                                                ).show();
+                                            }
+                                        }
+
                                     }
 
                                     @Override
@@ -395,6 +461,70 @@ public class PharmacyInventoryActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+
+    private void showRemoveMedicationDialog(PharmacyInventoryItem medication) {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Medication")
+                .setMessage(
+                        "Are you sure you want to remove "
+                                + medication.getMedicationName()
+                                + " from your pharmacy inventory?"
+                )
+                .setNegativeButton("Cancel", (dialog, which) ->
+                        dialog.dismiss()
+                )
+                .setPositiveButton("Remove", (dialog, which) -> {
+
+                    RetrofitClient.INSTANCE.getApiService()
+                            .removePharmacyMedication(medication.getId())
+                            .enqueue(new Callback<com.proteahealth.api.RemovePharmacyMedicationResponse>() {
+
+                                @Override
+                                public void onResponse(
+                                        @NonNull Call<com.proteahealth.api.RemovePharmacyMedicationResponse> call,
+                                        @NonNull Response<com.proteahealth.api.RemovePharmacyMedicationResponse> response) {
+
+                                    if (response.isSuccessful()
+                                            && response.body() != null
+                                            && response.body().getSuccess()) {
+
+                                        Toast.makeText(
+                                                PharmacyInventoryActivity.this,
+                                                "Medication removed successfully",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+
+                                        loadInventory();
+
+                                    } else {
+
+                                        Toast.makeText(
+                                                PharmacyInventoryActivity.this,
+                                                "Unable to remove medication (HTTP "
+                                                        + response.code() + ")",
+                                                Toast.LENGTH_LONG
+                                        ).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(
+                                        @NonNull Call<com.proteahealth.api.RemovePharmacyMedicationResponse> call,
+                                        @NonNull Throwable t) {
+
+                                    Toast.makeText(
+                                            PharmacyInventoryActivity.this,
+                                            "Connection error: " + t.getMessage(),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            });
+                })
+                .show();
+    }
+
 
 }
 

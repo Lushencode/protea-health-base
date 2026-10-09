@@ -26,6 +26,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationManagerCompat
+import com.proteahealth.Pharmacist.PharmacistDashboardActivity
+import com.proteahealth.Pharmacist.PharmacistOrdersActivity
+import com.proteahealth.Pharmacist.PharmacyDeliveryActivity
+import com.proteahealth.Pharmacist.PharmacyInventoryActivity
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -750,6 +754,83 @@ class ProfileActivity : AppCompatActivity() {
                 R.drawable.nav_icon_glow
             )
         }
+
+
+        if (role == "pharmacist" || role == "pharmacy") {
+
+
+            val pharmacistBottomNav =
+                findViewById<View>(R.id.pharmacistBottomNav)
+
+            pharmacistBottomNav.visibility = View.VISIBLE
+
+
+            val navPharmacistProfile =
+                findViewById<ImageButton>(R.id.navPharmacyProfile)
+
+            val navPharmacistInventory =
+                findViewById<ImageButton>(R.id.navPharmacyInventory)
+
+            val navPharmacistHome =
+                findViewById<ImageButton>(R.id.navPharmacyHome)
+
+            val navPharmacistOrders =
+                findViewById<ImageButton>(R.id.navPharmacyOrders)
+
+            val navPharmacistDeliveries =
+                findViewById<ImageButton>(R.id.navPharmacyInventory)
+
+            // PROFILE - already on this page
+            navPharmacistProfile.setOnClickListener {
+                // Do nothing
+            }
+
+            // INVENTORY
+            navPharmacistInventory.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        PharmacyInventoryActivity::class.java
+                    )
+                )
+            }
+
+            // HOME
+            navPharmacistHome.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        PharmacistDashboardActivity::class.java
+                    )
+                )
+            }
+
+            // ORDERS
+            navPharmacistOrders.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        PharmacistOrdersActivity::class.java
+                    )
+                )
+            }
+
+            // DELIVERIES
+            navPharmacistDeliveries.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        PharmacyDeliveryActivity::class.java
+                    )
+                )
+            }
+
+            // PROFILE GLOW
+            navPharmacistProfile.setBackgroundResource(
+                R.drawable.nav_icon_glow
+            )
+        }
+
 
         // ------------------------------------------------
 // EDIT PROFILE

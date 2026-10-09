@@ -100,6 +100,11 @@
         <activity
             android:name=".Pharmacist.PharmacyInventoryActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".Pharmacist.PharmacyDeliveryActivity"
+            android:exported="false" />
+
     </application>
 
 
